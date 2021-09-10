@@ -24,3 +24,8 @@ class Parsing:
 
     def __repr__(self) -> str:
         return f"Parsing(args={self.args!r})"
+
+
+class ParseArgs(Parsing):
+    def __init__(self, args: list) -> None:
+        super().__init__(args)

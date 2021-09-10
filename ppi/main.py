@@ -4,6 +4,9 @@ Author: Niklas Larsson
 Date: September 10, 2021
 """
 
+
+from . import parsing
+
 import sys
 import os
 
@@ -14,7 +17,7 @@ VERSION: str = "1.0"
 
 
 def main(args: list=sys.argv) -> None:
-    parsed: object = None
+    parsed: object = parsing.ParseArgs(args)
 
 
 if (__name__ == "__main__"):

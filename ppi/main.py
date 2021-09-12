@@ -17,7 +17,7 @@ VERSION: str = "1.0"
 
 
 def main(args: list=sys.argv) -> None:
-    parsed: object = parsing.ParseArgs(args)
+    parsed: object = parsing.ArgParser(args)
 
 
 if (__name__ == "__main__"):

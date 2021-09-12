@@ -17,7 +17,11 @@ class ArgParser(BaseParser):
         self.args: list = args
 
         # Sort arguments into their own categories.
-        self.invalid_args: object = None
+        self.invalid_args: object = (
+                arg for arg in self.args
+                for index, hyphen in enumerate(range(10), 3)
+                if arg.startswith("-" * index)
+                )
         self.opts_long: object = (
                 arg for arg in self.args if arg.startswith("--")
                 )
@@ -38,3 +42,5 @@ class ArgParser(BaseParser):
             print("Short arg: %s" % i)
         for i in self.pos_args:
             print("Pos arg: %s" % i)
+        for i in self.invalid_args:
+            print("Inv arg: %s" % i)

@@ -15,3 +15,13 @@ class BaseParser:
 class ArgParser(BaseParser):
     def __init__(self, args: list) -> None:
         self.args: list = args
+
+        # Sort arguments into their own categories.
+        self.opts_long: object = (
+                arg for arg in self.args
+                if arg.startswith("--")
+                )
+        self.opts_short: object = (
+                arg for arg in self.args
+                if arg.startswith("-")
+                )

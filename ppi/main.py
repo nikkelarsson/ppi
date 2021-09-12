@@ -20,5 +20,5 @@ def main(args: list=sys.argv) -> None:
     parsed: object = parsing.ArgParser(args)
 
 
-if (__name__ == "__main__"):
+if __name__ == "__main__":
     main()

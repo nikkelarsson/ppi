@@ -1,0 +1,3 @@
+- [ ] Implement "-h" and "--help" -flags.
+- [ ] Implement "-v" and "--verbose" -flags.
+- [ ] Implement "-V" and "--version" -flags.

@@ -9,7 +9,7 @@ ppi:
 
 install:
 	echo "Installing ppi ..."
-	pip install .
+	pip3 install .
 	echo "Installing man -pages ..."
 	sudo mkdir -p /usr/local/man/man1
 	sudo cp $(MAN_PAGES) /usr/local/man/man1
@@ -18,7 +18,7 @@ install:
 
 reinstall:
 	echo "Re-installing ppi ..."
-	pip install .
+	pip3 install .
 	echo "Re-installing man -pages ..."
 	sudo cp $(MAN_PAGES) /usr/local/man/man1
 	sudo mandb
@@ -26,7 +26,7 @@ reinstall:
 
 uninstall:
 	echo "Uninstalling ppi ..."
-	pip uninstall --yes ppi
+	pip3 uninstall --yes ppi
 	echo "Uninstalling man -pages ..."
 	sudo rm /usr/local/man/man1/ppi.1
 	echo "All successfully uninstalled!"

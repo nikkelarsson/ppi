@@ -8,9 +8,6 @@ class BaseParser:
     def __str__(self) -> str:
         return f"Args: {self.args}."
 
-    def __repr__(self) -> str:
-        return f"Parsing(args={self.args!r})"
-
     def dashes_eqt_one(self, arg: str) -> bool:
         dashes: int = 0
         for letter in arg:
@@ -71,3 +68,6 @@ class ArgParser(BaseParser):
             print("Pos arg: %s" % i)
         for i in self.invalid_args:
             print("Inv arg: %s" % i)
+
+    def __repr__(self) -> str:
+        return f"ArgParser(args={self.args!r})"

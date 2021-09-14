@@ -36,24 +36,11 @@ class BaseParser:
 class ArgParser(BaseParser):
     def __init__(self, args: list) -> None:
         self.args: list = args
+        self.invalid_args: object = None
+        self.opts_long: object = None
+        self.opts_short: object = None
+        self.pos_args: object = None
 
-        # Sort arguments into their own categories.
-        self.invalid_args: object = (
-                arg for arg in self.args
-                if arg.startswith("-") and self.dashes_eq_o_gt_three(arg)
-                )
-        self.opts_long: object = (
-                arg for arg in self.args
-                if arg.startswith("-") and self.dashes_eqt_two(arg)
-                )
-        self.opts_short: object = (
-                arg for arg in self.args
-                if arg.startswith("-") and self.dashes_eqt_one(arg)
-                )
-        self.pos_args: object = (
-                arg for index, arg in enumerate(self.args)
-                if not arg.startswith("-") and index is not 0
-                )
 
         # This section is temporary – it is here for now
         # so that we can test that the program works.
@@ -71,6 +58,24 @@ class ArgParser(BaseParser):
 
     def __str__(self) -> str:
         return f"Args: {self.args[1:]}"
+
+    def sort_args(self) -> None:
+        self.invalid_args = (
+                arg for arg in self.args
+                if arg.startswith("-") and self.dashes_eq_o_gt_three(arg)
+                )
+        self.opts_long = (
+                arg for arg in self.args
+                if arg.startswith("-") and self.dashes_eqt_two(arg)
+                )
+        self.opts_short = (
+                arg for arg in self.args
+                if arg.startswith("-") and self.dashes_eqt_one(arg)
+                )
+        self.pos_args = (
+                arg for index, arg in enumerate(self.args)
+                if not arg.startswith("-") and index is not 0
+                )
 
     def parse_args_short(self) -> None:
         for arg in self.opts_short:

@@ -41,18 +41,6 @@ class ArgParser(BaseParser):
         self.opts_short: object = None
         self.pos_args: object = None
 
-
-        # This section is temporary – it is here for now
-        # so that we can test that the program works.
-        # for i in self.opts_long:
-        #     print("Long arg: %s" % i)
-        # for i in self.opts_short:
-        #     print("Short arg: %s" % i)
-        # for i in self.pos_args:
-        #     print("Pos arg: %s" % i)
-        # for i in self.invalid_args:
-        #     print("Inv arg: %s" % i)
-
     def __repr__(self) -> str:
         return f"ArgParser(args={self.args!r})"
 

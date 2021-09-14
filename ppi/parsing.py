@@ -11,6 +11,33 @@ class BaseParser:
     def __repr__(self) -> str:
         return f"Parsing(args={self.args!r})"
 
+    def dashes_eqt_one(self, arg: str) -> bool:
+        dashes: int = 0
+        for letter in arg:
+            if dashes > 1:
+                return False
+            if letter == "-":
+                dashes += 1
+        return True if dashes == 1 else False
+
+    def dashes_eqt_two(self, arg: str) -> bool:
+        dashes: int = 0
+        for letter in arg:
+            if dashes > 2:
+                return False
+            if letter == "-":
+                dashes += 1
+        return True if dashes == 2 else False
+
+    def dashes_eq_o_gt_three(self, arg: str) -> bool:
+        dashes: int = 0
+        for letter in arg:
+            if dashes >= 3:
+                return True
+            if letter == "-":
+                dashes += 1
+        return False if dashes < 3 else True
+
 
 class ArgParser(BaseParser):
     def __init__(self, args: list) -> None:
@@ -19,15 +46,15 @@ class ArgParser(BaseParser):
         # Sort arguments into their own categories.
         self.invalid_args: object = (
                 arg for arg in self.args
-                for index, hyphen in enumerate(range(10), 3)
-                if arg.startswith("-" * index)
+                if arg.startswith("-") and self.dashes_eq_o_gt_three(arg)
                 )
         self.opts_long: object = (
-                arg for arg in self.args if arg.startswith("--")
+                arg for arg in self.args
+                if arg.startswith("-") and self.dashes_eqt_two(arg)
                 )
         self.opts_short: object = (
                 arg for arg in self.args
-                if not arg.startswith("--") and arg.startswith("-")
+                if arg.startswith("-") and self.dashes_eqt_one(arg)
                 )
         self.pos_args: object = (
                 arg for index, arg in enumerate(self.args)

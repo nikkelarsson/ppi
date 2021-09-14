@@ -70,4 +70,4 @@ class ArgParser(BaseParser):
         return f"ArgParser(args={self.args!r})"
 
     def __str__(self) -> str:
-        return f"Args: {self.args}."
+        return f"Args: {self.args[1:]}"

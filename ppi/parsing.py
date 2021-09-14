@@ -5,9 +5,6 @@ Date: September 10, 2021
 """
 
 class BaseParser:
-    def __str__(self) -> str:
-        return f"Args: {self.args}."
-
     def dashes_eqt_one(self, arg: str) -> bool:
         dashes: int = 0
         for letter in arg:
@@ -71,3 +68,6 @@ class ArgParser(BaseParser):
 
     def __repr__(self) -> str:
         return f"ArgParser(args={self.args!r})"
+
+    def __str__(self) -> str:
+        return f"Args: {self.args}."

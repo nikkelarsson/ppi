@@ -1,5 +1,5 @@
 """
-main.py – Utility to create new python -projects with.
+main.py -- Utility to create new python -projects with.
 Author: Niklas Larsson
 Date: September 10, 2021
 """
@@ -17,7 +17,8 @@ VERSION: str = "1.0"
 
 
 def main(args: list=sys.argv) -> None:
-    parsed: object = parsing.ArgParser(args)
+    parser: object = parsing.ArgParser(args, NAME, VERSION)
+    parser.parse_args()
 
 
 if __name__ == "__main__":

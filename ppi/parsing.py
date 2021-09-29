@@ -5,6 +5,8 @@ Date: September 10, 2021
 """
 
 from . import commands
+from . import usgstr
+from . import descstr
 import sys
 from textwrap import dedent
 
@@ -44,10 +46,11 @@ class BasicEvalMethods:
 
 class ArgParser(BasicEvalMethods):
     """Class to parse cmd line args with."""
-    def __init__(self, args: list, name: str, version: str) -> None:
+    def __init__(self, args: list, name: str, version: str, lang: str) -> None:
         self.args: list = args
         self.name: str = name
         self.version: str = version
+        self.lang: str = lang
         self.description: str = "cool program to make things with."
         self.invalid_args: object = None
         self.opts_long: object = None
@@ -96,11 +99,12 @@ class ArgParser(BasicEvalMethods):
 
     def parse_args(self) -> None:
         if len(self.args) == 1:
-            sys.exit(dedent("""
-            {} {}, {}
-            """.format(self.name, self.version, self.description).strip()))
+            usgstr.show(self.name, self.version, self.lang)
+            descstr.show(self.name, self.version, self.lang)
+            sys.exit(1)
         else:
             self.sort_args()
+
         if self.opts_short is not None:
             self.parse_args_short()
         if self.opts_long is not None:

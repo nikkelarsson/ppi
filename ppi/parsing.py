@@ -10,6 +10,7 @@ from textwrap import dedent
 
 
 class BasicEvalMethods:
+    """Class containing basic eval -funcs to evaluate cmd line options with."""
     def dashes_eqt_one(self, arg: str) -> bool:
         """Check if `arg` contains exactly one hyphen."""
         dashes: int = 0

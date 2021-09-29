@@ -77,7 +77,7 @@ class ArgParser(BasicEvalMethods):
                 )
         self.pos_args = (
                 arg for index, arg in enumerate(self.args)
-                if not arg.startswith("-") and index is not 0
+                if not arg.startswith("-") and index != 0
                 )
 
     def parse_args_short(self) -> None:

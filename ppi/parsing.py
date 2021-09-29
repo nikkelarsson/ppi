@@ -43,6 +43,7 @@ class BasicEvalMethods:
 
 
 class ArgParser(BasicEvalMethods):
+    """Class to parse cmd line args with."""
     def __init__(self, args: list, name: str, version: str) -> None:
         self.args: list = args
         self.name: str = name

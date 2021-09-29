@@ -9,7 +9,7 @@ import sys
 from textwrap import dedent
 
 
-class BaseParser:
+class BasicEvalMethods:
     def dashes_eqt_one(self, arg: str) -> bool:
         """Check if `arg` contains exactly one hyphen."""
         dashes: int = 0
@@ -41,7 +41,7 @@ class BaseParser:
         return False if dashes < 3 else True
 
 
-class ArgParser(BaseParser):
+class ArgParser(BasicEvalMethods):
     def __init__(self, args: list, name: str, version: str) -> None:
         self.args: list = args
         self.name: str = name

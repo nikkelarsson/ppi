@@ -16,7 +16,7 @@ VERSION: str = "1.0"
 
 
 def main(args: list=sys.argv) -> None:
-    parser: object = parsing.ArgParser(args, NAME, VERSION)
+    parser: object = parsing.ArgParser(args, NAME, VERSION, LANG)
     parser.parse_args()
 
 

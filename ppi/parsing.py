@@ -7,6 +7,7 @@ Date: September 10, 2021
 from . import commands
 from . import usgstr
 from . import descstr
+from . import hpages
 import sys
 from textwrap import dedent
 
@@ -119,6 +120,10 @@ class ArgParser(BasicEvalMethods):
 
     def exec_actions(self) -> None:
         if self.help_on:
-            pass
+            usgstr.show(self.name, self.version, self.lang)
+            descstr.show(self.name, self.version, self.lang)
+            hpages.show(self.lang)
+            sys.exit(1)
         elif self.version_on:
-            pass
+            usgstr.show(self.name, self.version, self.lang)
+            sys.exit(1)

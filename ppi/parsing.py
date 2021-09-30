@@ -94,10 +94,16 @@ class ArgParser(BasicEvalMethods):
                     self.help_requested = True
 
     def parse_args_long(self) -> None:
-        for arg in self.opts_long:
-            pass
+        for index, arg in enumerate(self.opts_long):
+            if index == 0 or index == 1:
+                continue  # Skip the "--" prefix.
+            elif arg == "--version":
+                self.verbose = True
+            elif arg == "--help":
+                self.help_requested = True
 
     def parse_args(self) -> None:
+        """Parse args and execute actions according to the given options."""
         if len(self.args) == 1:
             usgstr.show(self.name, self.version, self.lang)
             descstr.show(self.name, self.version, self.lang)

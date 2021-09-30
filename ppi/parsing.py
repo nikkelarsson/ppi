@@ -59,6 +59,7 @@ class ArgParser(BasicEvalMethods):
         self.verbose: bool = False
         self.help_on: bool = False
         self.version_on: bool = False
+        self.quiet_on: bool = False
 
     def __repr__(self) -> str:
         return f"ArgParser(args={self.args!r})"
@@ -93,6 +94,8 @@ class ArgParser(BasicEvalMethods):
                     self.version_on = True
                 elif letter == "h":
                     self.help_on = True
+                elif letter == "q":
+                    self.quiet_on = True
 
     def parse_args_long(self) -> None:
         for index, arg in enumerate(self.opts_long):
@@ -102,6 +105,8 @@ class ArgParser(BasicEvalMethods):
                 self.version_on = True
             elif arg == "--help":
                 self.help_on = True
+            elif arg == "--quiet":
+                self.quiet_on = True
 
     def check_if_args(self) -> None:
         if len(self.args) == 1:

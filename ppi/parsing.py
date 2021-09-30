@@ -52,7 +52,6 @@ class ArgParser(BasicEvalMethods):
         self.name: str = name
         self.version: str = version
         self.lang: str = lang
-        self.description: str = "cool program to make things with."
         self.invalid_args: object
         self.opts_long: object
         self.opts_short: object

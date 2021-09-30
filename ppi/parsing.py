@@ -114,3 +114,10 @@ class ArgParser(BasicEvalMethods):
         self.sort_args()
         self.parse_args_short()
         self.parse_args_long()
+        self.exec_actions()
+
+    def exec_actions(self) -> None:
+        if self.help_requested:
+            pass
+        elif self.version:
+            pass

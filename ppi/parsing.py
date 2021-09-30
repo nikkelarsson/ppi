@@ -122,7 +122,7 @@ class ArgParser(BasicEvalMethods):
         if self.help_on:
             usgstr.show(self.name, self.version, self.lang)
             descstr.show(self.name, self.version, self.lang)
-            hpages.show(self.lang)
+            hpages.show(self.name, self.lang)
             sys.exit(1)
         elif self.version_on:
             usgstr.show(self.name, self.version, self.lang)

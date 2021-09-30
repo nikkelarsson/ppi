@@ -52,10 +52,14 @@ class ArgParser(BasicEvalMethods):
         self.name: str = name
         self.version: str = version
         self.lang: str = lang
+
+        # Different argument groups.
         self.invalid_args: object
         self.opts_long: object
         self.opts_short: object
         self.pos_args: object
+
+        # Option switches.
         self.verbose: bool = False
         self.help_on: bool = False
         self.version_on: bool = False

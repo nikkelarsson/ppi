@@ -52,10 +52,10 @@ class ArgParser(BasicEvalMethods):
         self.version: str = version
         self.lang: str = lang
         self.description: str = "cool program to make things with."
-        self.invalid_args: object = None
-        self.opts_long: object = None
-        self.opts_short: object = None
-        self.pos_args: object = None
+        self.invalid_args: object
+        self.opts_long: object
+        self.opts_short: object
+        self.pos_args: object
         self.verbose: bool = False
         self.help_requested: bool = False
 
@@ -112,7 +112,5 @@ class ArgParser(BasicEvalMethods):
         """Parse args and execute actions according to the given options."""
         self.check_if_args()
         self.sort_args()
-        if self.opts_short is not None:
-            self.parse_args_short()
-        if self.opts_long is not None:
-            self.parse_args_long()
+        self.parse_args_short()
+        self.parse_args_long()

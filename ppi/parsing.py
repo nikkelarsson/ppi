@@ -8,6 +8,7 @@ from . import commands
 from . import usgstr
 from . import descstr
 from . import hpages
+from . import project
 import sys
 from textwrap import dedent
 
@@ -52,6 +53,7 @@ class ArgParser(BasicEvalMethods):
         self.name: str = name
         self.version: str = version
         self.lang: str = lang
+        self.prname: str
 
         # Different argument groups.
         self.invalid_args: object
@@ -88,6 +90,12 @@ class ArgParser(BasicEvalMethods):
                 if not arg.startswith("-") and index != 0
                 )
 
+    def parse_args_pos(self) -> None:
+        # Grab the first non-flag -argument and ignore the rest.
+        for arg in self.pos_args:
+            self.prname = arg
+            break
+
     def parse_args_short(self) -> None:
         for arg in self.opts_short:
             for index, letter in enumerate(arg):
@@ -121,6 +129,7 @@ class ArgParser(BasicEvalMethods):
         """Parse args and execute actions according to the given options."""
         self.check_if_args()
         self.sort_args()
+        self.parse_args_pos()
         self.parse_args_short()
         self.parse_args_long()
         self.exec_actions()
@@ -134,3 +143,6 @@ class ArgParser(BasicEvalMethods):
         elif self.version_on:
             usgstr.show(self.name, self.version, self.lang)
             sys.exit(1)
+        elif self.prname:
+            project.create(self.prname)
+            sys.exit(0)

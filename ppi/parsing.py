@@ -60,7 +60,6 @@ class ArgParser(BasicEvalMethods):
         self.pos_args: object
 
         # Option switches.
-        self.verbose: bool = False
         self.help_on: bool = False
         self.version_on: bool = False
         self.quiet_on: bool = False

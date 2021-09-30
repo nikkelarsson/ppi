@@ -102,15 +102,16 @@ class ArgParser(BasicEvalMethods):
             elif arg == "--help":
                 self.help_requested = True
 
-    def parse_args(self) -> None:
-        """Parse args and execute actions according to the given options."""
+    def check_if_args(self) -> None:
         if len(self.args) == 1:
             usgstr.show(self.name, self.version, self.lang)
             descstr.show(self.name, self.version, self.lang)
             sys.exit(1)
-        else:
-            self.sort_args()
 
+    def parse_args(self) -> None:
+        """Parse args and execute actions according to the given options."""
+        self.check_if_args()
+        self.sort_args()
         if self.opts_short is not None:
             self.parse_args_short()
         if self.opts_long is not None:

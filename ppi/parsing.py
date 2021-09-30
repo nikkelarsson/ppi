@@ -57,7 +57,8 @@ class ArgParser(BasicEvalMethods):
         self.opts_short: object
         self.pos_args: object
         self.verbose: bool = False
-        self.help_requested: bool = False
+        self.help_on: bool = False
+        self.version_on: bool = False
 
     def __repr__(self) -> str:
         return f"ArgParser(args={self.args!r})"
@@ -89,18 +90,18 @@ class ArgParser(BasicEvalMethods):
                 if index == 0:
                     continue  # Skip the "-" prefix.
                 if letter == "V":
-                    self.verbose = True
+                    self.version_on = True
                 elif letter == "h":
-                    self.help_requested = True
+                    self.help_on = True
 
     def parse_args_long(self) -> None:
         for index, arg in enumerate(self.opts_long):
             if index == 0 or index == 1:
                 continue  # Skip the "--" prefix.
             elif arg == "--version":
-                self.verbose = True
+                self.version_on = True
             elif arg == "--help":
-                self.help_requested = True
+                self.help_on = True
 
     def check_if_args(self) -> None:
         if len(self.args) == 1:
@@ -117,7 +118,7 @@ class ArgParser(BasicEvalMethods):
         self.exec_actions()
 
     def exec_actions(self) -> None:
-        if self.help_requested:
+        if self.help_on:
             pass
-        elif self.version:
+        elif self.version_on:
             pass

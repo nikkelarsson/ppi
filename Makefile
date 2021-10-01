@@ -12,7 +12,7 @@ ppi:
 
 install:
 	@echo "Installing $(PROGRAM) ..."
-	$(PYTHON_INTERPRETER) -m pip install .
+	$(PYTHON_INTERPRETER) -m pip install -qq .
 	@echo "Installing man -pages ..."
 	@sudo mkdir -p $(MAN_PAGES_INSTALL)
 	sudo cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
@@ -21,7 +21,7 @@ install:
 
 reinstall:
 	@echo "Re-installing $(PROGRAM) ..."
-	$(PYTHON_INTERPRETER) -m pip install .
+	$(PYTHON_INTERPRETER) -m pip install -qq .
 	@echo "Re-installing man -pages ..."
 	sudo cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
 	@#sudo gmandb

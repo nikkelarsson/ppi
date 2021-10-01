@@ -40,6 +40,11 @@ def makeinit(name: str) -> None:
         initfile.write()  # Just "touch" the file.
 
 
+def makereadme(name: str) -> None:
+    """Create a README -file."""
+    pass
+
+
 def create(lang: str, program: str, prname: str) -> None:
     """Create everything."""
     makedir(lang, program, prname)

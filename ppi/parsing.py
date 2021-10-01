@@ -93,7 +93,7 @@ class ArgParser(BasicEvalMethods):
 
     def parse_args_inv(self) -> None:
         for arg in self.invalid_args:
-            pass
+            errors.invargerror(self.lang, self.name, arg)
 
     def parse_args_pos(self) -> None:
         # Grab the first non-flag -argument and ignore the rest.

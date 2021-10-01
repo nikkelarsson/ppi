@@ -46,6 +46,11 @@ def makereadme(name: str) -> None:
         readme.write("# {}\n".format(name))
 
 
+def makemain(name: str) -> None:
+    """Create main.py -file."""
+    pass
+
+
 def create(lang: str, program: str, prname: str) -> None:
     """Create everything."""
     makedir(lang, program, prname)

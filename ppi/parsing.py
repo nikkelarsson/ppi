@@ -92,12 +92,12 @@ class ArgParser(BasicEvalMethods):
                 )
 
     def parse_args_inv(self) -> None:
-        args: int = 0
+        invargs: int = 0
         for arg in self.invalid_args:
             if arg:
                 errors.invargerror(self.lang, self.name, arg)
-                args += 1
-        if args > 0:
+                invargs += 1
+        if invargs > 0:
             sys.exit(1)
 
     def parse_args_pos(self) -> None:

@@ -9,7 +9,7 @@ import os
 
 def makedir(name: str) -> None:
     """Create dirs for a project and it's sourcecode."""
-    pass
+    os.makedirs("{0}/{0}".format(name), exist_ok=True)
 
 
 def makesetup(name: str) -> None:

@@ -140,9 +140,9 @@ class ArgParser(BasicEvalMethods):
             descstr.show(self.name, self.version, self.lang)
             hpages.show(self.name, self.lang)
             sys.exit(1)
-        elif self.version_on:
+        if self.version_on and not self.help_on:
             usgstr.show(self.name, self.version, self.lang)
             sys.exit(1)
-        elif self.prname:
+        if self.prname:
             project.create(self.prname)
             sys.exit(0)

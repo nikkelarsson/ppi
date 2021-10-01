@@ -72,3 +72,4 @@ def create(lang: str, program: str, prname: str) -> None:
 
     # Stuff to create inside the "sourcecode" dir.
     makeinit(prname)
+    makemain(prname)

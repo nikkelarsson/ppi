@@ -9,4 +9,7 @@ from . import langcodes
 
 def inargerror(lang: str, prname: str, arg: str) -> None:
     """Print error displaying invalid argument `arg`."""
-    pass
+    if lang == langcodes.FINNISH:
+        print("{}: virhe: virheellinen argumentti '{}'".format(name, arg))
+    elif lang == langcodes.ENGLISH:
+        print("{}: error: invalid argument '{}'".format(name, arg))

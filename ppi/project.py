@@ -42,11 +42,13 @@ def makeinit(name: str) -> None:
 
 def makereadme(name: str) -> None:
     """Create a README -file."""
-    pass
+    with open("{}/README.md", "w", encoding="utf-8") as readme:
+        readme.write("# {}\n".format(name))
 
 
 def create(lang: str, program: str, prname: str) -> None:
     """Create everything."""
     makedir(lang, program, prname)
+    makereadme(prname)
     makesetup(prname)
     makeinit(prname)

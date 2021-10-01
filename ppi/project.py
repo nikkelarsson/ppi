@@ -19,7 +19,7 @@ def makedir(lang: str, program: str, name: str) -> None:
 
 def makesetup(name: str) -> None:
     """Create setup.py -file."""
-    with open("setup.py", "w", encoding="utf-8") as setup_py:
+    with open("{}/setup.py".format(name), "w", encoding="utf-8") as setup_py:
         setup_py.write("from setuptools import setup\n\n")
         setup_py.write("setup(\n")
         setup_py.write("\tname=\"{}\",\n".format(name))
@@ -36,5 +36,5 @@ def makesetup(name: str) -> None:
 
 def create(lang: str, program: str, prname: str) -> None:
     """Create everything."""
-    makesetup(prname)
     makedir(lang, program, prname)
+    makesetup(prname)

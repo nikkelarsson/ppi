@@ -44,3 +44,4 @@ def create(lang: str, program: str, prname: str) -> None:
     """Create everything."""
     makedir(lang, program, prname)
     makesetup(prname)
+    makeinit(prname)

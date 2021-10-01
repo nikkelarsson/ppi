@@ -156,6 +156,7 @@ class ArgParser(BasicEvalMethods):
             sys.exit(0)
         if self.prname:
             project.create(self.lang, self.name, self.prname)
+            success.msg(self.lang, self.name, self.prname)
             sys.exit(0)
         else:
             usgstr.show(self.name, self.version, self.lang)

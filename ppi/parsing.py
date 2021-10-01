@@ -9,6 +9,7 @@ from . import usgstr
 from . import descstr
 from . import hpages
 from . import project
+from . import errors
 import sys
 from textwrap import dedent
 

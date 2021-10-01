@@ -49,6 +49,10 @@ def makereadme(name: str) -> None:
 def create(lang: str, program: str, prname: str) -> None:
     """Create everything."""
     makedir(lang, program, prname)
+
+    # Stuff to create inside the "root" dir.
     makereadme(prname)
     makesetup(prname)
+
+    # Stuff to create inside the "sourcecode" dir.
     makeinit(prname)

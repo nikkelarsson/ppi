@@ -7,7 +7,7 @@ Date: October 1, 2021
 from . import langcodes
 
 
-def inargerror(lang: str, prname: str, arg: str) -> None:
+def invargerror(lang: str, prname: str, arg: str) -> None:
     """Print error displaying invalid argument `arg`."""
     if lang == langcodes.FINNISH:
         print("{}: virhe: virheellinen argumentti '{}'".format(name, arg))

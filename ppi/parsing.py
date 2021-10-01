@@ -10,6 +10,7 @@ from . import descstr
 from . import hpages
 from . import project
 from . import errors
+from . import success
 import sys
 from textwrap import dedent
 

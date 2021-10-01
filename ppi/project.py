@@ -48,7 +48,18 @@ def makereadme(name: str) -> None:
 
 def makemain(name: str) -> None:
     """Create main.py -file."""
-    pass
+    with open("{0}/{0}/main.py".format(name), "w", encoding="utf-8") as main:
+        main.write("\"\"\"\n")
+        main.write("main.py\n")
+        main.write("Author:\n")
+        main.write("Date:\n")
+        main.write("\"\"\"\n")
+        main.write("\n\n")
+        main.write("def main() -> None:\n")
+        main.write("\tpass\n")
+        main.write("\n\n")
+        main.write("if __name__ == \"__main__\":\n")
+        main.write("\tpass\n")
 
 
 def create(lang: str, program: str, prname: str) -> None:

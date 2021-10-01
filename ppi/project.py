@@ -20,17 +20,17 @@ def makedir(lang: str, program: str, name: str) -> None:
 def makesetup(name: str) -> None:
     """Create setup.py -file."""
     with open("setup.py", "w", encoding="utf-8") as setup_py:
-        setup_py.write("from setuptools import setup")
-        setup_py.write("setup(")
-        setup_py.write("\tname=\"{}\",".format(name))
-        setup_py.write("\tversion=\"1.0\",")
-        setup_py.write("\tdescription=\"\",")
-        setup_py.write("\tkeywords=\"\",")
-        setup_py.write("\tauthor=\"\",")
-        setup_py.write("\tpackages=[\"{}\"],".format(name))
-        setup_py.write("\tentry_points={\"console_scripts\": [\"\"]},")
-        setup_py.write("\tinclude_package_data=True,")
-        setup_py.write("\tzip_safe=False")
+        setup_py.write("from setuptools import setup\n\n")
+        setup_py.write("setup(\n")
+        setup_py.write("\tname=\"{}\",\n".format(name))
+        setup_py.write("\tversion=\"1.0\",\n")
+        setup_py.write("\tdescription=\"\",\n")
+        setup_py.write("\tkeywords=\"\",\n")
+        setup_py.write("\tauthor=\"\",\n")
+        setup_py.write("\tpackages=[\"{}\"],\n".format(name))
+        setup_py.write("\tentry_points={\"console_scripts\": [\"\"]},\n")
+        setup_py.write("\tinclude_package_data=True,\n")
+        setup_py.write("\tzip_safe=False\n")
         setup_py.write("\t)")
 
 

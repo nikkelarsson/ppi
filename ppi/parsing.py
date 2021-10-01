@@ -90,6 +90,10 @@ class ArgParser(BasicEvalMethods):
                 if not arg.startswith("-") and index != 0
                 )
 
+    def parse_args_inv(self) -> None:
+        for arg in self.invalid_args:
+            pass
+
     def parse_args_pos(self) -> None:
         # Grab the first non-flag -argument and ignore the rest.
         for arg in self.pos_args:
@@ -129,6 +133,7 @@ class ArgParser(BasicEvalMethods):
         """Parse args and execute actions according to the given options."""
         self.check_if_args()
         self.sort_args()
+        self.parse_args_inv()
         self.parse_args_pos()
         self.parse_args_short()
         self.parse_args_long()

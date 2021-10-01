@@ -10,6 +10,6 @@ from . import langcodes
 def invargerror(lang: str, prname: str, arg: str) -> None:
     """Print error displaying invalid argument `arg`."""
     if lang == langcodes.FINNISH:
-        print("{}: virhe: virheellinen argumentti '{}'".format(name, arg))
+        print("{}: virhe: virheellinen argumentti '{}'".format(prname, arg))
     elif lang == langcodes.ENGLISH:
-        print("{}: error: invalid argument '{}'".format(name, arg))
+        print("{}: error: invalid argument '{}'".format(prname, arg))

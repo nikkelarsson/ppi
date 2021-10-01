@@ -34,6 +34,12 @@ def makesetup(name: str) -> None:
         setup_py.write("\t)")
 
 
+def makeinit(name: str) -> None:
+    """Create __init__.py file to the sourcecode dir."""
+    with open("{}/{}/__init__.py", "w", encoding="utf-8") as initfile:
+        initfile.write()  # Just "touch" the file.
+
+
 def create(lang: str, program: str, prname: str) -> None:
     """Create everything."""
     makedir(lang, program, prname)

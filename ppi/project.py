@@ -37,7 +37,7 @@ def makesetup(name: str) -> None:
 def makeinit(name: str) -> None:
     """Create __init__.py file to the sourcecode dir."""
     with open("{0}/{0}/__init__.py".format(name), "w", encoding="utf-8") as initfile:
-        initfile.write()  # Just "touch" the file.
+        initfile.write("")  # Just "touch" the file.
 
 
 def makereadme(name: str) -> None:

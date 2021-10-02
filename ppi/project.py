@@ -22,16 +22,16 @@ def makesetup(name: str) -> None:
     with open("{}/setup.py".format(name), "w", encoding="utf-8") as setup_py:
         setup_py.write("from setuptools import setup\n\n")
         setup_py.write("setup(\n")
-        setup_py.write("\tname=\"{}\",\n".format(name))
-        setup_py.write("\tversion=\"1.0\",\n")
-        setup_py.write("\tdescription=\"\",\n")
-        setup_py.write("\tkeywords=\"\",\n")
-        setup_py.write("\tauthor=\"\",\n")
-        setup_py.write("\tpackages=[\"{}\"],\n".format(name))
-        setup_py.write("\tentry_points={\"console_scripts\": [\"\"]},\n")
-        setup_py.write("\tinclude_package_data=True,\n")
-        setup_py.write("\tzip_safe=False\n")
-        setup_py.write("\t)")
+        setup_py.write("    name=\"{}\",\n".format(name))
+        setup_py.write("    version=\"1.0\",\n")
+        setup_py.write("    description=\"\",\n")
+        setup_py.write("    keywords=\"\",\n")
+        setup_py.write("    author=\"\",\n")
+        setup_py.write("    packages=[\"{}\"],\n".format(name))
+        setup_py.write("    entry_points={\"console_scripts\": [\"\"]},\n")
+        setup_py.write("    include_package_data=True,\n")
+        setup_py.write("    zip_safe=False\n")
+        setup_py.write("    )")
 
 
 def makeinit(name: str) -> None:
@@ -56,10 +56,10 @@ def makemain(name: str) -> None:
         main.write("\"\"\"\n")
         main.write("\n\n")
         main.write("def main() -> None:\n")
-        main.write("\tpass\n")
+        main.write("    pass\n")
         main.write("\n\n")
         main.write("if __name__ == \"__main__\":\n")
-        main.write("\tpass\n")
+        main.write("    pass\n")
 
 
 def create(lang: str, program: str, prname: str) -> None:

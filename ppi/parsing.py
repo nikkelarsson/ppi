@@ -55,7 +55,7 @@ class ArgParser(BasicEvalMethods):
         self.name: str = name
         self.version: str = version
         self.lang: str = lang
-        self.prname: str
+        self.prname: str = None
 
         # Different argument groups.
         self.invalid_args: object
@@ -155,7 +155,7 @@ class ArgParser(BasicEvalMethods):
         if self.version_on and not self.help_on:
             usgstr.show(self.name, self.version, self.lang)
             sys.exit(0)
-        if self.prname:
+        if self.prname is not None:
             project.create(self.lang, self.name, self.prname)
             if not self.quiet_on:
                 success.msg(self.lang, self.name, self.prname)

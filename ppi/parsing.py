@@ -58,7 +58,7 @@ class ArgParser(BasicEvalMethods):
         self.prname: str = None
 
         # Different argument groups.
-        self.invalid_args: object
+        self.invalid_args: list = None
         self.opts_long: object
         self.opts_short: object
         self.pos_args: object
@@ -75,10 +75,15 @@ class ArgParser(BasicEvalMethods):
         return f"Args: {self.args[1:]}"
 
     def sort_args(self) -> None:
-        self.invalid_args = (
-                arg for arg in self.args
-                if arg.startswith("-") and self.dashes_eq_o_gt_three(arg)
-                )
+        # Create a container (list) for invalid args if and only if
+        # there are invalid arguments found. It is also better to
+        # use a list in this case -- when we're collecting invalid
+        # args -- because then we can later append to this list.
+        for arg in self.args:
+            if arg.startswith("-") and self.dashes_eq_o_gt_three(arg):
+                self.invalid_args = []
+                self.invalid_args.append(arg)
+
         self.opts_long = (
                 arg for arg in self.args
                 if arg.startswith("-") and self.dashes_eqt_two(arg)
@@ -93,12 +98,9 @@ class ArgParser(BasicEvalMethods):
                 )
 
     def parse_args_inv(self) -> None:
-        invargs: int = 0
-        for arg in self.invalid_args:
-            if arg:
+        if self.invalid_args is not None:
+            for arg in self.invalid_args:
                 errors.invargerror(self.lang, self.name, arg)
-                invargs += 1
-        if invargs > 0:
             sys.exit(1)
 
     def parse_args_pos(self) -> None:
@@ -118,17 +120,23 @@ class ArgParser(BasicEvalMethods):
                     self.help_on = True
                 elif letter == "q":
                     self.quiet_on = True
+                else:
+                    if self.invalid_args is None:
+                        self.invalid_args = []
+                    self.invalid_args.append("-{}".format(letter))
 
     def parse_args_long(self) -> None:
         for index, arg in enumerate(self.opts_long):
-            if index == 0 or index == 1:
-                continue  # Skip the "--" prefix.
-            elif arg == "--version":
+            if arg == "--version":
                 self.version_on = True
             elif arg == "--help":
                 self.help_on = True
             elif arg == "--quiet":
                 self.quiet_on = True
+            else:
+                if self.invalid_args is None:
+                    self.invalid_args = []
+                self.invalid_args.append(arg)
 
     def check_if_args(self) -> None:
         if len(self.args) == 1:
@@ -140,10 +148,10 @@ class ArgParser(BasicEvalMethods):
         """Parse args and execute actions according to the given options."""
         self.check_if_args()
         self.sort_args()
-        self.parse_args_inv()
         self.parse_args_pos()
         self.parse_args_short()
         self.parse_args_long()
+        self.parse_args_inv()
         self.exec_actions()
 
     def exec_actions(self) -> None:

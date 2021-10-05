@@ -67,6 +67,7 @@ class ArgParser(BasicEvalMethods):
         self.help_on: bool = False
         self.version_on: bool = False
         self.quiet_on: bool = False
+        self.ghrepo_on: bool = False
 
     def __repr__(self) -> str:
         return f"ArgParser(args={self.args!r})"
@@ -120,6 +121,8 @@ class ArgParser(BasicEvalMethods):
                     self.help_on = True
                 elif letter == "q":
                     self.quiet_on = True
+                elif letter == "g":
+                    self.ghrepo_on = True
                 else:
                     if self.invalid_args is None:
                         self.invalid_args = []
@@ -133,6 +136,8 @@ class ArgParser(BasicEvalMethods):
                 self.help_on = True
             elif arg == "--quiet":
                 self.quiet_on = True
+            elif arg == "--git-repo":
+                self.ghrepo_on = True
             else:
                 if self.invalid_args is None:
                     self.invalid_args = []

@@ -11,6 +11,7 @@ from . import hpages
 from . import project
 from . import errors
 from . import success
+from . import ginit
 import sys
 from textwrap import dedent
 
@@ -170,6 +171,8 @@ class ArgParser(BasicEvalMethods):
             sys.exit(0)
         if self.prname is not None:
             project.create(self.lang, self.name, self.prname)
+            if self.ghrepo_on:
+                ginit.ginit(self.prname)
             if not self.quiet_on:
                 success.msg(self.lang, self.name, self.prname)
             sys.exit(0)

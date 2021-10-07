@@ -80,7 +80,7 @@ class ArgParser(BasicEvalMethods):
     def __str__(self) -> str:
         return f"Args: {self.args[1:]}"
 
-    def sort_args(self) -> None:
+    def sort_args_inv(self) -> None:
         # Create a container (list) for invalid args if and only if
         # there are invalid arguments found. It is also better to
         # use a list in this case -- when we're collecting invalid
@@ -92,16 +92,27 @@ class ArgParser(BasicEvalMethods):
                 self.invalid_args = []
                 self.invalid_args.append(arg)
 
+    def sort_args_long(self) -> None:
         self.opts_long = (
                 arg for arg in self.args if self.startswith_hyphens(arg, 2)
                 )
+
+    def sort_args_short(self) -> None:
         self.opts_short = (
                 arg for arg in self.args if self.startswith_hyphens(arg, 1)
                 )
+
+    def sort_args_pos(self) -> None:
         self.pos_args = (
                 arg for index, arg in enumerate(self.args)
                 if not arg.startswith("-") and index != 0
                 )
+
+    def sort_args(self) -> None:
+        self.sort_args_inv()
+        self.sort_args_long()
+        self.sort_args_short()
+        self.sort_args_pos()
 
     def parse_args_inv(self) -> None:
         if self.invalid_args is not None:

@@ -48,6 +48,10 @@ class BasicEvalMethods:
                 dashes += 1
         return False if dashes < 3 else True
 
+    def startswith_hyphens(self, arg: str, count: int) -> bool:
+        """Check if `arg` starts with `count` amount of "-"."""
+        return arg[0:count] == "-"*count and arg[count] != "-"
+
 
 class ArgParser(BasicEvalMethods):
     """Class to parse cmd line args with."""
@@ -82,17 +86,17 @@ class ArgParser(BasicEvalMethods):
         # use a list in this case -- when we're collecting invalid
         # args -- because then we can later append to this list.
         for arg in self.args:
-            if arg.startswith("-") and self.dashes_eq_o_gt_three(arg):
+            # This also takes args that start with
+            # more than three hyphens, into account.
+            if arg.startswith("---"):
                 self.invalid_args = []
                 self.invalid_args.append(arg)
 
         self.opts_long = (
-                arg for arg in self.args
-                if arg.startswith("-") and self.dashes_eqt_two(arg)
+                arg for arg in self.args if self.startswith_hyphens(arg, 2)
                 )
         self.opts_short = (
-                arg for arg in self.args
-                if arg.startswith("-") and self.dashes_eqt_one(arg)
+                arg for arg in self.args if self.startswith_hyphens(arg, 1)
                 )
         self.pos_args = (
                 arg for index, arg in enumerate(self.args)

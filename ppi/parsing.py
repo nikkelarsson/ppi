@@ -11,7 +11,7 @@ from . import hpages
 from . import project
 from . import errors
 from . import success
-from . import ginit
+from . import git
 import sys
 from textwrap import dedent
 
@@ -187,7 +187,7 @@ class ArgParser(BasicEvalMethods):
         if self.prname is not None:
             project.create(self.lang, self.name, self.prname)
             if self.ghrepo_on:
-                ginit.ginit(self.prname)
+                git.git_init(self.prname)
             if not self.quiet_on:
                 success.msg(self.lang, self.name, self.prname)
             sys.exit(0)

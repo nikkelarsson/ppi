@@ -137,7 +137,7 @@ class ArgParser(BasicEvalMethods):
                     self.help_on = True
                 elif letter == "q":
                     self.quiet_on = True
-                elif letter == "g":
+                elif letter == "i":
                     self.ghrepo_on = True
                 else:
                     if self.invalid_args is None:
@@ -152,7 +152,7 @@ class ArgParser(BasicEvalMethods):
                 self.help_on = True
             elif arg == "--quiet":
                 self.quiet_on = True
-            elif arg == "--git-repo":
+            elif arg == "--git-init":
                 self.ghrepo_on = True
             else:
                 if self.invalid_args is None:

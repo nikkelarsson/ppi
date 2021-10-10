@@ -16,7 +16,7 @@ includes creating many different files. With **ppi** it is stress-free to start
 a new Python project. At bare minimum a basic set of files are created inside
 the new project. These files include *README*, *setup.py*, and a *directory* for
 the sourcecode, named with the same name as the project itself, containing
-*__init__.py* and *main.py*, from which *main.py* is populated with a basic
+*\_\_init\_\_.py* and *main.py*, from which *main.py* is populated with a basic
 structure, enableing the developer to start literally writing code right away.
 To make things even easier, *setup.py*, during the initialization, is also
 populated with a basic structure, so that the program can be easily installed

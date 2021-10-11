@@ -12,6 +12,33 @@ import sys
 ENC: str = "utf-8"
 
 
+class ManPages:
+    """Class that handles the creation of man-pages."""
+    def __init__(self) -> None:
+        self.month: str = dt.datetime.now().strftime("%b")
+        self.year: str = dt.datetime.now().strftime("%Y")
+
+    def makedocsdir(self, projectname: str) -> None:
+        """Create dir for docs like man-pages."""
+        os.makedirs("{0}/docs".format(projectname), exist_ok=True)
+
+    def makemanpages(self, projectname: str) -> None:
+        """Create basic man-pages skeleton."""
+        with open("{0}/docs/{0}.1.md".format(projectname), "w", encoding=ENC) as manp:
+            manp.write("% {0}(1) {1} 0.1\n".format(projectname.upper(), projectname))
+            manp.write("% Author's name here\n")
+            manp.write("% {0} {1}\n\n".format(self.month, self.year))
+            manp.write("# NAME\n")
+            manp.write("{0} -- Short description of the program.\n\n".format(projectname))
+            manp.write("# SYNOPSIS\n")
+            manp.write("**{0}** \[*OPT\_SHORT* | *OPT\_LONG*\]\n\n".format(projectname))
+            manp.write("# DESCRIPTION\n")
+            manp.write("More detailed description of the program.\n\n")
+            manp.write("# OPTIONS\n")
+            manp.write("**OPT\_SHORT** | **OPT\_LONG**\n")
+            manp.write(": Description about flag(s).\n")
+
+
 def makedir(lang: str, program: str, name: str) -> None:
     """Create dirs for a project and it's sourcecode."""
     if os.path.exists(name):
@@ -66,37 +93,15 @@ def makemain(name: str) -> None:
         main.write("    pass\n")
 
 
-def makedocsdir(projectname: str) -> None:
-    """Create dir for docs like man-pages."""
-    os.makedirs("{0}/docs".format(projectname), exist_ok=True)
-
-
-def makemanpages(projectname: str) -> None:
-    """Create basic man-pages skeleton."""
-    month: str = dt.datetime.now().strftime("%b")
-    year: str = dt.datetime.now().strftime("%Y")
-    with open("{0}/docs/{0}.1.md".format(projectname), "w", encoding=ENC) as manp:
-        manp.write("% {0}(1) {1} 0.1\n".format(projectname.upper(), projectname))
-        manp.write("% Author's name here\n")
-        manp.write("% {0} {1}\n\n".format(month, year))
-        manp.write("# NAME\n")
-        manp.write("{0} -- Short description of the program.\n\n".format(projectname))
-        manp.write("# SYNOPSIS\n")
-        manp.write("**{0}** \[*OPT\_SHORT* | *OPT\_LONG*\]\n\n".format(projectname))
-        manp.write("# DESCRIPTION\n")
-        manp.write("More detailed description of the program.\n\n")
-        manp.write("# OPTIONS\n")
-        manp.write("**OPT\_SHORT** | **OPT\_LONG**\n")
-        manp.write(": Description about flag(s).\n")
-
-
 def create(lang: str, program: str, prname: str) -> None:
     """Create everything."""
+    manpage_h: object = ManPages()  # Man-page handler.
+
     makedir(lang, program, prname)
 
     # Stuff to create inside the "root" dir.
-    makedocsdir(prname)
-    makemanpages(prname)
+    manpage_h.makedocsdir(prname)
+    manpage_h.makemanpages(prname)
     makereadme(prname)
     makesetup(prname)
 

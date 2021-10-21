@@ -45,8 +45,8 @@ The structure for new projects looks like the following:
 ``` bash
 project-root/
     |——— README
-	|——— setup.py
+    |——— setup.py
     |——— sourcecode/
-		    |——— __init__.py
-			|——— main.py
+	     |——— __init__.py
+	     |——— main.py
 ```

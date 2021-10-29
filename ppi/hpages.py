@@ -8,13 +8,15 @@ from . import langcodes
 
 
 def show(name: str, lang: str) -> None:
-    if lang == langcodes.FINNISH:
+    if lang == langcodes.LANGCODES["FINNISH"]:
         print("\nValitsimet:")
         print("-q,  --quiet...... Älä tulosta mitään stdout:iin.")
         print("-i,  --git-init... Alusta projekti git-repona.")
         print("-h,  --help....... Tulosta tämä viesti.")
         print("-V,  --version.... Tulosta {} versio.".format(name))
-    elif lang == langcodes.ENGLISH:
+
+    # We can use the same output for all of the different english-variations.
+    elif lang.startswith("en_"):
         print("\nOptions:")
         print("-q,  --quiet...... Don't print anything to stdout.")
         print("-i,  --git-init... Initialize project as git-repo.")

@@ -11,6 +11,5 @@ def msg(lang: str, program: str, prname: str) -> None:
     """Print success message."""
     if lang == langcodes.LANGCODES["FINNISH"]:
         print("{}: \"{}\" luotu.".format(program, prname))
-    # We can use the same output for all of the different english-variations.
-    elif lang.startswith("en_"):
+    if lang.startswith("en_") or lang is None:
         print("{}: \"{}\" created.".format(program, prname))

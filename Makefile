@@ -16,20 +16,19 @@ install:
 	@echo "Installing man -pages ..."
 	@sudo mkdir -p $(MAN_PAGES_INSTALL)
 	sudo cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
-	@#sudo gmandb
 	@echo "All successfully installed!"
 
-reinstall:
-	@echo "Re-installing $(PROGRAM) ..."
-	$(PYTHON_INTERPRETER) -m pip install -qq .
-	@echo "Re-installing man -pages ..."
+install-editable:
+	@echo "Installing $(PROGRAM) ..."
+	$(PYTHON_INTERPRETER) -m pip install -qq -e .
+	@echo "Installing man -pages ..."
+	@sudo mkdir -p $(MAN_PAGES_INSTALL)
 	sudo cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
-	@#sudo gmandb
-	@echo "All successfully re-installed!"
+	@echo "All successfully installed!"
 
 uninstall:
 	@echo "Uninstalling $(PROGRAM) ..."
-	$(PYTHON_INTERPRETER) -m pip uninstall --yes $(PROGRAM)
+	$(PYTHON_INTERPRETER) -m pip uninstall -qq --yes $(PROGRAM)
 	@echo "Uninstalling man -pages ..."
 	sudo rm -f $(MAN_PAGES_INSTALL)$(MAN_PAGES) 
 	@echo "All successfully uninstalled!"

@@ -9,7 +9,7 @@ from . import langcodes
 
 def msg(lang: str, program: str, prname: str) -> None:
     """Print success message."""
-    if lang == langcodes.FINNISH:
+    if lang == langcodes.LANGCODES["FINNISH"]:
         print("{}: \"{}\" luotu.".format(program, prname))
-    elif lang == langcodes.ENGLISH:
+    if lang.startswith("en_") or lang is None:
         print("{}: \"{}\" created.".format(program, prname))

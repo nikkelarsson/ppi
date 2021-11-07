@@ -4,7 +4,6 @@ Author: Niklas Larsson
 Date: September 10, 2021
 """
 
-from . import commands
 from . import usgstr
 from . import descstr
 from . import hpages

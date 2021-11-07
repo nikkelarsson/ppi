@@ -4,5 +4,7 @@ Author: Niklas Larsson
 Date: September 29, 2021
 """
 
-FINNISH: str = "fi_FI.UTF-8"
-ENGLISH: str = "en_US.UTF-8"
+SUFFIX: str = "UTF-8"
+LANGCODES: dict = {
+        "FINNISH": "fi_FI.{0}".format(SUFFIX),
+        }

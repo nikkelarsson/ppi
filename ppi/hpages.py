@@ -15,8 +15,7 @@ def show(name: str, lang: str) -> None:
         print("-h,  --help....... Tulosta tämä viesti.")
         print("-V,  --version.... Tulosta {} versio.".format(name))
 
-    # We can use the same output for all of the different english-variations.
-    elif lang.startswith("en_"):
+    if lang.startswith("en_") or lang is None:
         print("\nOptions:")
         print("-q,  --quiet...... Don't print anything to stdout.")
         print("-i,  --git-init... Initialize project as git-repo.")

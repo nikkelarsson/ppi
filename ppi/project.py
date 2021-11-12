@@ -74,7 +74,16 @@ def makeinit(name: str) -> None:
 def makereadme(name: str) -> None:
     """Create a README -file."""
     with open("{}/README.md".format(name), "w", encoding=ENC) as readme:
-        readme.write("# {}\n".format(name))
+        readme.write("# About\n")
+        readme.write("Something about the program ...\n\n")
+
+        readme.write("# Installation\n")
+        readme.write("Instructions on how to install the program etc.\n")
+        readme.write("Below you can specify the installation methods.\n\n")
+
+        readme.write("``` bash\n")
+        readme.write("\n")
+        readme.write("```\n\n")
 
 
 def makemain(name: str) -> None:

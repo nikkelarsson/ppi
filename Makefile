@@ -1,4 +1,3 @@
-.PHONY: ppi install reinstall uninstall
 PROGRAM = ppi
 MAN_PAGES = ppi.1
 MAN_PAGES_SRC = $(shell pwd)/docs/$(MAN_PAGES)
@@ -10,6 +9,7 @@ ppi:
 	@echo "TO UNINSTALL: sudo make uninstall"
 	@echo "TO REINSTALL: sudo make reinstall"
 
+.PHONY: install
 install:
 	@echo "Installing $(PROGRAM) ..."
 	$(PYTHON_INTERPRETER) -m pip install -qq .
@@ -18,6 +18,7 @@ install:
 	sudo cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
 	@echo "All successfully installed!"
 
+.PHONY: install-editable
 install-editable:
 	@echo "Installing $(PROGRAM) ..."
 	$(PYTHON_INTERPRETER) -m pip install -qq -e .

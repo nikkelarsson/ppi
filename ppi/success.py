@@ -1,5 +1,5 @@
 """
-success.py -- Success messages.
+success.py: Success messages.
 Author: Niklas Larsson
 Date: October 1, 2021
 """

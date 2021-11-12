@@ -1,5 +1,5 @@
 """
-usgstr.py -- Usage strings.
+usgstr.py: Usage strings.
 Author: Niklas Larsson
 Date: September 29, 2021
 """

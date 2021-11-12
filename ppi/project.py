@@ -1,5 +1,5 @@
 """
-project.py -- Create project files.
+project.py: Create project files.
 Author: Niklas Larsson
 Date: September 30, 2021
 """

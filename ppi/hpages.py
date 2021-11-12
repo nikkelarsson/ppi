@@ -1,5 +1,5 @@
 """
-hpages.py -- Help pages.
+hpages.py: Help pages.
 Author: Niklas Larsson
 Date: September 30, 2021
 """

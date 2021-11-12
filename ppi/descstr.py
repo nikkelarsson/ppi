@@ -1,5 +1,5 @@
 """
-descstr.py -- Description strings.
+descstr.py: Description strings.
 Author: Niklas Larsson
 Date: September 29, 2021
 """

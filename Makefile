@@ -27,9 +27,15 @@ install-editable:
 	sudo cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
 	@echo "All successfully installed!"
 
+.PHONY: uninstall
 uninstall:
 	@echo "Uninstalling $(PROGRAM) ..."
 	$(PYTHON_INTERPRETER) -m pip uninstall -qq --yes $(PROGRAM)
 	@echo "Uninstalling man -pages ..."
 	sudo rm -f $(MAN_PAGES_INSTALL)$(MAN_PAGES) 
 	@echo "All successfully uninstalled!"
+
+.PHONY: tests
+tests:
+	@echo "Running tests ..."
+	$(PYTHON_INTERPRETER) -m unittest -v

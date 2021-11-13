@@ -79,18 +79,6 @@ class ArgParser(BasicEvalMethods):
     def __str__(self) -> str:
         return f"Args: {self.args[1:]}"
 
-    def sort_args_inv(self) -> None:
-        # Create a container (list) for invalid args if and only if
-        # there are invalid arguments found. It is also better to
-        # use a list in this case -- when we're collecting invalid
-        # args -- because then we can later append to this list.
-        for arg in self.args:
-            # This also takes args that start with
-            # more than three hyphens, into account.
-            if arg.startswith("---"):
-                self.invalid_args = []
-                self.invalid_args.append(arg)
-
     def sort_args_long(self) -> None:
         self.opts_long = (
                 arg for arg in self.args if self.startswith_hyphens(arg, 2)
@@ -108,7 +96,6 @@ class ArgParser(BasicEvalMethods):
                 )
 
     def sort_args(self) -> None:
-        self.sort_args_inv()
         self.sort_args_long()
         self.sort_args_short()
         self.sort_args_pos()

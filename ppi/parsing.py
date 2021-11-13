@@ -97,7 +97,7 @@ class ArgParser(BasicEvalMethods):
     def parse_args_inv(self) -> None:
         if self.invalid_args is not None:
             for arg in self.invalid_args:
-                errors.invargerror(self.lang, self.name, arg)
+                interface.errors.invargerror(self.lang, self.name, arg)
             sys.exit(1)
 
     def parse_args_pos(self) -> None:
@@ -141,8 +141,8 @@ class ArgParser(BasicEvalMethods):
 
     def check_if_args(self) -> None:
         if len(self.args) == 1:
-            usgstr.show(self.name, self.version, self.lang)
-            descstr.show(self.name, self.version, self.lang)
+            interface.usage_text.show(self.name, self.version, self.lang)
+            interface.desc_text.show(self.name, self.version, self.lang)
             sys.exit(1)
 
     def parse_args(self) -> None:
@@ -157,20 +157,20 @@ class ArgParser(BasicEvalMethods):
 
     def exec_actions(self) -> None:
         if self.help_on:
-            usgstr.show(self.name, self.version, self.lang)
-            descstr.show(self.name, self.version, self.lang)
-            hpages.show(self.name, self.lang)
+            interface.usage_text.show(self.name, self.version, self.lang)
+            interface.desc_text.show(self.name, self.version, self.lang)
+            interface.help_text.show(self.name, self.lang)
             sys.exit(0)
         if self.version_on and not self.help_on:
-            usgstr.show(self.name, self.version, self.lang)
+            interface.usage_text.show(self.name, self.version, self.lang)
             sys.exit(0)
         if self.prname is not None:
-            project.create(self.lang, self.name, self.prname)
+            interface.file_operation.create(self.lang, self.name, self.prname)
             if self.ghrepo_on:
-                git.git_init(self.prname)
+                interface.git_operation.git_init(self.prname)
             if not self.quiet_on:
-                success.msg(self.lang, self.name, self.prname)
+                interface.success_text.msg(self.lang, self.name, self.prname)
             sys.exit(0)
         else:
-            usgstr.show(self.name, self.version, self.lang)
-            descstr.show(self.name, self.version, self.lang)
+            interface.usage_text.show(self.name, self.version, self.lang)
+            interface.desc_text.show(self.name, self.version, self.lang)

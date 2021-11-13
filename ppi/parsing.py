@@ -16,44 +16,7 @@ import sys
 from textwrap import dedent
 
 
-class BasicEvalMethods:
-    """Class containing basic eval -funcs to evaluate cmd line options with."""
-    def dashes_eqt_one(self, arg: str) -> bool:
-        """Check if `arg` contains exactly one hyphen."""
-        dashes: int = 0
-        for letter in arg:
-            if dashes > 1:
-                return False
-            if letter == "-":
-                dashes += 1
-        return True if dashes == 1 else False
-
-    def dashes_eqt_two(self, arg: str) -> bool:
-        """Check if `arg` contains exactly two hyphens."""
-        dashes: int = 0
-        for letter in arg:
-            if dashes > 2:
-                return False
-            if letter == "-":
-                dashes += 1
-        return True if dashes == 2 else False
-
-    def dashes_eq_o_gt_three(self, arg: str) -> bool:
-        """Check if `arg` contains three or more hyphens."""
-        dashes: int = 0
-        for letter in arg:
-            if dashes >= 3:
-                return True
-            if letter == "-":
-                dashes += 1
-        return False if dashes < 3 else True
-
-    def startswith_hyphens(self, arg: str, count: int) -> bool:
-        """Check if `arg` starts with `count` amount of "-"."""
-        return arg[0:count] == "-"*count and arg[count] != "-"
-
-
-class ArgParser(BasicEvalMethods):
+class ArgParser:
     """Class to parse cmd line args with."""
     def __init__(self, args: list, name: str, version: str, lang: str) -> None:
         self.args: list = args
@@ -79,6 +42,10 @@ class ArgParser(BasicEvalMethods):
 
     def __str__(self) -> str:
         return f"Args: {self.args[1:]}"
+
+    def startswith_hyphens(self, arg: str, count: int) -> bool:
+        """Check if `arg` starts with `count` amount of "-"."""
+        return arg[0:count] == "-"*count and arg[count] != "-"
 
     def sort_args_long(self) -> None:
         self.opts_long = (

@@ -47,8 +47,9 @@ class BasicEvalMethodsTestCase(ut.TestCase):
 
 
 class ArgparserTestCase(ut.TestCase):
+    """Tests for the Argparser -class."""
     def setUp(self) -> None:
-        """Set up some init values for testing."""
+        """Set up some values for testing."""
         self.args_inp: list = ["test", "-h", "--test", "---invalid", "-V"]
         self.name_inp: str = "name"
         self.version_inp: str = "version"
@@ -68,6 +69,7 @@ class ArgparserTestCase(ut.TestCase):
         self.assertEqual(self.argparser.version, self.version_inp)
         self.assertEqual(self.argparser.lang, self.lang_inp)
 
+    @ut.skip("test incomplete")
     def test_arg_sorting(self) -> None:
         """Test that args are sorted correctly."""
         self.assertEqual(self.argparser.invalid_args, ["---invalid"])

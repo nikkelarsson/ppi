@@ -4,13 +4,7 @@ Author: Niklas Larsson
 Date: September 10, 2021
 """
 
-from . import usgstr
-from . import descstr
-from . import hpages
-from . import project
-from . import errors
-from . import success
-from . import git
+from ppi import interface
 import sys
 from textwrap import dedent
 

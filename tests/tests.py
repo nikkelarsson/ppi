@@ -1,6 +1,5 @@
-from ppi import langcodes
+from ppi.static import langcodes
 from ppi import main
-from ppi import project
 from ppi import parsing
 import unittest as ut
 

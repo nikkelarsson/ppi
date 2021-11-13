@@ -30,21 +30,6 @@ class OSTestCase(ut.TestCase):
                 )
 
 
-class BasicEvalMethodsTestCase(ut.TestCase):
-    def setUp(self) -> None:
-        self.methods: object = parsing.BasicEvalMethods()
-
-    def test_output_correctness(self) -> None:
-        """Test that the output is as expected."""
-        for i in range(1, 100):
-            with self.subTest(prefix="-"*i):
-                self.assertTrue(
-                        self.methods.startswith_hyphens(
-                            "{0}test".format("-"*i), i
-                            )
-                        )
-
-
 class ArgparserTestCase(ut.TestCase):
     """Tests for the Argparser -class."""
     def setUp(self) -> None:

@@ -1,5 +1,5 @@
 """
-project.py: Create project files.
+file_operation.py: Project file creation.
 Author: Niklas Larsson
 Date: September 30, 2021
 """

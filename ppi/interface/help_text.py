@@ -1,5 +1,5 @@
 """
-hpages.py: Help pages.
+help_text.py: Program help text.
 Author: Niklas Larsson
 Date: September 30, 2021
 """

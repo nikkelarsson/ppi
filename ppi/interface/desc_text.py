@@ -4,7 +4,7 @@ Author: Niklas Larsson
 Date: September 29, 2021
 """
 
-from ppi import static
+from ppi.static import langcodes
 
 
 def show(name: str, version: str, lang: str) -> None:

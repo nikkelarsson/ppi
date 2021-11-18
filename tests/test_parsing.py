@@ -16,7 +16,7 @@ class ParsingTestCase(unittest.TestCase):
                 self.version_inp,
                 self.lang_inp
                 )
-        self.argparser.sort_args()
+        self.argparser._sort_args()
 
     def test_input_registration(self) -> None:
         """Test that inputs are registered properly."""

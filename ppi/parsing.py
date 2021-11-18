@@ -4,6 +4,9 @@ Author: Niklas Larsson
 Date: September 10, 2021
 """
 
+
+import sys
+
 from ppi.interface import desc_text
 from ppi.interface import errors
 from ppi.interface import file_operation
@@ -11,9 +14,6 @@ from ppi.interface import git_operation
 from ppi.interface import help_text
 from ppi.interface import success_text
 from ppi.interface import usage_text
-
-import sys
-from textwrap import dedent
 
 
 class ArgParser:

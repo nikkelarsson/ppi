@@ -1,5 +1,5 @@
 """
-langcodes.py -- Language codes.
+langcodes.py: Language codes.
 Author: Niklas Larsson
 Date: September 29, 2021
 """

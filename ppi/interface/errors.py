@@ -1,10 +1,10 @@
 """
-errors.py -- Program errors.
+errors.py: Program errors.
 Author: Niklas Larsson
 Date: October 1, 2021
 """
 
-from . import langcodes
+from ppi.static import langcodes
 
 
 def invargerror(lang: str, prname: str, arg: str) -> None:

@@ -1,10 +1,10 @@
 """
-success.py -- Success messages.
+success_text.py: Program success text.
 Author: Niklas Larsson
 Date: October 1, 2021
 """
 
-from . import langcodes
+from ppi.static import langcodes
 
 
 def msg(lang: str, program: str, prname: str) -> None:

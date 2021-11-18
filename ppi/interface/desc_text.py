@@ -1,10 +1,10 @@
 """
-usgstr.py -- Usage strings.
+desc_text.py: Program description text.
 Author: Niklas Larsson
 Date: September 29, 2021
 """
 
-from . import langcodes
+from ppi.static import langcodes
 
 
 def show(name: str, version: str, lang: str) -> None:

@@ -1,12 +1,7 @@
 """
-main.py -- Utility to create new python -projects with.
+main.py: Utility to create new Python -projects with.
 Author: Niklas Larsson
 Date: September 10, 2021
-
-Please note: to use this program, install it first
-with `<python_interpreter> -m pip install .`. It will
-not work if you try to use it just by running
-`python<version> main.py`.
 """
 
 

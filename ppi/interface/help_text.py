@@ -1,10 +1,10 @@
 """
-hpages.py -- Help pages.
+help_text.py: Program help text.
 Author: Niklas Larsson
 Date: September 30, 2021
 """
 
-from . import langcodes
+from ppi.static import langcodes
 
 
 def show(name: str, lang: str) -> None:

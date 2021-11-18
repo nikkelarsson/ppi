@@ -25,7 +25,7 @@ class ParsingTestCase(unittest.TestCase):
         self.assertEqual(self.argparser.version, self.version_inp)
         self.assertEqual(self.argparser.lang, self.lang_inp)
 
-    @ut.skip("test incomplete")
+    @unittest.skip("test incomplete")
     def test_arg_sorting(self) -> None:
         """Test that args are sorted correctly."""
         self.assertEqual(self.argparser.invalid_args, ["---invalid"])

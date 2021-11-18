@@ -43,44 +43,44 @@ class ArgParser:
     def __str__(self) -> str:
         return f"Args: {self.args[1:]}"
 
-    def startswith_hyphens(self, arg: str, count: int) -> bool:
+    def _startswith_hyphens(self, arg: str, count: int) -> bool:
         """Check if `arg` starts with `count` amount of "-"."""
         return arg[0:count] == "-"*count and arg[count] != "-"
 
-    def sort_args_long(self) -> None:
+    def _sort_args_long(self) -> None:
         self.opts_long = (
-                arg for arg in self.args if self.startswith_hyphens(arg, 2)
+                arg for arg in self.args if self._startswith_hyphens(arg, 2)
                 )
 
-    def sort_args_short(self) -> None:
+    def _sort_args_short(self) -> None:
         self.opts_short = (
-                arg for arg in self.args if self.startswith_hyphens(arg, 1)
+                arg for arg in self.args if self._startswith_hyphens(arg, 1)
                 )
 
-    def sort_args_pos(self) -> None:
+    def _sort_args_pos(self) -> None:
         self.pos_args = (
                 arg for index, arg in enumerate(self.args)
                 if not arg.startswith("-") and index != 0
                 )
 
-    def sort_args(self) -> None:
-        self.sort_args_long()
-        self.sort_args_short()
-        self.sort_args_pos()
+    def _sort_args(self) -> None:
+        self._sort_args_long()
+        self._sort_args_short()
+        self._sort_args_pos()
 
-    def parse_args_inv(self) -> None:
+    def _parse_args_inv(self) -> None:
         if self.invalid_args is not None:
             for arg in self.invalid_args:
                 errors.invargerror(self.lang, self.name, arg)
             sys.exit(1)
 
-    def parse_args_pos(self) -> None:
+    def _parse_args_pos(self) -> None:
         # Grab the first non-flag -argument and ignore the rest.
         for arg in self.pos_args:
             self.prname = arg
             break
 
-    def parse_args_short(self) -> None:
+    def _parse_args_short(self) -> None:
         for arg in self.opts_short:
             for index, letter in enumerate(arg):
                 if index == 0:
@@ -98,7 +98,7 @@ class ArgParser:
                         self.invalid_args = []
                     self.invalid_args.append("-{}".format(letter))
 
-    def parse_args_long(self) -> None:
+    def _parse_args_long(self) -> None:
         for index, arg in enumerate(self.opts_long):
             if arg == "--version":
                 self.version_on = True
@@ -113,7 +113,7 @@ class ArgParser:
                     self.invalid_args = []
                 self.invalid_args.append(arg)
 
-    def check_if_args(self) -> None:
+    def _check_if_args(self) -> None:
         if len(self.args) == 1:
             usage_text.show(self.name, self.version, self.lang)
             desc_text.show(self.name, self.version, self.lang)
@@ -121,15 +121,15 @@ class ArgParser:
 
     def parse_args(self) -> None:
         """Parse args and execute actions according to the given options."""
-        self.check_if_args()
-        self.sort_args()
-        self.parse_args_pos()
-        self.parse_args_short()
-        self.parse_args_long()
-        self.parse_args_inv()
-        self.exec_actions()
+        self._check_if_args()
+        self._sort_args()
+        self._parse_args_pos()
+        self._parse_args_short()
+        self._parse_args_long()
+        self._parse_args_inv()
+        self._exec_actions()
 
-    def exec_actions(self) -> None:
+    def _exec_actions(self) -> None:
         if self.help_on:
             usage_text.show(self.name, self.version, self.lang)
             desc_text.show(self.name, self.version, self.lang)

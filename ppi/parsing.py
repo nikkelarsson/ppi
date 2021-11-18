@@ -49,19 +49,19 @@ class ArgParser:
 
     def _sort_args_long(self) -> None:
         self.opts_long = (
-                arg for arg in self.args if self._startswith_hyphens(arg, 2)
-                )
+            arg for arg in self.args if self._startswith_hyphens(arg, 2)
+        )
 
     def _sort_args_short(self) -> None:
         self.opts_short = (
-                arg for arg in self.args if self._startswith_hyphens(arg, 1)
-                )
+            arg for arg in self.args if self._startswith_hyphens(arg, 1)
+        )
 
     def _sort_args_pos(self) -> None:
         self.pos_args = (
-                arg for index, arg in enumerate(self.args)
-                if not arg.startswith("-") and index != 0
-                )
+            arg for index, arg in enumerate(self.args)
+            if not arg.startswith("-") and index != 0
+        )
 
     def _sort_args(self) -> None:
         self._sort_args_long()

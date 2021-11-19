@@ -12,7 +12,10 @@ import os
 
 LANG: str = os.getenv("LANG")
 NAME: str = "ppi"
-VERSION: str = "1.0"
+MAJOR: str = 1
+MINOR: str = 0
+PATCH: str = 0
+VERSION: str = "{}.{}.{}".format(MAJOR, MINOR, PATCH)
 
 
 def main(args: list=sys.argv) -> None:

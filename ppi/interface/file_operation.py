@@ -4,12 +4,14 @@ Author: Niklas Larsson
 Date: September 30, 2021
 """
 
-from . import errors
+
 import datetime as dt
 import os
 import sys
 
+from ppi.interface import errors
 from ppi.static import exit_codes
+
 
 ENC: str = "utf-8"
 

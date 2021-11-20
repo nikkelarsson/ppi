@@ -1,5 +1,5 @@
 """
-parsing.py: Gather and parse command line arguments.
+parsing.py: Command line argument parsing.
 Author: Niklas Larsson
 Date: September 10, 2021
 """

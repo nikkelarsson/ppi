@@ -9,6 +9,8 @@ import datetime as dt
 import os
 import sys
 
+from ppi.static import exit_codes
+
 ENC: str = "utf-8"
 
 
@@ -43,7 +45,7 @@ def makedir(lang: str, program: str, name: str) -> None:
     """Create dirs for a project and it's sourcecode."""
     if os.path.exists(name):
         errors.direxistserror(lang, program, name)
-        sys.exit(1)
+        sys.exit(exit_codes.ERROR)
     os.makedirs("{0}/{0}".format(name), exist_ok=True)
 
 

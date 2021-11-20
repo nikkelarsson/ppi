@@ -15,6 +15,8 @@ from ppi.interface import help_text
 from ppi.interface import success_text
 from ppi.interface import usage_text
 
+from ppi.static import exit_codes
+
 
 class ArgParser:
     """Class to parse cmd line args with."""
@@ -72,7 +74,7 @@ class ArgParser:
         if self.invalid_args is not None:
             for arg in self.invalid_args:
                 errors.invargerror(self.lang, self.name, arg)
-            sys.exit(1)
+            sys.exit(exit_codes.ERROR)
 
     def _parse_args_pos(self) -> None:
         # Grab the first non-flag -argument and ignore the rest.
@@ -117,7 +119,7 @@ class ArgParser:
         if len(self.args) == 1:
             desc_text.show(self.name, self.version, self.lang)
             usage_text.show(self.name, self.version, self.lang)
-            sys.exit(1)
+            sys.exit(exit_codes.ERROR)
 
     def parse_args(self) -> None:
         """Parse args and execute actions according to the given options."""
@@ -134,17 +136,17 @@ class ArgParser:
             desc_text.show(self.name, self.version, self.lang)
             usage_text.show(self.name, self.version, self.lang)
             help_text.show(self.name, self.lang)
-            sys.exit(0)
+            sys.exit(exit_codes.SUCCESS)
         if self.version_on and not self.help_on:
             desc_text.show(self.name, self.version, self.lang)
-            sys.exit(0)
+            sys.exit(exit_codes.SUCCESS)
         if self.prname is not None:
             file_operation.create(self.lang, self.name, self.prname)
             if self.ghrepo_on:
                 git_operation.git_init(self.prname)
             if not self.quiet_on:
                 success_text.msg(self.lang, self.name, self.prname)
-            sys.exit(0)
+            sys.exit(exit_codes.SUCCESS)
         else:
             desc_text.show(self.name, self.version, self.lang)
             usage_text.show(self.name, self.version, self.lang)

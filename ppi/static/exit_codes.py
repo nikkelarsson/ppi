@@ -1,5 +1,5 @@
 """
-errorcodes.py: Standard error codes.
+exit_codes.py: Standard exit codes.
 Author: Niklas Larsson
 Date: November 19, 2021
 """

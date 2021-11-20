@@ -5,9 +5,10 @@ Date: September 10, 2021
 """
 
 
-from . import parsing
 import sys
 import os
+
+from ppi import parsing
 
 
 LANG: str = os.getenv("LANG")

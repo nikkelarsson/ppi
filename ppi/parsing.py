@@ -115,8 +115,8 @@ class ArgParser:
 
     def _check_if_args(self) -> None:
         if len(self.args) == 1:
-            usage_text.show(self.name, self.version, self.lang)
             desc_text.show(self.name, self.version, self.lang)
+            usage_text.show(self.name, self.version, self.lang)
             sys.exit(1)
 
     def parse_args(self) -> None:
@@ -131,12 +131,12 @@ class ArgParser:
 
     def _exec_actions(self) -> None:
         if self.help_on:
-            usage_text.show(self.name, self.version, self.lang)
             desc_text.show(self.name, self.version, self.lang)
+            usage_text.show(self.name, self.version, self.lang)
             help_text.show(self.name, self.lang)
             sys.exit(0)
         if self.version_on and not self.help_on:
-            usage_text.show(self.name, self.version, self.lang)
+            desc_text.show(self.name, self.version, self.lang)
             sys.exit(0)
         if self.prname is not None:
             file_operation.create(self.lang, self.name, self.prname)
@@ -146,5 +146,5 @@ class ArgParser:
                 success_text.msg(self.lang, self.name, self.prname)
             sys.exit(0)
         else:
-            usage_text.show(self.name, self.version, self.lang)
             desc_text.show(self.name, self.version, self.lang)
+            usage_text.show(self.name, self.version, self.lang)

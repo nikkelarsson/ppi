@@ -5,12 +5,12 @@ Date: October 1, 2021
 """
 
 
-from ppi.static import langcodes
+from ppi.static import lang_codes
 
 
 def msg(lang: str, program: str, prname: str) -> None:
     """Print success message."""
-    if lang == langcodes.LANGCODES["FINNISH"]:
+    if lang == lang_codes.LANGCODES["FINNISH"]:
         print("{}: \"{}\" luotu.".format(program, prname))
     if lang.startswith("en_") or lang is None:
         print("{}: \"{}\" created.".format(program, prname))

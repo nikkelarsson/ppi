@@ -43,6 +43,53 @@ class ManPages:
             manp.write(": Description about flag(s).\n")
 
 
+class Makefile:
+    """Makefile related operations."""
+    def create(self, project: str) -> None:
+        """Create a Makefile."""
+        with open("{}/Makefile".format(project), "w", encoding=ENC) as mf:
+            # Makefile variables
+            mf.write(f"PROGRAM = {project}\n")
+            mf.write(f"MAN_PAGES_SRC = $(shell pwd)/docs/$(PROGRAM).1\n")
+            mf.write("MAN_PAGES_DST = /usr/local/man/man1/\n")
+            mf.write("PYTHON = python3\n")
+            mf.write("\n")
+
+            # Install -target
+            mf.write(".PHONY: install\n")
+            mf.write("\t@echo \"Installing $(PROGAM) ...\"\n")
+            mf.write("\t$(PYTHON) -m pip install -qq .\n")
+            mf.write("\t@echo \"Installing man pages ...\"\n")
+            mf.write("\tmkdir -p $(MAN_PAGES_DST)\n")
+            mf.write("\tcp -f $(MAN_PAGES_SRC) $(MAN_PAGES_DST)\n")
+            mf.write("\t@echo \"Install successful.\"\n")
+            mf.write("\n")
+
+            # Install-editable -target
+            mf.write(".PHONY: install-editable\n")
+            mf.write("\t@echo \"Installing $(PROGAM) ...\"\n")
+            mf.write("\t$(PYTHON) -m pip install -qq -e .\n")
+            mf.write("\t@echo \"Installing man pages ...\"\n")
+            mf.write("\tmkdir -p $(MAN_PAGES_DST)\n")
+            mf.write("\tcp -f $(MAN_PAGES_SRC) $(MAN_PAGES_DST)\n")
+            mf.write("\t@echo \"Install successful.\"\n")
+            mf.write("\n")
+
+            # Uninstall -target
+            mf.write(".PHONY: uninstall\n")
+            mf.write("\t@echo \"Uninstalling $(PROGAM) ...\"\n")
+            mf.write("\t$(PYTHON) -m pip uninstall -qq --yes $(PROGRAM)\n")
+            mf.write("\t@echo \"Uninstalling man pages ...\"\n")
+            mf.write("\trm -f $(MAN_PAGES_DST)$(PROGRAM).1\n")
+            mf.write("\t@echo \"Everything uninstalled.\"\n")
+            mf.write("\n")
+
+            # Tests -target
+            mf.write(".PHONY: tests\n")
+            mf.write("\t@echo \"Running tests ...\"\n")
+            mf.write("\t$(PYTHON) -m unittest -v")
+
+
 def makedir(lang: str, program: str, name: str) -> None:
     """Create dirs for a project and it's sourcecode."""
     if os.path.exists(name):

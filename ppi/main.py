@@ -5,8 +5,8 @@ Date: September 10, 2021
 """
 
 
-import sys
 import os
+import sys
 
 from ppi import parsing
 

@@ -8,3 +8,4 @@
   the initialization.
 - [ ] Attach a licence.
 - [ ] Implement a feature that would enable creating CHANGELOG file.
+- [ ] Make the success message bold etc.

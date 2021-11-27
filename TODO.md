@@ -9,3 +9,4 @@
 - [ ] Attach a licence.
 - [ ] Implement a feature that would enable creating CHANGELOG file.
 - [x] Make the success message bold etc.
+- [ ] Add CHANGELOG

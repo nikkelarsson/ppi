@@ -11,11 +11,11 @@ class ParsingTestCase(unittest.TestCase):
         self.version_inp: str = "version"
         self.lang_inp: str = "lang"
         self.argparser: object = parsing.ArgParser(
-                self.args_inp,
-                self.name_inp,
-                self.version_inp,
-                self.lang_inp
-                )
+            self.args_inp,
+            self.name_inp,
+            self.version_inp,
+            self.lang_inp
+        )
         self.argparser._sort_args()
 
     def test_input_registration(self) -> None:

@@ -7,7 +7,7 @@ setup(
     keywords="utility",
     author="Niklas Larsson",
     packages=["ppi"],
-    # install_requires=[],
+    install_requires=["colorama"],
     entry_points={"console_scripts": ["ppi=ppi.main:main"]},
     include_package_data=True,
     zip_safe=False,

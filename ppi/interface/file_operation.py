@@ -113,7 +113,7 @@ def makesetup(name: str) -> None:
         setup_py.write("    entry_points={\"console_scripts\": [\"%s\"]},\n" % script)
         setup_py.write("    include_package_data=True,\n")
         setup_py.write("    zip_safe=False\n")
-        setup_py.write("    )")
+        setup_py.write(")")
 
 
 def makeinit(name: str) -> None:

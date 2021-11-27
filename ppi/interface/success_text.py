@@ -12,7 +12,7 @@ from ppi.static import lang_codes
 
 
 def msg(lang: str, program: str, prname: str) -> None:
-    """Print success message."""
+    """Indicate a successful initalization by printing informative message."""
     colorama.init(autoreset=True)
 
     if lang == lang_codes.LANGCODES["FINNISH"]:

@@ -14,7 +14,7 @@ from ppi import parsing
 LANG: str = os.getenv("LANG")
 NAME: str = "ppi"
 MAJOR: int = 1
-MINOR: int = 0
+MINOR: int = 1
 PATCH: int = 0
 VERSION: str = "{}.{}.{}".format(MAJOR, MINOR, PATCH)
 

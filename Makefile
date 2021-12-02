@@ -2,7 +2,7 @@ PROGRAM = ppi
 MAN_PAGES = ppi.1
 MAN_PAGES_SRC = $(shell pwd)/docs/$(MAN_PAGES)
 MAN_PAGES_INSTALL = /usr/local/man/man1/
-PYTHON_INTERPRETER = python3
+PYTHON_INTERPRETER = python3.8
 
 ppi:
 	@echo "TO INSTALL: sudo make install"

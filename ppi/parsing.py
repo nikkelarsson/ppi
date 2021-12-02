@@ -20,6 +20,7 @@ from ppi.static import exit_codes
 
 class ArgParser:
     """Class to parse cmd line args with."""
+
     def __init__(self, args: list, name: str, version: str, lang: str) -> None:
         self.args: list = args
         self.name: str = name

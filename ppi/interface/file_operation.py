@@ -8,6 +8,7 @@ Date: September 30, 2021
 import datetime as dt
 import os
 import sys
+import subprocess as sb
 
 from ppi.interface import errors
 from ppi.static import exit_codes
@@ -18,6 +19,7 @@ ENC: str = "utf-8"
 
 class ManPages:
     """Class that handles the creation of man-pages."""
+
     def __init__(self) -> None:
         self.month: str = dt.datetime.now().strftime("%b")
         self.year: str = dt.datetime.now().strftime("%Y")
@@ -29,22 +31,23 @@ class ManPages:
     def makemanpages(self, projectname: str) -> None:
         """Create basic man-pages skeleton."""
         with open("{0}/docs/{0}.1.md".format(projectname), "w", encoding=ENC) as manp:
-            manp.write("% {0}(1) {1} 0.1\n".format(projectname.upper(), projectname))
-            manp.write("% Author's name here\n")
-            manp.write("% {0} {1}\n\n".format(self.month, self.year))
-            manp.write("# NAME\n")
-            manp.write("{0} -- Short description of the program.\n\n".format(projectname))
-            manp.write("# SYNOPSIS\n")
-            manp.write("**{0}** \[*OPT\_SHORT* | *OPT\_LONG*\]\n\n".format(projectname))
-            manp.write("# DESCRIPTION\n")
-            manp.write("More detailed description of the program.\n\n")
-            manp.write("# OPTIONS\n")
-            manp.write("**OPT\_SHORT** | **OPT\_LONG**\n")
-            manp.write(": Description about flag(s).\n")
+            manp.write("% {0}(1) {1} 0.1  \n".format(projectname.upper(), projectname))
+            manp.write("% Author's name here  \n")
+            manp.write("% {0} {1}  \n\n".format(self.month, self.year))
+            manp.write("# NAME  \n")
+            manp.write("{0} -- Short description of the program.  \n\n".format(projectname))
+            manp.write("# SYNOPSIS  \n")
+            manp.write("**{0}** \[*OPT\_SHORT* | *OPT\_LONG*\]  \n\n".format(projectname))
+            manp.write("# DESCRIPTION  \n")
+            manp.write("More detailed description of the program.  \n\n")
+            manp.write("# OPTIONS  \n")
+            manp.write("**OPT\_SHORT** | **OPT\_LONG**  \n")
+            manp.write(": Description about flag(s).  \n")
 
 
 class Makefile:
     """Makefile related operations."""
+
     def create(self, project: str) -> None:
         """Create a Makefile."""
         with open("{}/Makefile".format(project), "w", encoding=ENC) as mf:
@@ -125,25 +128,34 @@ def makeinit(name: str) -> None:
 def makereadme(name: str) -> None:
     """Create a README -file."""
     with open("{}/README.md".format(name), "w", encoding=ENC) as readme:
-        readme.write("# About\n")
-        readme.write("Something about the program ...\n\n")
+        readme.write("# About  \n")
+        readme.write("Something about the program ...  \n\n")
 
-        readme.write("# Installation\n")
-        readme.write("Instructions on how to install the program etc.\n")
-        readme.write("Below you can specify the installation methods.\n\n")
+        readme.write("# Installation  \n")
+        readme.write("Instructions on how to install the program etc.  \n")
+        readme.write("Below you can specify the installation methods.  \n\n")
 
-        readme.write("``` bash\n")
-        readme.write("\n")
-        readme.write("```\n\n")
+        readme.write("``` bash  \n\n")
+        readme.write("```  \n")
 
 
 def makemain(name: str) -> None:
     """Create main.py -file."""
+    # Get author's name from git's configuration, if it has been set there.
+    _author: str = sb.run(
+        ["git", "config", "--get", "user.name"],
+        capture_output=True,
+        text=True
+    ).stdout.replace("\n", "")
+
+    if not _author:
+        _author = "<Your name here>"
+
     with open("{0}/{0}/main.py".format(name), "w", encoding=ENC) as main:
         main.write("\"\"\"\n")
         main.write("main.py\n")
-        main.write("Author:\n")
-        main.write("Date:\n")
+        main.write("Author: {}\n".format(_author))
+        main.write("Date: {}\n".format(dt.datetime.now().strftime("%B %-d, %Y")))
         main.write("\"\"\"\n")
         main.write("\n\n")
         main.write("def main() -> None:\n")

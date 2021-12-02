@@ -1,6 +1,6 @@
-% PPI(1) ppi 1.0
-% Niklas Larsson
-% September 2021
+% PPI(1) ppi 1.0  
+% Niklas Larsson  
+% September 2021  
 
 # NAME
 ppi – Python project initializer.

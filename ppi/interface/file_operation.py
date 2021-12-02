@@ -29,18 +29,18 @@ class ManPages:
     def makemanpages(self, projectname: str) -> None:
         """Create basic man-pages skeleton."""
         with open("{0}/docs/{0}.1.md".format(projectname), "w", encoding=ENC) as manp:
-            manp.write("% {0}(1) {1} 0.1\n".format(projectname.upper(), projectname))
-            manp.write("% Author's name here\n")
-            manp.write("% {0} {1}\n\n".format(self.month, self.year))
-            manp.write("# NAME\n")
-            manp.write("{0} -- Short description of the program.\n\n".format(projectname))
-            manp.write("# SYNOPSIS\n")
-            manp.write("**{0}** \[*OPT\_SHORT* | *OPT\_LONG*\]\n\n".format(projectname))
-            manp.write("# DESCRIPTION\n")
-            manp.write("More detailed description of the program.\n\n")
-            manp.write("# OPTIONS\n")
-            manp.write("**OPT\_SHORT** | **OPT\_LONG**\n")
-            manp.write(": Description about flag(s).\n")
+            manp.write("% {0}(1) {1} 0.1  \n".format(projectname.upper(), projectname))
+            manp.write("% Author's name here  \n")
+            manp.write("% {0} {1}  \n\n".format(self.month, self.year))
+            manp.write("# NAME  \n")
+            manp.write("{0} -- Short description of the program.  \n\n".format(projectname))
+            manp.write("# SYNOPSIS  \n")
+            manp.write("**{0}** \[*OPT\_SHORT* | *OPT\_LONG*\]  \n\n".format(projectname))
+            manp.write("# DESCRIPTION  \n")
+            manp.write("More detailed description of the program.  \n\n")
+            manp.write("# OPTIONS  \n")
+            manp.write("**OPT\_SHORT** | **OPT\_LONG**  \n")
+            manp.write(": Description about flag(s).  \n")
 
 
 class Makefile:
@@ -125,16 +125,15 @@ def makeinit(name: str) -> None:
 def makereadme(name: str) -> None:
     """Create a README -file."""
     with open("{}/README.md".format(name), "w", encoding=ENC) as readme:
-        readme.write("# About\n")
-        readme.write("Something about the program ...\n\n")
+        readme.write("# About  \n")
+        readme.write("Something about the program ...  \n\n")
 
-        readme.write("# Installation\n")
-        readme.write("Instructions on how to install the program etc.\n")
-        readme.write("Below you can specify the installation methods.\n\n")
+        readme.write("# Installation  \n")
+        readme.write("Instructions on how to install the program etc.  \n")
+        readme.write("Below you can specify the installation methods.  \n\n")
 
-        readme.write("``` bash\n")
-        readme.write("\n")
-        readme.write("```\n\n")
+        readme.write("``` bash  \n\n")
+        readme.write("```  \n")
 
 
 def makemain(name: str) -> None:

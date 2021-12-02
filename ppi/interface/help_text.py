@@ -4,11 +4,12 @@ Author: Niklas Larsson
 Date: September 30, 2021
 """
 
-from ppi.static import langcodes
+
+from ppi.static import lang_codes
 
 
 def show(name: str, lang: str) -> None:
-    if lang == langcodes.LANGCODES["FINNISH"]:
+    if lang == lang_codes.LANGCODES["FINNISH"]:
         print("\nValitsimet:")
         print("-q,  --quiet...... Älä tulosta mitään stdout:iin.")
         print("-i,  --git-init... Alusta projekti git-repona.")

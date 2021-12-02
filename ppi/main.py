@@ -5,14 +5,18 @@ Date: September 10, 2021
 """
 
 
-from . import parsing
-import sys
 import os
+import sys
+
+from ppi import parsing
 
 
 LANG: str = os.getenv("LANG")
 NAME: str = "ppi"
-VERSION: str = "1.0"
+MAJOR: int = 1
+MINOR: int = 1
+PATCH: int = 0
+VERSION: str = "{}.{}.{}".format(MAJOR, MINOR, PATCH)
 
 
 def main(args: list=sys.argv) -> None:

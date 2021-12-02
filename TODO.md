@@ -7,3 +7,6 @@
 - [ ] Implement a feature that would enable **ppi** to create a Makefile during
   the initialization.
 - [ ] Attach a licence.
+- [ ] Implement a feature that would enable creating CHANGELOG file.
+- [x] Make the success message bold etc.
+- [x] Add CHANGELOG

@@ -8,6 +8,7 @@ Date: September 30, 2021
 import datetime as dt
 import os
 import sys
+import subprocess as sb
 
 from ppi.interface import errors
 from ppi.static import exit_codes
@@ -138,10 +139,20 @@ def makereadme(name: str) -> None:
 
 def makemain(name: str) -> None:
     """Create main.py -file."""
+    # Get author's name from git's configuration, if it has been set there.
+    _author: str = sb.run(
+        ["git", "config", "--get", "user.name"],
+        capture_output=True,
+        text=True
+    ).stdout.replace("\n", "")
+
+    if not _author:
+        _author = "<Your name here>"
+
     with open("{0}/{0}/main.py".format(name), "w", encoding=ENC) as main:
         main.write("\"\"\"\n")
         main.write("main.py\n")
-        main.write("Author:\n")
+        main.write("Author: {}\n".format(_author))
         main.write("Date: {}\n".format(dt.datetime.now().strftime("%B %-d, %Y")))
         main.write("\"\"\"\n")
         main.write("\n\n")

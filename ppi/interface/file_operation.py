@@ -142,7 +142,7 @@ def makemain(name: str) -> None:
         main.write("\"\"\"\n")
         main.write("main.py\n")
         main.write("Author:\n")
-        main.write("Date:\n")
+        main.write("Date: {}\n".format(dt.datetime.now().strftime("%B %-d, %Y")))
         main.write("\"\"\"\n")
         main.write("\n\n")
         main.write("def main() -> None:\n")

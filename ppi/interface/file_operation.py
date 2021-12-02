@@ -19,6 +19,7 @@ ENC: str = "utf-8"
 
 class ManPages:
     """Class that handles the creation of man-pages."""
+
     def __init__(self) -> None:
         self.month: str = dt.datetime.now().strftime("%b")
         self.year: str = dt.datetime.now().strftime("%Y")
@@ -46,6 +47,7 @@ class ManPages:
 
 class Makefile:
     """Makefile related operations."""
+
     def create(self, project: str) -> None:
         """Create a Makefile."""
         with open("{}/Makefile".format(project), "w", encoding=ENC) as mf:

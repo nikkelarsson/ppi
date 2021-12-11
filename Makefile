@@ -15,8 +15,8 @@ install:
 	@echo "Installing $(PROGRAM) ..."
 	$(PYTHON_INTERPRETER) -m pip install -qq .
 	@echo "Installing man -pages ..."
-	@sudo mkdir -p $(MAN_PAGES_INSTALL)
-	sudo cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
+	@mkdir -p $(MAN_PAGES_INSTALL)
+	cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
 	@echo "All successfully installed!"
 
 .PHONY: install-editable
@@ -24,8 +24,8 @@ install-editable:
 	@echo "Installing $(PROGRAM) ..."
 	$(PYTHON_INTERPRETER) -m pip install -qq -e .
 	@echo "Installing man -pages ..."
-	@sudo mkdir -p $(MAN_PAGES_INSTALL)
-	sudo cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
+	@mkdir -p $(MAN_PAGES_INSTALL)
+	cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
 	@echo "All successfully installed!"
 
 .PHONY: uninstall
@@ -33,7 +33,7 @@ uninstall:
 	@echo "Uninstalling $(PROGRAM) ..."
 	$(PYTHON_INTERPRETER) -m pip uninstall -qq --yes $(PROGRAM)
 	@echo "Uninstalling man -pages ..."
-	sudo rm -f $(MAN_PAGES_INSTALL)$(MAN_PAGES) 
+	rm -f $(MAN_PAGES_INSTALL)$(MAN_PAGES)
 	@echo "All successfully uninstalled!"
 
 .PHONY: tests

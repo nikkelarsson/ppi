@@ -24,14 +24,14 @@ via **pip**. If a developer wants, it is possible to initialize the project as
 a git-repo during the initialization, as well.
 
 # OPTIONS
-**–q** | **––quiet**
+**–q**, **––quiet**
 : Don't print anything to stdout.
 
-**–i** | **––git–init**
+**–i**, **––git–init**
 : Initialize project as git repo.
 
-**–h** | **––help**
+**–h**, **––help**
 : Print this message.
 
-**–V** | **––version**
+**–V**, **––version**
 : Print **ppi** version.

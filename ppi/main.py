@@ -15,7 +15,7 @@ LANG: str = os.getenv("LANG")
 NAME: str = "ppi"
 MAJOR: int = 1
 MINOR: int = 2
-PATCH: int = 0
+PATCH: int = 1
 VERSION: str = "{}.{}.{}".format(MAJOR, MINOR, PATCH)
 
 

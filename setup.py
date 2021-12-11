@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="ppi",
-    version="1.2.0",
+    version="1.2.1",
     description="Simple utility to create new Python -projects with.",
 
     classifiers=[

@@ -4,18 +4,19 @@ MAN_PAGES_SRC = $(shell pwd)/docs/$(MAN_PAGES)
 MAN_PAGES_INSTALL = /usr/local/man/man1/
 PYTHON_INTERPRETER = python3.8
 
+.PHONY: ppi
 ppi:
 	@echo "TO INSTALL: sudo make install"
+	@echo "TO INSTALL EDITABLE: sudo make install-editable"
 	@echo "TO UNINSTALL: sudo make uninstall"
-	@echo "TO REINSTALL: sudo make reinstall"
 
 .PHONY: install
 install:
 	@echo "Installing $(PROGRAM) ..."
 	$(PYTHON_INTERPRETER) -m pip install -qq .
 	@echo "Installing man -pages ..."
-	@sudo mkdir -p $(MAN_PAGES_INSTALL)
-	sudo cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
+	@mkdir -p $(MAN_PAGES_INSTALL)
+	cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
 	@echo "All successfully installed!"
 
 .PHONY: install-editable
@@ -23,8 +24,8 @@ install-editable:
 	@echo "Installing $(PROGRAM) ..."
 	$(PYTHON_INTERPRETER) -m pip install -qq -e .
 	@echo "Installing man -pages ..."
-	@sudo mkdir -p $(MAN_PAGES_INSTALL)
-	sudo cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
+	@mkdir -p $(MAN_PAGES_INSTALL)
+	cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
 	@echo "All successfully installed!"
 
 .PHONY: uninstall
@@ -32,7 +33,7 @@ uninstall:
 	@echo "Uninstalling $(PROGRAM) ..."
 	$(PYTHON_INTERPRETER) -m pip uninstall -qq --yes $(PROGRAM)
 	@echo "Uninstalling man -pages ..."
-	sudo rm -f $(MAN_PAGES_INSTALL)$(MAN_PAGES) 
+	rm -f $(MAN_PAGES_INSTALL)$(MAN_PAGES)
 	@echo "All successfully uninstalled!"
 
 .PHONY: tests

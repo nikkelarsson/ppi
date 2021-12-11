@@ -4,10 +4,11 @@ MAN_PAGES_SRC = $(shell pwd)/docs/$(MAN_PAGES)
 MAN_PAGES_INSTALL = /usr/local/man/man1/
 PYTHON_INTERPRETER = python3.8
 
+.PHONY: ppi
 ppi:
 	@echo "TO INSTALL: sudo make install"
+	@echo "TO INSTALL EDITABLE: sudo make install-editable"
 	@echo "TO UNINSTALL: sudo make uninstall"
-	@echo "TO REINSTALL: sudo make reinstall"
 
 .PHONY: install
 install:

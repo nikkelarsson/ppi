@@ -16,17 +16,17 @@ the sourcecode and change it and test your changes easily without having to
 
 To install the **regular** version, run:
 ``` bash
-make install
+sudo make install
 ```
 
 To install the **editable** version, run:
 ``` bash
-make install-editable
+sudo make install-editable
 ```
 
 To uninstall, run:
 ``` bash
-make uninstall
+sudo make uninstall
 ```
 
 # Requirements

@@ -7,16 +7,14 @@ import sys
 from ppi import parsing
 
 
-LANG: str = os.getenv("LANG")
-NAME: str = "ppi"
-MAJOR: int = 1
-MINOR: int = 2
-PATCH: int = 1
-VERSION: str = "{}.{}.{}".format(MAJOR, MINOR, PATCH)
+__author__: str = "Niklas Larsson"
+__credits__: list = ["Niklas Larsson"]
+__version__: str = "1.2.1"
+__program__: str = "ppi"
 
 
 def main(args: list=sys.argv) -> None:
-    parser: object = parsing.ArgParser(args, NAME, VERSION, LANG)
+    parser: object = parsing.ArgParser(args, __program__, __version__, os.getenv("LANG"))
     parser.parse_args()
 
 

@@ -108,7 +108,7 @@ def makesetup(name: str) -> None:
         setup_py.write("from setuptools import setup\n\n")
         setup_py.write("setup(\n")
         setup_py.write("    name=\"{}\",\n".format(name))
-        setup_py.write("    version=\"1.0\",\n")
+        setup_py.write("    version=\"0.0.1\",\n")
         setup_py.write("    description=\"\",\n")
         setup_py.write("    keywords=\"\",\n")
         setup_py.write("    author=\"\",\n")

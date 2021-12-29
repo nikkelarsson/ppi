@@ -1,8 +1,4 @@
-"""
-file_operation.py: Project file creation.
-Author: Niklas Larsson
-Date: September 30, 2021
-"""
+"""Functions etc. that handle creating the files."""
 
 
 import datetime as dt

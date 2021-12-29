@@ -1,8 +1,4 @@
-"""
-main.py: Utility to create new Python -projects with.
-Author: Niklas Larsson
-Date: September 10, 2021
-"""
+"""Simple utility for starting new Python projects quickly."""
 
 
 import os

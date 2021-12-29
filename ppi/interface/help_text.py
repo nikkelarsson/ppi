@@ -1,8 +1,4 @@
-"""
-help_text.py: Program help text.
-Author: Niklas Larsson
-Date: September 30, 2021
-"""
+"""Program help text."""
 
 
 from ppi.static import lang_codes

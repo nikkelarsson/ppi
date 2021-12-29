@@ -1,8 +1,4 @@
-"""
-usage_text.py: Program usage text.
-Author: Niklas Larsson
-Date: September 29, 2021
-"""
+"""Program usage text."""
 
 
 from ppi.static import lang_codes

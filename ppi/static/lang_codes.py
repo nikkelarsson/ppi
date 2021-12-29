@@ -1,8 +1,4 @@
-"""
-lang_codes.py: Language codes.
-Author: Niklas Larsson
-Date: September 29, 2021
-"""
+"""Language codes."""
 
 
 SUFFIX: str = "UTF-8"

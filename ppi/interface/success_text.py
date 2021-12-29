@@ -1,8 +1,4 @@
-"""
-success_text.py: Program success text.
-Author: Niklas Larsson
-Date: October 1, 2021
-"""
+"""Program success text."""
 
 
 import colorama

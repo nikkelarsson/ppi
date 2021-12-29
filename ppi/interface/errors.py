@@ -1,8 +1,4 @@
-"""
-errors.py: Program errors.
-Author: Niklas Larsson
-Date: October 1, 2021
-"""
+"""Program errors."""
 
 
 from ppi.static import lang_codes

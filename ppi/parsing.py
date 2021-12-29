@@ -1,8 +1,4 @@
-"""
-parsing.py: Command line argument parsing.
-Author: Niklas Larsson
-Date: September 10, 2021
-"""
+"""Command line argument parsing."""
 
 
 import sys

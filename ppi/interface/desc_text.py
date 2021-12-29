@@ -1,8 +1,4 @@
-"""
-desc_text.py: Program description text.
-Author: Niklas Larsson
-Date: September 29, 2021
-"""
+"""Program description text."""
 
 
 from ppi.static import lang_codes

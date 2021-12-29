@@ -1,8 +1,4 @@
-"""
-exit_codes.py: Standard exit codes.
-Author: Niklas Larsson
-Date: November 19, 2021
-"""
+"""Exit codes."""
 
 
 ERROR: int = 1

@@ -40,3 +40,13 @@ uninstall:
 tests:
 	@echo "Running tests ..."
 	$(PYTHON_INTERPRETER) -m unittest -v
+
+.PHONY: build
+build:
+	@echo "Building distribution packages..."
+	$(PYTHON_INTERPRETER) -m build  # Builds both wheel and sdist packages
+
+.PHONY: clean
+clean:
+	@echo "Cleaning distribution packages..."
+	rm -rf dist/

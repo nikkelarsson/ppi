@@ -22,7 +22,7 @@
     - [x] "Source": "url/to/project"
     - [x] "Bug Reports": "url/to/project/issues"
 
-- [ ] If initializing project as a git -repo, create .gitignore to the root of
+- [x] If initializing project as a git -repo, create .gitignore to the root of
   the project. Check the following link (scroll to the bottom of the page) for
   what to write there: https://python-packaging.readthedocs.io/en/latest/everything.html
 
@@ -34,10 +34,10 @@
 
 - [ ] Implement a feature so that **ppi** generates a CHANGELOG file
 
-- [ ] When generating main.py, write __author__, __licence__, __version__,
+- [x] When generating main.py, write __author__, __licence__, __version__,
   __program__, __author_email__ etc. there
 
-- [ ] When generating main.py, write the "if __name__" block in such way that it
+- [x] When generating main.py, write the "if __name__" block in such way that it
   calls the main() straight away (I don't realize why I haven't done this yet)
 
 - [ ] When generating man pages, write more "simple" synopsis under the SYNOPSIS

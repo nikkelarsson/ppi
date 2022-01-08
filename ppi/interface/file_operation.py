@@ -48,44 +48,61 @@ class Makefile:
         """Create a Makefile."""
         with open("{}/Makefile".format(project), "w", encoding=ENC) as mf:
             # Makefile variables
-            mf.write(f"PROGRAM = {project}\n")
-            mf.write(f"MAN_PAGES_SRC = $(shell pwd)/docs/$(PROGRAM).1\n")
-            mf.write("MAN_PAGES_DST = /usr/local/man/man1/\n")
+            mf.write(f"PROG = {project}\n")
+            mf.write(f"DOCS = docs\n")
+            mf.write(f"PREFIX = $(HOME)/.local\n")
+            mf.write(f"MAN_SRC = $(shell pwd)/$(DOCS)/$(PROG).1\n")
+            mf.write("MAN_DST = $(PREFIX)/man/man1/\n")
             mf.write("PYTHON = python3\n")
+            mf.write("\n")
+
+            # Build -target
+            mf.write(".PHONY: build\n")
+            mf.write("build:\n")
+            mf.write("\t@echo \"Building distribution packages...\"\n")
+            mf.write("\trm -rf dist/\n")
+            mf.write("\t$(PYTHON) -m build\n")
+            mf.write("\n")
+
+            # Clean -target
+            mf.write(".PHONY: clean\n")
+            mf.write("clean:\n")
+            mf.write("\t@echo \"Cleaning distribution packages...\"\n")
+            mf.write("\trm -rf dist/\n")
+            mf.write("\n")
+
+            # Man -target
+            mf.write(".PHONY: man\n")
+            mf.write("man:\n")
+            mf.write("\tpandoc $(DOCS)/$(PROG).1.md -s -t man -o $(DOCS)/$(PROG).1\n")
             mf.write("\n")
 
             # Install -target
             mf.write(".PHONY: install\n")
-            mf.write("\t@echo \"Installing $(PROGAM) ...\"\n")
+            mf.write("\t@echo \"Installing $(PROG)...\"\n")
+            mf.write("\t$(PYTHON) -m pip uninstall -qq --yes $(PROG)\n")
             mf.write("\t$(PYTHON) -m pip install -qq .\n")
-            mf.write("\t@echo \"Installing man pages ...\"\n")
-            mf.write("\tmkdir -p $(MAN_PAGES_DST)\n")
-            mf.write("\tcp -f $(MAN_PAGES_SRC) $(MAN_PAGES_DST)\n")
             mf.write("\t@echo \"Install successful.\"\n")
             mf.write("\n")
 
             # Install-editable -target
             mf.write(".PHONY: install-editable\n")
-            mf.write("\t@echo \"Installing $(PROGAM) ...\"\n")
+            mf.write("\t@echo \"Installing $(PROG)...\"\n")
+            mf.write("\t$(PYTHON) -m pip uninstall -qq --yes $(PROG)\n")
             mf.write("\t$(PYTHON) -m pip install -qq -e .\n")
-            mf.write("\t@echo \"Installing man pages ...\"\n")
-            mf.write("\tmkdir -p $(MAN_PAGES_DST)\n")
-            mf.write("\tcp -f $(MAN_PAGES_SRC) $(MAN_PAGES_DST)\n")
             mf.write("\t@echo \"Install successful.\"\n")
             mf.write("\n")
 
             # Uninstall -target
             mf.write(".PHONY: uninstall\n")
-            mf.write("\t@echo \"Uninstalling $(PROGAM) ...\"\n")
-            mf.write("\t$(PYTHON) -m pip uninstall -qq --yes $(PROGRAM)\n")
-            mf.write("\t@echo \"Uninstalling man pages ...\"\n")
-            mf.write("\trm -f $(MAN_PAGES_DST)$(PROGRAM).1\n")
-            mf.write("\t@echo \"Everything uninstalled.\"\n")
+            mf.write("\t@echo \"Uninstalling $(PROG)...\"\n")
+            mf.write("\t$(PYTHON) -m pip uninstall -qq --yes $(PROG)\n")
+            mf.write("\t@echo \"Uninstall successful.\"\n")
             mf.write("\n")
 
             # Tests -target
             mf.write(".PHONY: tests\n")
-            mf.write("\t@echo \"Running tests ...\"\n")
+            mf.write("\t@echo \"Running tests...\"\n")
             mf.write("\t$(PYTHON) -m unittest -v")
 
 
@@ -268,10 +285,12 @@ def makemain(name: str) -> None:
 def create(lang: str, program: str, prname: str) -> None:
     """Create everything."""
     manpage_h: object = ManPages()  # Man-page handler.
+    makefile_h: object = Makefile()  # Makefile handler
 
     makedir(lang, program, prname)
 
     # Stuff to create inside the "root" dir.
+    makefile_h.create(prname)
     manpage_h.makedocsdir(prname)
     manpage_h.makemanpages(prname)
     makereadme(prname)

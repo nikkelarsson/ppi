@@ -7,20 +7,20 @@
   **ppi** as the "new" project and come up with a name that's not already
   reserved, I don't know...)
 
-- [ ] When writing setup.py, write the following there (in addition):
-  - [ ] A function that returns README's contents to long_description
-  - [ ] long_description - An empty string can be written (user can fill it manually)
-  - [ ] long_description_content_type - Can be "text/markdown"
-  - [ ] author_email - An empty string can be written (user can fill it manually)
-  - [ ] classifiers - Should be a list. (User can fill it manually)
-  - [ ] py_modules - Can be left empty (user can fill it manually, if needed)
-  - [ ] python_requires - Can be left as an empty string (user can fill it, if needed)
-  - [ ] install_requires - Can be left as an empty list (user can fill it, if needed)
-  - [ ] data_files - It should be a list and look like [(dir, [file1, file2])],
+- [x] When writing setup.py, write the following there (in addition):
+  - [x] A function that returns README's contents to long_description
+  - [x] long_description - An empty string can be written (user can fill it manually)
+  - [x] long_description_content_type - Can be "text/markdown"
+  - [x] author_email - An empty string can be written (user can fill it manually)
+  - [x] classifiers - Should be a list. (User can fill it manually)
+  - [x] py_modules - Can be left empty (user can fill it manually, if needed)
+  - [x] python_requires - Can be left as an empty string (user can fill it, if needed)
+  - [x] install_requires - Can be left as an empty list (user can fill it, if needed)
+  - [x] data_files - It should be a list and look like [(dir, [file1, file2])],
     where 'dir' is where to install the additional files 'file1' and 'file2'
-  - [ ] project_urls - It should be a dict and contain perhaps the following fields:
-    - [ ] "Source": "url/to/project"
-    - [ ] "Bug Reports": "url/to/project/issues"
+  - [x] project_urls - It should be a dict and contain perhaps the following fields:
+    - [x] "Source": "url/to/project"
+    - [x] "Bug Reports": "url/to/project/issues"
 
 - [ ] If initializing project as a git -repo, create .gitignore to the root of
   the project. Check the following link (scroll to the bottom of the page) for

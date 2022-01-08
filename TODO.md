@@ -26,13 +26,13 @@
   the project. Check the following link (scroll to the bottom of the page) for
   what to write there: https://python-packaging.readthedocs.io/en/latest/everything.html
 
-- [ ] Implement a feature that would enable **ppi** to create a Makefile during
+- [x] Implement a feature that would enable **ppi** to create a Makefile during
   the initialization. The following targets could be written to the Makefile:
   - [x] build - for building sdists and wheels
   - [x] clean - for deleting/cleaning the sdists etc. (build target could do this also?)
   - [x] man - for generating man pages using **pandoc**
 
-- [ ] Implement a feature so that **ppi** generates a CHANGELOG file
+- [x] Implement a feature so that **ppi** generates a CHANGELOG file
 
 - [x] When generating main.py, write __author__, __licence__, __version__,
   __program__, __author_email__ etc. there

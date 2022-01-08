@@ -244,6 +244,14 @@ def makechangelog(name: str) -> None:
         changelog.write("### Added\n")
 
 
+def makemanifest(name: str) -> None:
+    """Creates a MANIFEST.in -file."""
+    with open("{}/MANIFEST.in".format(name), "w", encoding=ENC) as manifest:
+        manifest.write("include LICENCE.txt\n")
+        manifest.write("graft docs*/\n")
+        manifest.write("graft tests*/\n")
+
+
 def makereadme(name: str) -> None:
     """Create a README -file."""
     with open("{}/README.md".format(name), "w", encoding=ENC) as readme:
@@ -294,6 +302,7 @@ def create(lang: str, program: str, prname: str) -> None:
     manpage_h.makedocsdir(prname)
     manpage_h.makemanpages(prname)
     makechangelog(prname)
+    makemanifest(prname)
     makereadme(prname)
     makesetup(prname)
 

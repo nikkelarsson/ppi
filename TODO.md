@@ -40,21 +40,21 @@
 - [x] When generating main.py, write the "if __name__" block in such way that it
   calls the main() straight away (I don't realize why I haven't done this yet)
 
-- [ ] When generating man pages, write more "simple" synopsis under the SYNOPSIS
+- [x] When generating man pages, write more "simple" synopsis under the SYNOPSIS
   section
 
-- [ ] When generating man pages, don't write the author name at the top of the
+- [x] When generating man pages, don't write the author name at the top of the
   file (author's name could be given on the command line, instead. This would
   however require that feature to be implemented first)
 
-- [ ] When generating man pages, don't end the NAME section's description with a
+- [x] When generating man pages, don't end the NAME section's description with a
   period
-
-- [ ] Utilize Github's / Gitea's API (or both)
 
 - [ ] When generating man pages, write AUTHOR section there (this is actually
   done already by **pandoc**. However, if the man-pages ought to be created
   without using **pandoc**, then this would be relevant)
+
+- [ ] Utilize Github's / Gitea's API (or both)
 
 ## Refactoring
 

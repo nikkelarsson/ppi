@@ -230,6 +230,15 @@ def makeinit(name: str) -> None:
         initfile.write("")  # Just "touch" the file.
 
 
+def makechangelog(name: str) -> None:
+    """Creates a CHANGELOG.md."""
+    with open("{}/CHANGELOG.md".format(name), "w", encoding="utf-8") as changelog:
+        changelog.write("# Changelog\n")
+        changelog.write("\n")
+        changelog.write("## [unreleased](link-to-release) -- month day year\n")
+        changelog.write("### Added\n")
+
+
 def makereadme(name: str) -> None:
     """Create a README -file."""
     with open("{}/README.md".format(name), "w", encoding=ENC) as readme:
@@ -293,6 +302,7 @@ def create(lang: str, program: str, prname: str) -> None:
     makefile_h.create(prname)
     manpage_h.makedocsdir(prname)
     manpage_h.makemanpages(prname)
+    makechangelog(prname)
     makereadme(prname)
     makesetup(prname)
 

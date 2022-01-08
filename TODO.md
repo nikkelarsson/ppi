@@ -28,9 +28,9 @@
 
 - [ ] Implement a feature that would enable **ppi** to create a Makefile during
   the initialization. The following targets could be written to the Makefile:
-  - [ ] build - for building sdists and wheels
-  - [ ] clean - for deleting/cleaning the sdists etc. (build target could do this also?)
-  - [ ] man - for generating man pages using **pandoc**
+  - [x] build - for building sdists and wheels
+  - [x] clean - for deleting/cleaning the sdists etc. (build target could do this also?)
+  - [x] man - for generating man pages using **pandoc**
 
 - [ ] Implement a feature so that **ppi** generates a CHANGELOG file
 

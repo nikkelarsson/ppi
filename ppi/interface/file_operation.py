@@ -259,23 +259,9 @@ def makereadme(name: str) -> None:
 
 
 def makemain(name: str) -> None:
-    """Create main.py -file."""
-    # Get author's name from git's configuration, if it has been set there.
-    _author: str = sb.run(
-        ["git", "config", "--get", "user.name"],
-        capture_output=True,
-        text=True
-    ).stdout.replace("\n", "")
-
-    if not _author:
-        _author = "<Your name here>"
-
+    """Creates main.py."""
     with open("{0}/{0}/main.py".format(name), "w", encoding=ENC) as main:
-        main.write("\"\"\"\n")
-        main.write("main.py\n")
-        main.write("Author: {}\n".format(_author))
-        main.write("Date: {}\n".format(dt.datetime.now().strftime("%B %-d, %Y")))
-        main.write("\"\"\"\n")
+        main.write("\"\"\"Short description of what this program does\"\"\"\n")
         main.write("\n")
         main.write("\n")
         main.write("__author__: str = \"\"\n")

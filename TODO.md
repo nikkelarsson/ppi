@@ -1,37 +1,62 @@
 # To Do
 
 ## Features / changes / updates / improvements etc. to the current ones
-- [x] Implement "-h" and "--help" -flags.
-- [x] Implement "-V" and "--version" -flags.
-- [x] Implement functionality that would make **ppi** create man-pages, as well.
-- [x] Make the success message bold etc.
-- [x] Generate version in format X.X.X in setup.py, instead of the current X.X
+### NOTE: these todos are sorted from "more important" to "less important"
+- [ ] Put **ppi** to the PyPI. The name **ppi** is actually taken there already,
+  so the name needs to be changed to something else. (Maybe create a fork off of
+  **ppi** as the "new" project and come up with a name that's not already
+  reserved, I don't know...)
+
+- [ ] When writing setup.py, write the following there (in addition):
+  - [ ] A function that returns README's contents to long_description
+  - [ ] long_description - An empty string can be written (user can fill it manually)
+  - [ ] long_description_content_type - Can be "text/markdown"
+  - [ ] author_email - An empty string can be written (user can fill it manually)
+  - [ ] classifiers - Should be a list. (User can fill it manually)
+  - [ ] py_modules - Can be left empty (user can fill it manually, if needed)
+  - [ ] python_requires - Can be left as an empty string (user can fill it, if needed)
+  - [ ] install_requires - Can be left as an empty list (user can fill it, if needed)
+  - [ ] data_files - It should be a list and look like [(dir, [file1, file2])],
+    where 'dir' is where to install the additional files 'file1' and 'file2'
+  - [ ] project_urls - It should be a dict and contain perhaps the following fields:
+    - [ ] "Source": "url/to/project"
+    - [ ] "Bug Reports": "url/to/project/issues"
+
+- [ ] If initializing project as a git -repo, create .gitignore to the root of
+  the project. Check the following link (scroll to the bottom of the page) for
+  what to write there: https://python-packaging.readthedocs.io/en/latest/everything.html
+
 - [ ] Implement a feature that would enable **ppi** to create a Makefile during
-  the initialization.
-- [ ] Utilize Github's / Gitea's API (or both).
-- [ ] Implement a feature that would enable creating CHANGELOG file.
-- [ ] When generating main.py, write version there too
+  the initialization. The following targets could be written to the Makefile:
+  - [ ] build - for building sdists and wheels
+  - [ ] clean - for deleting/cleaning the sdists etc. (build target could do this also?)
+  - [ ] man - for generating man pages using **pandoc**
+
+- [ ] Implement a feature so that **ppi** generates a CHANGELOG file
+
 - [ ] When generating main.py, write __author__, __licence__, __version__,
   __program__, __author_email__ etc. there
+
 - [ ] When generating main.py, write the "if __name__" block in such way that it
   calls the main() straight away (I don't realize why I haven't done this yet)
-- [ ] When generating the "main" script or file of the program, generate a
-  hashbang line at the top of that file
-- [ ] When generating man pages, write AUTHOR section there
+
 - [ ] When generating man pages, write more "simple" synopsis under the SYNOPSIS
   section
+
 - [ ] When generating man pages, don't write the author name at the top of the
   file (author's name could be given on the command line, instead. This would
   however require that feature to be implemented first)
+
 - [ ] When generating man pages, don't end the NAME section's description with a
   period
-- [ ] If initializing project as git git -repo, create .gitignore to the root
+
+- [ ] Utilize Github's / Gitea's API (or both)
+
+- [ ] When generating man pages, write AUTHOR section there (this is actually
+  done already by **pandoc**. However, if the man-pages ought to be created
+  without using **pandoc**, then this would be relevant)
 
 ## Refactoring
-- [x] Update docs
-- [x] Reformat all the module docstrings -> only show module description in the
-  docstring
 
 ## Other stuff
-- [x] Add CHANGELOG
 - [ ] Attach a licence

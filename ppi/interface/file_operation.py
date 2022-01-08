@@ -28,17 +28,22 @@ class ManPages:
         """Create basic man-pages skeleton."""
         with open("{0}/docs/{0}.1.md".format(projectname), "w", encoding=ENC) as manp:
             manp.write("% {0}(1) {1} 0.1  \n".format(projectname.upper(), projectname))
-            manp.write("% Author's name here  \n")
-            manp.write("% {0} {1}  \n\n".format(self.month, self.year))
+            manp.write("% Author's name  \n")
+            manp.write("% {0} {1}  \n".format(self.month, self.year))
+            manp.write("\n")
             manp.write("# NAME  \n")
-            manp.write("{0} -- Short description of the program.  \n\n".format(projectname))
+            manp.write("{0} -- Short, one-line description of the program  \n".format(projectname))
+            manp.write("\n")
             manp.write("# SYNOPSIS  \n")
-            manp.write("**{0}** \[*OPT\_SHORT* | *OPT\_LONG*\]  \n\n".format(projectname))
+            manp.write("**{0}**  \n".format(projectname))
+            manp.write("\n")
             manp.write("# DESCRIPTION  \n")
-            manp.write("More detailed description of the program.  \n\n")
+            manp.write("Longer, detailed description of the program  \n")
+            manp.write("\n")
             manp.write("# OPTIONS  \n")
-            manp.write("**OPT\_SHORT** | **OPT\_LONG**  \n")
-            manp.write(": Description about flag(s).  \n")
+            manp.write("All the options of the program, in the following format:\n")
+            manp.write("**short-option**, **long-option**\n")
+            manp.write(": Short description of what the option(s) do\n")
 
 
 class Makefile:

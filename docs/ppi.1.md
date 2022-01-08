@@ -3,7 +3,7 @@
 % September 2021  
 
 # NAME
-ppi – Python project initializer.
+ppi – Python project initializer
 
 # SYNOPSIS
 **ppi** \[*–i* | *––git–init*\] \[*–q* | *––quiet*\] \<*name*\>\

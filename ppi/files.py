@@ -1,24 +1,21 @@
-"""Functions etc. that handle creating the files."""
+"""Functions etc. that generate the project files."""
 
 
-import datetime as dt
+import datetime
 import os
 import sys
-import subprocess as sb
 
-from ppi.interface import errors
-from ppi.static import exit_codes
-
-
-ENC: str = "utf-8"
+from ppi import errors
+from ppi import constants
 
 
 class ManPages:
     """Class that handles the creation of man-pages."""
 
     def __init__(self) -> None:
-        self.month: str = dt.datetime.now().strftime("%b")
-        self.year: str = dt.datetime.now().strftime("%Y")
+        self.month: str = datetime.datetime.now().strftime("%b")
+        self.year: str = datetime.datetime.now().strftime("%Y")
+        self.encoding: str = constants.ENCODING
 
     def makedocsdir(self, projectname: str) -> None:
         """Create dir for docs like man-pages."""
@@ -26,7 +23,7 @@ class ManPages:
 
     def makemanpages(self, projectname: str) -> None:
         """Create basic man-pages skeleton."""
-        with open("{0}/docs/{0}.1.md".format(projectname), "w", encoding=ENC) as manp:
+        with open("{0}/docs/{0}.1.md".format(projectname), "w", encoding=self.encoding) as manp:
             manp.write("% {0}(1) {1} 0.1  \n".format(projectname.upper(), projectname))
             manp.write("% Author's name  \n")
             manp.write("% {0} {1}  \n".format(self.month, self.year))
@@ -51,7 +48,7 @@ class Makefile:
 
     def create(self, project: str) -> None:
         """Create a Makefile."""
-        with open("{}/Makefile".format(project), "w", encoding=ENC) as mf:
+        with open("{}/Makefile".format(project), "w", encoding=self.encoding) as mf:
             # Makefile variables
             mf.write(f"PROG = {project}\n")
             mf.write(f"DOCS = docs\n")
@@ -121,7 +118,7 @@ def makedir(lang: str, program: str, name: str) -> None:
 
 def makesetup(name: str) -> None:
     """Create setup.py -file."""
-    with open("{}/setup.py".format(name), "w", encoding=ENC) as setup_py:
+    with open("{}/setup.py".format(name), "w", encoding=self.encoding) as setup_py:
         script: str = "{0}={0}.main:main".format(name)
 
         setup_py.write("from setuptools import setup\n")
@@ -231,13 +228,13 @@ def makesetup(name: str) -> None:
 
 def makeinit(name: str) -> None:
     """Create __init__.py file to the sourcecode dir."""
-    with open("{0}/{0}/__init__.py".format(name), "w", encoding=ENC) as initfile:
+    with open("{0}/{0}/__init__.py".format(name), "w", encoding=self.encoding) as initfile:
         initfile.write("")  # Just "touch" the file.
 
 
 def makechangelog(name: str) -> None:
     """Creates a CHANGELOG.md."""
-    with open("{}/CHANGELOG.md".format(name), "w", encoding="utf-8") as changelog:
+    with open("{}/CHANGELOG.md".format(name), "w", encoding=self.encoding) as changelog:
         changelog.write("# Changelog\n")
         changelog.write("\n")
         changelog.write("## [unreleased](link-to-release) -- month day year\n")
@@ -246,7 +243,7 @@ def makechangelog(name: str) -> None:
 
 def makemanifest(name: str) -> None:
     """Creates a MANIFEST.in -file."""
-    with open("{}/MANIFEST.in".format(name), "w", encoding=ENC) as manifest:
+    with open("{}/MANIFEST.in".format(name), "w", encoding=self.encoding) as manifest:
         manifest.write("include LICENCE.txt\n")
         manifest.write("graft docs*/\n")
         manifest.write("graft tests*/\n")
@@ -254,7 +251,7 @@ def makemanifest(name: str) -> None:
 
 def makereadme(name: str) -> None:
     """Create a README -file."""
-    with open("{}/README.md".format(name), "w", encoding=ENC) as readme:
+    with open("{}/README.md".format(name), "w", encoding=self.encoding) as readme:
         readme.write("# About  \n")
         readme.write("Something about the program ...  \n\n")
 
@@ -268,7 +265,7 @@ def makereadme(name: str) -> None:
 
 def makemain(name: str) -> None:
     """Creates main.py."""
-    with open("{0}/{0}/main.py".format(name), "w", encoding=ENC) as main:
+    with open("{0}/{0}/main.py".format(name), "w", encoding=self.encoding) as main:
         main.write("\"\"\"Short description of what this program does\"\"\"\n")
         main.write("\n")
         main.write("\n")

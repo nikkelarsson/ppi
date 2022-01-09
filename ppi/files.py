@@ -1,6 +1,5 @@
 """Functions etc. that generate the project files."""
 
-
 import datetime
 import os
 import sys

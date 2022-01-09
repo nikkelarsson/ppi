@@ -1,6 +1,5 @@
 """Program errors."""
 
-
 from ppi.static import lang_codes
 
 

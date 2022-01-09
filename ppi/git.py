@@ -1,6 +1,5 @@
 """Git-specific routines etc."""
 
-
 import subprocess
 
 

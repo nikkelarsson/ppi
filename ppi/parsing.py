@@ -1,6 +1,5 @@
 """Command line argument parsing."""
 
-
 import sys
 
 from ppi import constants

@@ -5,7 +5,7 @@ import sys
 from ppi import constants
 
 
-def helptxt(name: str, lang: str) -> None:
+def hlp(name: str, lang: str) -> None:
     if lang == constants.LANG_CODES["FINNISH"]:
         print("\nValitsimet:")
         print("-q,  --quiet...... Älä tulosta mitään stdout:iin.")
@@ -21,14 +21,14 @@ def helptxt(name: str, lang: str) -> None:
         print("-V,  --version.... Print {} version.".format(name))
 
 
-def desctxt(name: str, version: str, lang: str) -> None:
+def desc(name: str, version: str, lang: str) -> None:
     if lang == lang_codes.LANGCODES["FINNISH"]:
         print("{} {}, python projektien alustaja.".format(name, version))
     if lang.startswith("en_") or lang is None:
         print("{} {}, python project initializer.".format(name, version))
 
 
-def successtxt(lang: str, program: str, prname: str) -> None:
+def succ(lang: str, program: str, prname: str) -> None:
     """Indicate a successful initalization by printing informative message."""
     colorama.init(autoreset=True)
 
@@ -49,7 +49,7 @@ def successtxt(lang: str, program: str, prname: str) -> None:
     colorama.deinit()
 
 
-def usagetxt(name: str, version: str, lang: str) -> None:
+def usg(name: str, version: str, lang: str) -> None:
     if lang == lang_codes.LANGCODES["FINNISH"]:
         print("Käyttö: {} [valitsimet] <nimi>".format(name))
     if lang.startswith("en_") or lang is None:

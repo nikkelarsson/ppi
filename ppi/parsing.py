@@ -109,8 +109,8 @@ class ArgParser:
 
     def _check_if_args(self) -> None:
         if len(self.args) == 1:
-            texts.desctxt(self.name, self.version, self.lang)
-            texts.usagetxt(self.name, self.version, self.lang)
+            texts.desc(self.name, self.version, self.lang)
+            texts.usg(self.name, self.version, self.lang)
             sys.exit(constants.EXIT_ERROR)
 
     def parse_args(self) -> None:
@@ -125,20 +125,20 @@ class ArgParser:
 
     def _exec_actions(self) -> None:
         if self.help_on:
-            texts.desctxt(self.name, self.version, self.lang)
-            texts.usagetxt(self.name, self.version, self.lang)
-            texts.helptxt(self.name, self.lang)
+            texts.desc(self.name, self.version, self.lang)
+            texts.usg(self.name, self.version, self.lang)
+            texts.hlp(self.name, self.lang)
             sys.exit(constants.EXIT_SUCCESS)
         if self.version_on and not self.help_on:
-            texts.desctxt(self.name, self.version, self.lang)
+            texts.desc(self.name, self.version, self.lang)
             sys.exit(constants.EXIT_SUCCESS)
         if self.prname is not None:
             files.create(self.lang, self.name, self.prname)
             if self.ghrepo_on:
                 git.git_init(self.prname)
             if not self.quiet_on:
-                texts.successtxt(self.lang, self.name, self.prname)
+                texts.succ(self.lang, self.name, self.prname)
             sys.exit(constants.EXIT_SUCCESS)
         else:
-            texts.desctxt(self.name, self.version, self.lang)
-            texts.usagetxt(self.name, self.version, self.lang)
+            texts.desc(self.name, self.version, self.lang)
+            texts.usg(self.name, self.version, self.lang)

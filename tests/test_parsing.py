@@ -4,6 +4,7 @@ from ppi import parsing
 
 class ParsingTestCase(unittest.TestCase):
     """Tests for the ArgParser -class."""
+
     def setUp(self) -> None:
         """Set up some values for testing."""
         self.args_inp: list = ["test", "-h", "--test", "---invalid", "-V"]

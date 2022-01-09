@@ -22,7 +22,7 @@ def hlp(name: str, lang: str) -> None:
 
 
 def desc(name: str, version: str, lang: str) -> None:
-    if lang == lang_codes.LANGCODES["FINNISH"]:
+    if lang == constants.LANG_CODES["FINNISH"]:
         print("{} {}, python projektien alustaja.".format(name, version))
     if lang.startswith("en_") or lang is None:
         print("{} {}, python project initializer.".format(name, version))
@@ -32,7 +32,7 @@ def succ(lang: str, program: str, prname: str) -> None:
     """Indicate a successful initalization by printing informative message."""
     colorama.init(autoreset=True)
 
-    if lang == lang_codes.LANGCODES["FINNISH"]:
+    if lang == constants.LANG_CODES["FINNISH"]:
         print("".join([
             colorama.Fore.YELLOW,
             colorama.Style.BRIGHT,
@@ -50,7 +50,7 @@ def succ(lang: str, program: str, prname: str) -> None:
 
 
 def usg(name: str, version: str, lang: str) -> None:
-    if lang == lang_codes.LANGCODES["FINNISH"]:
+    if lang == constants.LANG_CODES["FINNISH"]:
         print("Käyttö: {} [valitsimet] <nimi>".format(name))
     if lang.startswith("en_") or lang is None:
         print("Usage: {} [options] <name>".format(name))

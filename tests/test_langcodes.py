@@ -1,11 +1,13 @@
 import unittest
-from ppi.static import lang_codes
+from ppi import constants
 
 
 class LangcodesTestCase(unittest.TestCase):
+    """Tests regarding language codes."""
+
     def test_integrity(self) -> None:
         """Test langcodes correctness."""
-        for key, value in lang_codes.LANGCODES.items():
+        for key, value in constants.LANG_CODES.items():
             self.assertTrue(value.endswith(".UTF-8"), f"{value}: invalid suffix.")
 
 

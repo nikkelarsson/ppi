@@ -1,9 +1,7 @@
 """Simple utility for starting new Python projects quickly."""
 
-
 import os
 import sys
-
 from ppi import parsing
 
 

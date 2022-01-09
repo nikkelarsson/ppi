@@ -268,6 +268,7 @@ def makemain(name: str) -> None:
         main.write("\"\"\"Short description of what this program does\"\"\"\n")
         main.write("\n")
         main.write("\n")
+        main.write("__program__: str = \"\"\n")
         main.write("__author__: str = \"\"\n")
         main.write("__copyright__: str = \"\"\n")
         main.write("__credits__: list = []\n")

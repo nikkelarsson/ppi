@@ -2,11 +2,11 @@
 
 import colorama
 import sys
-from ppi.static import lang_codes
+from ppi import constants
 
 
 def helptxt(name: str, lang: str) -> None:
-    if lang == lang_codes.LANGCODES["FINNISH"]:
+    if lang == constants.LANG_CODES["FINNISH"]:
         print("\nValitsimet:")
         print("-q,  --quiet...... Älä tulosta mitään stdout:iin.")
         print("-i,  --git-init... Alusta projekti git-repona.")

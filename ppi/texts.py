@@ -1,56 +1,140 @@
 """Help and info texts etc."""
 
+import abc
 import colorama
 import sys
 from ppi import constants
 
 
-def hlp(name: str, lang: str) -> None:
-    if lang == constants.LANG_CODES["FINNISH"]:
-        print("\nValitsimet:")
-        print("-q,  --quiet...... Älä tulosta mitään stdout:iin.")
-        print("-i,  --git-init... Alusta projekti git-repona.")
-        print("-h,  --help....... Tulosta tämä viesti.")
-        print("-V,  --version.... Tulosta {} versio.".format(name))
+class Text(abc.ABC):
+    """Base class for all the subclasses."""
 
-    if lang.startswith("en_") or lang is None:
-        print("\nOptions:")
-        print("-q,  --quiet...... Don't print anything to stdout.")
-        print("-i,  --git-init... Initialize project as git-repo.")
-        print("-h,  --help....... Print this message.")
-        print("-V,  --version.... Print {} version.".format(name))
+    @abc.abstractmethod
+    def display(self, program: str, language: str) -> None:
+        """
+        Method prototype for displaying text.
 
-
-def desc(name: str, version: str, lang: str) -> None:
-    if lang == constants.LANG_CODES["FINNISH"]:
-        print("{} {}, python projektien alustaja.".format(name, version))
-    if lang.startswith("en_") or lang is None:
-        print("{} {}, python project initializer.".format(name, version))
+        Parameters:
+            program... Program's name which some fields need in the text output.
+            language.. Language in which to display text.
+        """
+        pass
 
 
-def succ(lang: str, program: str, prname: str) -> None:
-    """Indicate a successful initalization by printing informative message."""
-    colorama.init(autoreset=True)
+class HelpText(Text):
+    """Help producer for producing the help text in various languages."""
 
-    if lang == constants.LANG_CODES["FINNISH"]:
-        print("".join([
-            colorama.Fore.YELLOW,
-            colorama.Style.BRIGHT,
-            f"{program}: \"{prname}\" luotu! ✨✨"
-            ]), file=sys.stderr)
+    def display(self, program: str, language: str) -> None:
+        """
+        Displays help text.
 
-    if lang.startswith("en_") or lang is None:
-        print("".join([
-            colorama.Fore.YELLOW,
-            colorama.Style.BRIGHT,
-            f"{program}: \"{prname}\" created! ✨✨"
-            ]), file=sys.stderr)
+        Parameters:
+            program... Program's name which some fields need in the text output.
+            language.. Language in which to display text.
+        """
+        if language == constants.LANG_CODES["FINNISH"]:
+            print()
+            print("Valitsimet:")
+            print("-q,  --quiet...... Älä tulosta mitään stdout:iin.")
+            print("-i,  --git-init... Alusta projekti git-repona.")
+            print("-h,  --help....... Tulosta tämä viesti.")
+            print(f"-V,  --version.... Tulosta {program} versio.")
+        else:
+            print()
+            print("Options:")
+            print("-q,  --quiet...... Don't print anything to stdout.")
+            print("-i,  --git-init... Initialize project as git-repo.")
+            print("-h,  --help....... Print this message.")
+            print(f"-V,  --version.... Print {program} version.")
 
-    colorama.deinit()
+
+class DescriptionText(Text):
+    """
+    Description text producer for producing the program
+    description text in various languages.
+    """
+
+    def __init__(self, version: str, stream: object=sys.stdout) -> None:
+        """Description text dependent values."""
+        self.version: str = version
+        self.stream: object = stream
+
+    def display(self, program: str, language: str) -> None:
+        """
+        Displays program description text.
+
+        Parameters:
+            program... Program's name to display in the description text.
+            language.. Language in which to display text.
+        """
+        if language == constants.LANG_CODES["FINNISH"]:
+            print(
+                f"{program} {self.version}, python projektien alustaja.",
+                file=self.stream
+            )
+
+        else:
+            print(
+                f"{program} {self.version}, python project initializer.",
+                file=self.stream
+            )
 
 
-def usg(name: str, version: str, lang: str) -> None:
-    if lang == constants.LANG_CODES["FINNISH"]:
-        print("Käyttö: {} [valitsimet] <nimi>".format(name))
-    if lang.startswith("en_") or lang is None:
-        print("Usage: {} [options] <name>".format(name))
+class UsageText(Text):
+    """
+    Usage text producer for producing the program usage
+    text in various languages.
+    """
+
+    def __init__(self, version: str, stream: object=sys.stdout) -> None:
+        """Usage text dependent values."""
+        self.version: str = version
+        self.stream: object = stream
+
+    def display(self, program: str, language: str) -> None:
+        """
+        Displays program usage text.
+
+        Parameters:
+            program... Program's name to display in the usage text.
+            language.. Language in which to display text.
+        """
+        if language == constants.LANG_CODES["FINNISH"]:
+            print(f"Käyttö: {program} [valitsimet] <nimi>", file=self.stream)
+        else:
+            print(f"Usage: {program} [options] <name>", file=self.stream)
+
+
+class SuccessText(Text):
+    """Success text producer for producing success text in various languages."""
+
+    def __init__(self, project: str, stream: object=sys.stdout) -> None:
+        """Success text dependent values."""
+        self.project: str = project
+        self.stream: object = stream
+
+    def display(self, program: str, language: str) -> None:
+        """
+        Displays program success text.
+
+        Parameters:
+            program... Program's name to display in the success text.
+            language.. Language in which to display text.
+        """
+        colorama.init(autoreset=True)
+
+        if language == constants.LANG_CODES["FINNISH"]:
+            print("".join([
+                colorama.Fore.YELLOW,
+                colorama.Style.BRIGHT,
+                f"{program}: \"{self.project}\" luotu! ✨✨"
+            ]), file=self.stream)
+
+        else:
+            print("".join([
+                colorama.Fore.YELLOW,
+                colorama.Style.BRIGHT,
+                f"{program}: \"{self.project}\" created! ✨✨"
+            ]), file=self.stream)
+
+        colorama.deinit()

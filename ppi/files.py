@@ -1,5 +1,6 @@
 """Functions etc. that generate the project files."""
 
+import abc
 import datetime
 import os
 import sys
@@ -8,301 +9,419 @@ from ppi import errors
 from ppi import constants
 
 
-class ManPages:
-    """Class that handles the creation of man-pages."""
+class Writer(abc.ABC):
+    """Base class for all the different writer classes."""
 
     def __init__(self) -> None:
-        self.month: str = datetime.datetime.now().strftime("%b")
-        self.year: str = datetime.datetime.now().strftime("%Y")
+        """Initial values."""
         self.encoding: str = constants.ENCODING
 
-    def makedocsdir(self, projectname: str) -> None:
-        """Create dir for docs like man-pages."""
-        os.makedirs("{0}/docs".format(projectname), exist_ok=True)
+    @abc.abstractmethod
+    def write(self, path: str) -> None:
+        """
+        Abstract method for writing files.
 
-    def makemanpages(self, projectname: str) -> None:
-        """Create basic man-pages skeleton."""
-        with open("{0}/docs/{0}.1.md".format(projectname), "w", encoding=self.encoding) as manp:
-            manp.write("% {0}(1) {1} 0.1  \n".format(projectname.upper(), projectname))
-            manp.write("% Author's name  \n")
-            manp.write("% {0} {1}  \n".format(self.month, self.year))
-            manp.write("\n")
-            manp.write("# NAME  \n")
-            manp.write("{0} -- Short, one-line description of the program  \n".format(projectname))
-            manp.write("\n")
-            manp.write("# SYNOPSIS  \n")
-            manp.write("**{0}**  \n".format(projectname))
-            manp.write("\n")
-            manp.write("# DESCRIPTION  \n")
-            manp.write("Longer, detailed description of the program  \n")
-            manp.write("\n")
-            manp.write("# OPTIONS  \n")
-            manp.write("All the options of the program, in the following format:\n")
-            manp.write("**short-option**, **long-option**\n")
-            manp.write(": Short description of what the option(s) do\n")
+        Parameters:
+            path....... Path where to write the file.
+        """
+        pass
+
+    def extract_filename(self, path: str) -> str:
+        """
+        Extracts filename from the end of a path like "path/to/filename".
+
+        If suffix is true, then extract filename from path
+        "path/to/filename.md" as "filename.md". Otherwise,
+        extract it as "filename".
+
+        Parameters:
+            path.... Path from which to extract the filename.
+            suffix.. Extract the filename with it's suffix.
+        """
+        return path.split("/")[0]
 
 
-class Makefile:
-    """Makefile related operations."""
+class DirectoryWriter(Writer):
+    """Writer for writing directories."""
 
-    def create(self, project: str) -> None:
-        """Create a Makefile."""
-        with open("{}/Makefile".format(project), "w", encoding=self.encoding) as mf:
+    def write(self, path: str) -> None:
+        """
+        Writes a directory.
+
+        Parameters:
+            path.... Path where to write the directory.
+        """
+        os.makedirs(path, exist_ok=True)
+
+
+# NOTE: This class is not ready to use!
+class EmptyFileWriter(Writer):
+    """
+    More of a general purpose writer.
+
+    For writing files that don't need to have anything written to them.
+    """
+
+    def __init__(self, filename: str) -> None:
+        """Initial values."""
+        self.filename: str = filename
+
+    def write(self, path: str) -> None:
+        """
+        Writes any kind of file.
+
+        Parameters:
+            path....... Path where to write the file.
+        """
+        with open(f"{self.filename}", "w", encoding=self.encoding) as f:
+            pass
+
+
+class MakefileWriter(Writer):
+    """Writer for writing Makefiles."""
+
+    def write(self, path: str) -> None:
+        """
+        Writes a Makefile.
+
+        Parameters:
+            path....... Path where to write the file.
+        """
+        with open(f"{path}", "w", encoding=self.encoding) as f:
             # Makefile variables
-            mf.write(f"PROG = {project}\n")
-            mf.write(f"DOCS = docs\n")
-            mf.write(f"PREFIX = $(HOME)/.local\n")
-            mf.write(f"MAN_SRC = $(shell pwd)/$(DOCS)/$(PROG).1\n")
-            mf.write("MAN_DST = $(PREFIX)/man/man1/\n")
-            mf.write("PYTHON = python3\n")
-            mf.write("\n")
+            f.write(f"PROG = {super().extract_filename(path)}\n")
+            f.write(f"DOCS = docs\n")
+            f.write("PREFIX = $(HOME)/.local\n")
+            f.write("MAN_SRC = $(shell pwd)/$(DOCS)/$(PROG).1\n")
+            f.write("MAN_DST = $(PREFIX)/man/man1/\n")
+            f.write("PYTHON = python3\n")
+            f.write("\n")
 
             # Build -target
-            mf.write(".PHONY: build\n")
-            mf.write("build:\n")
-            mf.write("\t@echo \"Building distribution packages...\"\n")
-            mf.write("\trm -rf dist/\n")
-            mf.write("\t$(PYTHON) -m build\n")
-            mf.write("\n")
+            f.write(".PHONY: build\n")
+            f.write("build:\n")
+            f.write("\t@echo \"Building distribution packages...\"\n")
+            f.write("\trm -rf dist/\n")
+            f.write("\t$(PYTHON) -m build\n")
+            f.write("\n")
 
             # Clean -target
-            mf.write(".PHONY: clean\n")
-            mf.write("clean:\n")
-            mf.write("\t@echo \"Cleaning distribution packages...\"\n")
-            mf.write("\trm -rf dist/\n")
-            mf.write("\n")
+            f.write(".PHONY: clean\n")
+            f.write("clean:\n")
+            f.write("\t@echo \"Cleaning distribution packages...\"\n")
+            f.write("\trm -rf dist/\n")
+            f.write("\n")
 
             # Man -target
-            mf.write(".PHONY: man\n")
-            mf.write("man:\n")
-            mf.write("\tpandoc $(DOCS)/$(PROG).1.md -s -t man -o $(DOCS)/$(PROG).1\n")
-            mf.write("\n")
+            f.write(".PHONY: man\n")
+            f.write("man:\n")
+            f.write("\tpandoc $(DOCS)/$(PROG).1.md -s -t man -o $(DOCS)/$(PROG).1\n")
+            f.write("\n")
 
             # Install -target
-            mf.write(".PHONY: install\n")
-            mf.write("\t@echo \"Installing $(PROG)...\"\n")
-            mf.write("\t$(PYTHON) -m pip uninstall -qq --yes $(PROG)\n")
-            mf.write("\t$(PYTHON) -m pip install -qq .\n")
-            mf.write("\t@echo \"Install successful.\"\n")
-            mf.write("\n")
+            f.write(".PHONY: install\n")
+            f.write("\t@echo \"Installing $(PROG)...\"\n")
+            f.write("\t$(PYTHON) -m pip uninstall -qq --yes $(PROG)\n")
+            f.write("\t$(PYTHON) -m pip install -qq .\n")
+            f.write("\t@echo \"Install successful.\"\n")
+            f.write("\n")
 
             # Install-editable -target
-            mf.write(".PHONY: install-editable\n")
-            mf.write("\t@echo \"Installing $(PROG)...\"\n")
-            mf.write("\t$(PYTHON) -m pip uninstall -qq --yes $(PROG)\n")
-            mf.write("\t$(PYTHON) -m pip install -qq -e .\n")
-            mf.write("\t@echo \"Install successful.\"\n")
-            mf.write("\n")
+            f.write(".PHONY: install-editable\n")
+            f.write("\t@echo \"Installing $(PROG)...\"\n")
+            f.write("\t$(PYTHON) -m pip uninstall -qq --yes $(PROG)\n")
+            f.write("\t$(PYTHON) -m pip install -qq -e .\n")
+            f.write("\t@echo \"Install successful.\"\n")
+            f.write("\n")
 
             # Uninstall -target
-            mf.write(".PHONY: uninstall\n")
-            mf.write("\t@echo \"Uninstalling $(PROG)...\"\n")
-            mf.write("\t$(PYTHON) -m pip uninstall -qq --yes $(PROG)\n")
-            mf.write("\t@echo \"Uninstall successful.\"\n")
-            mf.write("\n")
+            f.write(".PHONY: uninstall\n")
+            f.write("\t@echo \"Uninstalling $(PROG)...\"\n")
+            f.write("\t$(PYTHON) -m pip uninstall -qq --yes $(PROG)\n")
+            f.write("\t@echo \"Uninstall successful.\"\n")
+            f.write("\n")
 
             # Tests -target
-            mf.write(".PHONY: tests\n")
-            mf.write("\t@echo \"Running tests...\"\n")
-            mf.write("\t$(PYTHON) -m unittest -v")
+            f.write(".PHONY: tests\n")
+            f.write("\t@echo \"Running tests...\"\n")
+            f.write("\t$(PYTHON) -m unittest -v")
 
 
-def makedir(lang: str, program: str, name: str) -> None:
-    """Create dirs for a project and it's sourcecode."""
-    if os.path.exists(name):
-        errors.direxistserror(lang, program, name)
-        sys.exit(exit_codes.ERROR)
-    os.makedirs("{0}/{0}".format(name), exist_ok=True)
+class ManPageWriter(Writer):
+    """Writer for writing man-pages."""
+
+    def __init__(self) -> None:
+        """Initial values."""
+        super().__init__()
+        self.month: str = datetime.datetime.now().strftime("%b")
+        self.year: str = datetime.datetime.now().strftime("%Y")
+
+    def write(self, path: str) -> None:
+        """
+        Writes the man-pages.
+
+        Parameters:
+            path....... Path where to write the file.
+        """
+        projectname: str = super().extract_filename(path)
+        with open(f"{path}", "w", encoding=self.encoding) as f:
+            f.write(f"% {projectname.upper()}(1) {projectname} 0.1  \n")
+            f.write("% Author's name  \n")
+            f.write(f"% {self.month} {self.year}  \n")
+            f.write("\n")
+            f.write("# NAME  \n")
+            f.write(f"{projectname} -- Short, one-line description of the program  \n")
+            f.write("\n")
+            f.write("# SYNOPSIS  \n")
+            f.write(f"**{projectname}**  \n")
+            f.write("\n")
+            f.write("# DESCRIPTION  \n")
+            f.write("Longer, detailed description of the program  \n")
+            f.write("\n")
+            f.write("# OPTIONS  \n")
+            f.write("All the options of the program, in the following format:\n")
+            f.write("**short-option**, **long-option**\n")
+            f.write(": Short description of what the option(s) do\n")
 
 
-def makesetup(name: str) -> None:
-    """Create setup.py -file."""
-    with open("{}/setup.py".format(name), "w", encoding=self.encoding) as setup_py:
-        script: str = "{0}={0}.main:main".format(name)
+class SetupPyWriter(Writer):
+    """Writer for writing setup.py."""
 
-        setup_py.write("from setuptools import setup\n")
-        setup_py.write("\n")
-        setup_py.write("\n")
-        setup_py.write("def readme() -> str:\n")
-        setup_py.write("    \"\"\"Long description.\"\"\"\n")
-        setup_py.write("    with open(\"README.md\", \"r\", encoding=\"utf-8\") as f:\n")
-        setup_py.write("    return f.read()\n")
-        setup_py.write("\n")
-        setup_py.write("\n")
-        setup_py.write("setup(\n")
-        setup_py.write("    # Name of your project. When you publish this\n")
-        setup_py.write("    # package to PyPI, this name will be registered for you\n")
-        setup_py.write("    name=\"{}\",  # Required\n".format(name))
-        setup_py.write("\n")
-        setup_py.write("    # Version?\n")
-        setup_py.write("    version=\"0.0.1\",  # Required\n")
-        setup_py.write("\n")
-        setup_py.write("    # What does your project do?\n")
-        setup_py.write("    #description=\"\",  # Optional\n")
-        setup_py.write("\n")
-        setup_py.write("    # Longer description, that users will see when\n")
-        setup_py.write("    # they visit your project at PyPI\n")
-        setup_py.write("    #long_description=readme(),  # Optional\n")
-        setup_py.write("\n")
-        setup_py.write("    # Denotes that long description is in Markdown;\n")
-        setup_py.write("    # valid values are: text/plain, text/x-rst, text/markdown.\n")
-        setup_py.write("    # Optional if 'long_description' is written in rst, otherwise\n")
-        setup_py.write("    # required (for plain-text and Markdown)\n")
-        setup_py.write("    #long_description_content_type=\"text/markdown\",  # Optional\n")
-        setup_py.write("\n")
-        setup_py.write("    # Who owns this project?\n")
-        setup_py.write("    #author=\"\",  # Optional\n")
-        setup_py.write("\n")
-        setup_py.write("    # Project owner's email\n")
-        setup_py.write("    #author_email=\"\",  # Optional\n")
-        setup_py.write("\n")
-        setup_py.write("    # More info at: https://pypi.org/classifiers/\n")
-        setup_py.write("    classifiers=[  # Optional\n")
-        setup_py.write("        # How mature this project is? Common values are:\n")
-        setup_py.write("        #   3 - Alpha\n")
-        setup_py.write("        #   4 - Beta\n")
-        setup_py.write("        #   5 - Production/Stable\n")
-        setup_py.write("        #\"Development Status :: 3 - Alpha\",\n")
-        setup_py.write("\n")
-        setup_py.write("        # Who your project is intended for?\n")
-        setup_py.write("        # More info at: https://pypi.org/classifiers/\n")
-        setup_py.write("        #\"Intended Audience :: Developers\",\n")
-        setup_py.write("        #\"\",\n")
-        setup_py.write("\n")
-        setup_py.write("        # License?\n")
-        setup_py.write("        # More info at: https://pypi.org/classifiers/\n")
-        setup_py.write("        #\"\",\n")
-        setup_py.write("\n")
-        setup_py.write("        # Python versions? These aren't checked by 'pip install'\n")
-        setup_py.write("        # More info at: https://pypi.org/classifiers/\n")
-        setup_py.write("        #\"Programming Language :: Python :: 3\",\n")
-        setup_py.write("\n")
-        setup_py.write("    ],\n")
-        setup_py.write("\n")
-        setup_py.write("    # What does your project relate to?\n")
-        setup_py.write("    #keywords=\"\",  # Optional\n")
-        setup_py.write("\n")
-        setup_py.write("    # Does your project consist of only one or few python files?\n")
-        setup_py.write("    # If that's the case, use this.\n")
-        setup_py.write("    #py_modules=[\"\"],  # Required\n")
-        setup_py.write("\n")
-        setup_py.write("    # Is your project larger than just few files?\n")
-        setup_py.write("    # If that's the case, use this instead of 'py_modules'.\n")
-        setup_py.write("    packages=[\"{}\"],  # Required\n".format(name))
-        setup_py.write("\n")
-        setup_py.write("    # Which Python versions are supported?\n")
-        setup_py.write("    # e.g. 'pip install' will check this and refuse to install\n")
-        setup_py.write("    # the project if the version doesn't match\n")
-        setup_py.write("    #python_requires=\">=3.8\",  # Optional\n")
-        setup_py.write("\n")
-        setup_py.write("    # Any dependencies?\n")
-        setup_py.write("    #install_requires=[],  # Optional\n")
-        setup_py.write("\n")
-        setup_py.write("    # Need to install, for example, man-pages that your project has?\n")
-        setup_py.write("    #data_files=[(\"man/man1\", [\"docs/manpage.1\"])],  # Optional\n")
-        setup_py.write("\n")
-        setup_py.write("    # Any executable scripts?\n")
-        setup_py.write("    # For example, the following would provide a command\n")
-        setup_py.write("    # called '{}' which executes the function 'main' from\n".format(name))
-        setup_py.write("    # file 'main' from package '{}', when invoked:\n".format(name))
-        setup_py.write("    entry_points={  # Optional\n")
-        setup_py.write("        \"console_scripts\": [\n")
-        setup_py.write("            #\"{0}={0}.main:main\",\n".format(name))
-        setup_py.write("        ]\n")
-        setup_py.write("    },\n")
-        setup_py.write("\n")
-        setup_py.write("    # More info at: https://setuptools.pypa.io/en/latest/userguide/datafiles.html\n")
-        setup_py.write("    include_package_data=True,  # Optional\n")
-        setup_py.write("\n")
-        setup_py.write("    # More info at: https://setuptools.pypa.io/en/latest/userguide/miscellaneous.html\n")
-        setup_py.write("    zip_safe=False,  # Optional\n")
-        setup_py.write("\n")
-        setup_py.write("    # Additional URLs that are relevant to your project\n")
-        setup_py.write("    project_urls={  # Optional\n")
-        setup_py.write("        #\"Bug Reports\": \"https://github.com...\",\n")
-        setup_py.write("        #\"Source\": \"https://github.com...\"\n")
-        setup_py.write("    }\n")
-        setup_py.write(")\n")
+    def write(self, path: str) -> None:
+        """
+        Writes a setup.py file.
 
-
-def makeinit(name: str) -> None:
-    """Create __init__.py file to the sourcecode dir."""
-    with open("{0}/{0}/__init__.py".format(name), "w", encoding=self.encoding) as initfile:
-        initfile.write("")  # Just "touch" the file.
-
-
-def makechangelog(name: str) -> None:
-    """Creates a CHANGELOG.md."""
-    with open("{}/CHANGELOG.md".format(name), "w", encoding=self.encoding) as changelog:
-        changelog.write("# Changelog\n")
-        changelog.write("\n")
-        changelog.write("## [unreleased](link-to-release) -- month day year\n")
-        changelog.write("### Added\n")
+        Parameters:
+            path....... Path where to write the file.
+        """
+        projectname: str = self.extract_filename(path)
+        with open(f"{path}", "w", encoding=self.encoding) as f:
+            f.write("from setuptools import setup\n")
+            f.write("\n")
+            f.write("\n")
+            f.write("def readme() -> str:\n")
+            f.write("    \"\"\"Long description.\"\"\"\n")
+            f.write("    with open(\"README.md\", \"r\", encoding=\"utf-8\") as f:\n")
+            f.write("    return f.read()\n")
+            f.write("\n")
+            f.write("\n")
+            f.write("setup(\n")
+            f.write("    # Name of your project. When you publish this\n")
+            f.write("    # package to PyPI, this name will be registered for you\n")
+            f.write(f"    name=\"{projectname}\",  # Required\n")
+            f.write("\n")
+            f.write("    # Version?\n")
+            f.write("    version=\"0.0.1\",  # Required\n")
+            f.write("\n")
+            f.write("    # What does your project do?\n")
+            f.write("    #description=\"\",  # Optional\n")
+            f.write("\n")
+            f.write("    # Longer description, that users will see when\n")
+            f.write("    # they visit your project at PyPI\n")
+            f.write("    #long_description=readme(),  # Optional\n")
+            f.write("\n")
+            f.write("    # Denotes that long description is in Markdown;\n")
+            f.write("    # valid values are: text/plain, text/x-rst, text/markdown.\n")
+            f.write("    # Optional if 'long_description' is written in rst, otherwise\n")
+            f.write("    # required (for plain-text and Markdown)\n")
+            f.write("    #long_description_content_type=\"text/markdown\",  # Optional\n")
+            f.write("\n")
+            f.write("    # Who owns this project?\n")
+            f.write("    #author=\"\",  # Optional\n")
+            f.write("\n")
+            f.write("    # Project owner's email\n")
+            f.write("    #author_email=\"\",  # Optional\n")
+            f.write("\n")
+            f.write("    # More info at: https://pypi.org/classifiers/\n")
+            f.write("    classifiers=[  # Optional\n")
+            f.write("        # How mature this project is? Common values are:\n")
+            f.write("        #   3 - Alpha\n")
+            f.write("        #   4 - Beta\n")
+            f.write("        #   5 - Production/Stable\n")
+            f.write("        #\"Development Status :: 3 - Alpha\",\n")
+            f.write("\n")
+            f.write("        # Who your project is intended for?\n")
+            f.write("        # More info at: https://pypi.org/classifiers/\n")
+            f.write("        #\"Intended Audience :: Developers\",\n")
+            f.write("        #\"\",\n")
+            f.write("\n")
+            f.write("        # License?\n")
+            f.write("        # More info at: https://pypi.org/classifiers/\n")
+            f.write("        #\"\",\n")
+            f.write("\n")
+            f.write("        # Python versions? These aren't checked by 'pip install'\n")
+            f.write("        # More info at: https://pypi.org/classifiers/\n")
+            f.write("        #\"Programming Language :: Python :: 3\",\n")
+            f.write("\n")
+            f.write("    ],\n")
+            f.write("\n")
+            f.write("    # What does your project relate to?\n")
+            f.write("    #keywords=\"\",  # Optional\n")
+            f.write("\n")
+            f.write("    # Does your project consist of only one or few python files?\n")
+            f.write("    # If that's the case, use this.\n")
+            f.write("    #py_modules=[\"\"],  # Required\n")
+            f.write("\n")
+            f.write("    # Is your project larger than just few files?\n")
+            f.write("    # If that's the case, use this instead of 'py_modules'.\n")
+            f.write(f"    packages=[\"{projectname}\"],  # Required\n")
+            f.write("\n")
+            f.write("    # Which Python versions are supported?\n")
+            f.write("    # e.g. 'pip install' will check this and refuse to install\n")
+            f.write("    # the project if the version doesn't match\n")
+            f.write("    #python_requires=\">=3.8\",  # Optional\n")
+            f.write("\n")
+            f.write("    # Any dependencies?\n")
+            f.write("    #install_requires=[],  # Optional\n")
+            f.write("\n")
+            f.write("    # Need to install, for example, man-pages that your project has?\n")
+            f.write("    #data_files=[(\"man/man1\", [\"docs/manpage.1\"])],  # Optional\n")
+            f.write("\n")
+            f.write("    # Any executable scripts?\n")
+            f.write("    # For example, the following would provide a command\n")
+            f.write(f"    # called '{projectname}' which executes the function 'main' from\n")
+            f.write(f"    # file 'main' from package '{projectname}', when invoked:\n")
+            f.write("    entry_points={  # Optional\n")
+            f.write("        \"console_scripts\": [\n")
+            f.write(f"            #\"{projectname}={projectname}.main:main\",\n")
+            f.write("        ]\n")
+            f.write("    },\n")
+            f.write("\n")
+            f.write("    # More info at: https://setuptools.pypa.io/en/latest/userguide/datafiles.html\n")
+            f.write("    include_package_data=True,  # Optional\n")
+            f.write("\n")
+            f.write("    # More info at: https://setuptools.pypa.io/en/latest/userguide/miscellaneous.html\n")
+            f.write("    zip_safe=False,  # Optional\n")
+            f.write("\n")
+            f.write("    # Additional URLs that are relevant to your project\n")
+            f.write("    project_urls={  # Optional\n")
+            f.write("        #\"Bug Reports\": \"https://github.com...\",\n")
+            f.write("        #\"Source\": \"https://github.com...\"\n")
+            f.write("    }\n")
+            f.write(")\n")
 
 
-def makemanifest(name: str) -> None:
-    """Creates a MANIFEST.in -file."""
-    with open("{}/MANIFEST.in".format(name), "w", encoding=self.encoding) as manifest:
-        manifest.write("include LICENCE.txt\n")
-        manifest.write("graft docs*/\n")
-        manifest.write("graft tests*/\n")
+class DunderInitWriter(Writer):
+    """Class for writing __init__.py files."""
+
+    def write(self, path: str) -> None:
+        """
+        Writes __init__.py file.
+
+        Parameters:
+            path....... Path where to write the file.
+        """
+        with open(f"{path}", "w", encoding=self.encoding) as f:
+            f.write("")
 
 
-def makereadme(name: str) -> None:
-    """Create a README -file."""
-    with open("{}/README.md".format(name), "w", encoding=self.encoding) as readme:
-        readme.write("# About  \n")
-        readme.write("Something about the program ...  \n\n")
+class ChangelogWriter(Writer):
+    """Class for writing CHANGELOG.md files."""
 
-        readme.write("# Installation  \n")
-        readme.write("Instructions on how to install the program etc.  \n")
-        readme.write("Below you can specify the installation methods.  \n\n")
+    def write(self, path: str) -> None:
+        """
+        Writes a CHANGELOG.md file.
 
-        readme.write("``` bash  \n\n")
-        readme.write("```  \n")
-
-
-def makemain(name: str) -> None:
-    """Creates main.py."""
-    with open("{0}/{0}/main.py".format(name), "w", encoding=self.encoding) as main:
-        main.write("\"\"\"Short description of what this program does\"\"\"\n")
-        main.write("\n")
-        main.write("\n")
-        main.write("__program__: str = \"\"\n")
-        main.write("__author__: str = \"\"\n")
-        main.write("__copyright__: str = \"\"\n")
-        main.write("__credits__: list = []\n")
-        main.write("__license__: str = \"\"\n")
-        main.write("__version__: str = \"\"\n")
-        main.write("__maintainer__: str = \"\"\n")
-        main.write("__email__: str = \"\"\n")
-        main.write("__status__: str = \"\"\n")
-        main.write("\n")
-        main.write("\n")
-        main.write("def main() -> None:\n")
-        main.write("    pass\n")
-        main.write("\n")
-        main.write("\n")
-        main.write("if __name__ == \"__main__\":\n")
-        main.write("    main()\n")
+        Parameters:
+            path....... Path where to write the file.
+        """
+        with open(f"{path}", "w", encoding=self.encoding) as f:
+            f.write("# Changelog\n")
+            f.write("\n")
+            f.write("## [unreleased](link-to-release) -- month day year\n")
+            f.write("### Added\n")
 
 
-def create(lang: str, program: str, prname: str) -> None:
-    """Create everything."""
-    manpage_h: object = ManPages()  # Man-page handler.
-    makefile_h: object = Makefile()  # Makefile handler
+class ManifestWriter(Writer):
+    """Class for writing MANIFEST.in files."""
 
-    makedir(lang, program, prname)
+    def write(self, path: str) -> None:
+        """
+        Writes a MANIFEST.in file.
 
-    # Stuff to create inside the "root" dir.
-    makefile_h.create(prname)
-    manpage_h.makedocsdir(prname)
-    manpage_h.makemanpages(prname)
-    makechangelog(prname)
-    makemanifest(prname)
-    makereadme(prname)
-    makesetup(prname)
+        Parameters:
+            path....... Path where to write the file.
+        """
+        with open(f"{path}", "w", encoding=self.encoding) as f:
+            f.write("include LICENCE.txt\n")
+            f.write("graft docs*/\n")
+            f.write("graft tests*/\n")
 
-    # Stuff to create inside the "sourcecode" dir.
-    makeinit(prname)
-    makemain(prname)
+
+class ReadmeWriter(Writer):
+    """Class for writing README.md files."""
+
+    def write(self, path: str) -> None:
+        """
+        Writes a README.md file.
+
+        Parameters:
+            path....... Path where to write the file.
+        """
+        with open(f"{path}", "w", encoding=self.encoding) as f:
+            f.write("# About  \n")
+            f.write("\n")
+            f.write("# Installation  \n")
+            f.write("\n")
+            f.write("# Requirements  \n")
+            f.write("\n")
+
+
+class GitIgnoreWriter(Writer):
+    """Writer for writing .gitignore files."""
+
+    def write(self, path: str) -> None:
+        """
+        Writes .gitignore file.
+
+        Parameters:
+            path... Path where to write the file.
+        """
+        with open(f"{path}", "w", encoding=self.encoding) as f:
+            f.write("# Compiled Python modules\n")
+            f.write("*.pyc\n")
+            f.write("\n")
+            f.write("# Virtual environment\n")
+            f.write("venv/\n")
+            f.write("\n")
+            f.write("# Setuptools distribution folder\n")
+            f.write("dist/\n")
+            f.write("\n")
+            f.write("# Python egg metadata\n")
+            f.write("*.egg-info/\n")
+            f.write("*.egg\n")
+            f.write("*__pycache__/\n")
+
+
+class MainWriter(Writer):
+    """Writer for writing main.py files."""
+
+    def write(self, path: str) -> None:
+        """
+        Writes main.py file.
+
+        Parameters:
+            path....... Path where to write the file.
+        """
+        projectname: str = self.extract_filename(path)
+        with open(f"{path}", "w", encoding=self.encoding) as f:
+            f.write("\"\"\"Short description of what this program does\"\"\"\n")
+            f.write("\n")
+            f.write("\n")
+            f.write(f"__program__: str = \"{projectname}\"\n")
+            f.write("__author__: str = \"\"\n")
+            f.write("__copyright__: str = \"\"\n")
+            f.write("__credits__: list = []\n")
+            f.write("__license__: str = \"\"\n")
+            f.write("__version__: str = \"\"\n")
+            f.write("__maintainer__: str = \"\"\n")
+            f.write("__email__: str = \"\"\n")
+            f.write("__status__: str = \"\"\n")
+            f.write("\n")
+            f.write("\n")
+            f.write("def main() -> None:\n")
+            f.write("    pass\n")
+            f.write("\n")
+            f.write("\n")
+            f.write("if __name__ == \"__main__\":\n")
+            f.write("    main()\n")

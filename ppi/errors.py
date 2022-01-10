@@ -1,19 +1,53 @@
 """Program errors."""
 
+import abc
+import sys
 from ppi import constants
 
 
-def invargerror(lang: str, prname: str, arg: str) -> None:
-    """Print error displaying invalid argument `arg`."""
-    if lang == constants.LANG_CODES["FINNISH"]:
-        print("{}: virhe: virheellinen argumentti '{}'".format(prname, arg))
-    if lang.startswith("en_") or lang is None:
-        print("{}: error: invalid argument '{}'".format(prname, arg))
+class Error(abc.ABC):
+    """Base class for all the different error classes."""
+
+    @abc.abstractmethod
+    def throw_error(self, arg: str) -> None:
+        """
+        Abstract method for throwing errors.
+
+        Parameters:
+            arg.... The argument that is invalid.
+        """
+        pass
 
 
-def direxistserror(lang: str, program: str, arg: str) -> None:
-    """Print error when project folder already exists."""
-    if lang == constants.LANG_CODES["FINNISH"]:
-        print("{}: virhe: kansio '{}' on jo olemassa".format(program, arg))
-    if lang.startswith("en_") or lang is None:
-        print("{}: error: dir '{}' already exists".format(program, arg))
+class InvalidArgumentError(Error):
+    """Class for handling invalid argument errors."""
+
+    def __init__(self, program: str, language: str) -> None:
+        """
+        Initial values.
+
+        Parameters:
+            program... Program's name for displaying it in the error message.
+            language.. Language in which to display error message.
+        """
+        self.program: str = program
+        self.language: str = language
+
+    def throw_error(self, arg: str) -> None:
+        """
+        Throws error when invalid argument is encountered on cl.
+
+        Parameters:
+            arg.... The argument that is invalid.
+        """
+        if self.language == constants.LANG_CODES["FINNISH"]:
+            print(
+                f"{self.program}: virhe: virheellinen argumentti '{arg}'",
+                file=sys.stderr
+            )
+
+        else:
+            print(
+                f"{self.program}: error: invalid argument '{arg}'",
+                file=sys.stderr
+            )

@@ -5,19 +5,19 @@ import sys
 from ppi import constants
 from ppi import errors
 from ppi import files
-from ppi import git
 from ppi import texts
 
 
 class ArgParser:
-    """Class to parse cmd line args with."""
+    """Class for parsing command line arguments."""
 
     def __init__(self, args: list, name: str, version: str, lang: str) -> None:
+        """Initial values."""
         self.args: list = args
         self.name: str = name
         self.version: str = version
         self.lang: str = lang
-        self.prname: str = None
+        self.project: str = None
 
         # Different argument groups.
         self.invalid_args: list = None
@@ -26,16 +26,10 @@ class ArgParser:
         self.pos_args: object
 
         # Option switches.
-        self.help_on: bool = False
-        self.version_on: bool = False
-        self.quiet_on: bool = False
-        self.ghrepo_on: bool = False
-
-    def __repr__(self) -> str:
-        return f"ArgParser(args={self.args!r})"
-
-    def __str__(self) -> str:
-        return f"Args: {self.args[1:]}"
+        self.help_requested: bool = False
+        self.version_requested: bool = False
+        self.quiet_requested: bool = False
+        self.git_init_requested: bool = False
 
     def _startswith_hyphens(self, arg: str, count: int) -> bool:
         """Check if `arg` starts with `count` amount of "-"."""
@@ -65,13 +59,13 @@ class ArgParser:
     def _parse_args_inv(self) -> None:
         if self.invalid_args is not None:
             for arg in self.invalid_args:
-                errors.invargerror(self.lang, self.name, arg)
+                errors.InvalidArgumentError(self.name, self.lang).throw_error(arg)
             sys.exit(constants.EXIT_ERROR)
 
     def _parse_args_pos(self) -> None:
         # Grab the first non-flag -argument and ignore the rest.
         for arg in self.pos_args:
-            self.prname = arg
+            self.project = arg
             break
 
     def _parse_args_short(self) -> None:
@@ -80,13 +74,13 @@ class ArgParser:
                 if index == 0:
                     continue  # Skip the "-" prefix.
                 if letter == "V":
-                    self.version_on = True
+                    self.version_requested = True
                 elif letter == "h":
-                    self.help_on = True
+                    self.help_requested = True
                 elif letter == "q":
-                    self.quiet_on = True
+                    self.quiet_requested = True
                 elif letter == "i":
-                    self.ghrepo_on = True
+                    self.git_init_requested = True
                 else:
                     if self.invalid_args is None:
                         self.invalid_args = []
@@ -95,13 +89,13 @@ class ArgParser:
     def _parse_args_long(self) -> None:
         for index, arg in enumerate(self.opts_long):
             if arg == "--version":
-                self.version_on = True
+                self.version_requested = True
             elif arg == "--help":
-                self.help_on = True
+                self.help_requested = True
             elif arg == "--quiet":
-                self.quiet_on = True
+                self.quiet_requested = True
             elif arg == "--git-init":
-                self.ghrepo_on = True
+                self.git_init_requested = True
             else:
                 if self.invalid_args is None:
                     self.invalid_args = []
@@ -109,8 +103,16 @@ class ArgParser:
 
     def _check_if_args(self) -> None:
         if len(self.args) == 1:
-            texts.desc(self.name, self.version, self.lang)
-            texts.usg(self.name, self.version, self.lang)
+            texts.DescriptionText(
+                self.version,
+                stream=sys.stderr
+            ).display(self.name, self.lang)
+
+            texts.UsageText(
+                self.version,
+                stream=sys.stderr
+            ).display(self.name, self.lang)
+
             sys.exit(constants.EXIT_ERROR)
 
     def parse_args(self) -> None:
@@ -121,24 +123,3 @@ class ArgParser:
         self._parse_args_short()
         self._parse_args_long()
         self._parse_args_inv()
-        self._exec_actions()
-
-    def _exec_actions(self) -> None:
-        if self.help_on:
-            texts.desc(self.name, self.version, self.lang)
-            texts.usg(self.name, self.version, self.lang)
-            texts.hlp(self.name, self.lang)
-            sys.exit(constants.EXIT_SUCCESS)
-        if self.version_on and not self.help_on:
-            texts.desc(self.name, self.version, self.lang)
-            sys.exit(constants.EXIT_SUCCESS)
-        if self.prname is not None:
-            files.create(self.lang, self.name, self.prname)
-            if self.ghrepo_on:
-                git.git_init(self.prname)
-            if not self.quiet_on:
-                texts.succ(self.lang, self.name, self.prname)
-            sys.exit(constants.EXIT_SUCCESS)
-        else:
-            texts.desc(self.name, self.version, self.lang)
-            texts.usg(self.name, self.version, self.lang)

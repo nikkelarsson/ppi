@@ -28,7 +28,7 @@ setup(
         "Programming Language :: Python :: 3.10",
     ],
 
-    packages=["ppi", "ppi.interface", "ppi.static"],
+    packages=["ppi"],
     data_files=[("man/man1", ["docs/ppi.1"])],
     python_requires=">=3.8",  # This parameter requires setuptools >=24.2.0
     install_requires=["colorama"],

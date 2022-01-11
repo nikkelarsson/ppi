@@ -32,43 +32,53 @@ class ArgParser:
         self.git_init_requested: bool = False
 
     def _startswith_hyphens(self, arg: str, count: int) -> bool:
-        """Check if `arg` starts with `count` amount of "-"."""
-        return arg[0:count] == "-"*count and arg[count] != "-"
+        """Checks if arg starts with count amount of "-"."""
+        return arg[0:count] == "-" * count and arg[count] != "-"
 
     def _sort_args_long(self) -> None:
+        """Gathers all '--' prefixed options from sys.argv into one group."""
         self.opts_long = (
             arg for arg in self.args if self._startswith_hyphens(arg, 2)
         )
 
     def _sort_args_short(self) -> None:
+        """Gathers all '-' prefixed options from sys.argv into one group."""
         self.opts_short = (
             arg for arg in self.args if self._startswith_hyphens(arg, 1)
         )
 
     def _sort_args_pos(self) -> None:
+        """
+        Gathers all arguments with no prefixing
+        from sys.argv into one group.
+        """
         self.pos_args = (
             arg for index, arg in enumerate(self.args)
             if not arg.startswith("-") and index != 0
         )
 
     def _sort_args(self) -> None:
+        """Sorts all argument types."""
         self._sort_args_long()
         self._sort_args_short()
         self._sort_args_pos()
 
     def _parse_args_inv(self) -> None:
+        """Prints error for each invalid argument."""
         if self.invalid_args is not None:
             for arg in self.invalid_args:
                 errors.InvalidArgumentError(self.name, self.lang).throw_error(arg)
             sys.exit(constants.EXIT_ERROR)
 
     def _parse_args_pos(self) -> None:
+        """Stores the first non-prefixed argument from sys.argv."""
         # Grab the first non-flag -argument and ignore the rest.
         for arg in self.pos_args:
             self.project = arg
             break
 
     def _parse_args_short(self) -> None:
+        """Evaluates each '-' prefixed option."""
         for arg in self.opts_short:
             for index, letter in enumerate(arg):
                 if index == 0:
@@ -87,6 +97,7 @@ class ArgParser:
                     self.invalid_args.append("-{}".format(letter))
 
     def _parse_args_long(self) -> None:
+        """Evaluates each '--' prefixed option."""
         for index, arg in enumerate(self.opts_long):
             if arg == "--version":
                 self.version_requested = True

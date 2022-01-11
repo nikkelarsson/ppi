@@ -19,24 +19,26 @@ class Writer(abc.ABC):
     @abc.abstractmethod
     def write(self, path: str) -> None:
         """
-        Abstract method for writing files.
+        Prototype function for subclasses.
 
         Parameters:
             path....... Path where to write the file.
+            The path should contain the filename at the end,
+            i.e. like "path/to/file.md", for example.
         """
         pass
 
-    def extract_filename(self, path: str) -> str:
+    def extract_projectname(self, path: str) -> str:
         """
-        Extracts filename from the end of a path like "path/to/filename".
+        Extracts projectname from the beginning of the path.
 
-        If suffix is true, then extract filename from path
-        "path/to/filename.md" as "filename.md". Otherwise,
-        extract it as "filename".
+        If, for example, the path is "project/otherfiles", then
+        "project" is extracted. If on the other hand the path
+        is just a file and not an actual path (e.g. "project"),
+        then that is returned.
 
         Parameters:
-            path.... Path from which to extract the filename.
-            suffix.. Extract the filename with it's suffix.
+            path.... Path from which to extract the projectname.
         """
         return path.split("/")[0]
 
@@ -46,35 +48,27 @@ class DirectoryWriter(Writer):
 
     def write(self, path: str) -> None:
         """
-        Writes a directory.
+        Writes a directory or multiple ones.
 
         Parameters:
-            path.... Path where to write the directory.
+            path.... Path where to write the directory/directories.
         """
         os.makedirs(path, exist_ok=True)
 
 
 # NOTE: This class is not ready to use!
 class EmptyFileWriter(Writer):
-    """
-    More of a general purpose writer.
-
-    For writing files that don't need to have anything written to them.
-    """
-
-    def __init__(self, filename: str) -> None:
-        """Initial values."""
-        self.filename: str = filename
+    """Generic writer for writing empty files."""
 
     def write(self, path: str) -> None:
         """
         Writes any kind of file.
 
         Parameters:
-            path....... Path where to write the file.
+            path....... Path where to write.
         """
-        with open(f"{self.filename}", "w", encoding=self.encoding) as f:
-            pass
+        with open(f"{path}", "w", encoding=self.encoding) as f:
+            f.write("")
 
 
 class MakefileWriter(Writer):
@@ -85,11 +79,11 @@ class MakefileWriter(Writer):
         Writes a Makefile.
 
         Parameters:
-            path....... Path where to write the file.
+            path....... Path where to write.
         """
         with open(f"{path}", "w", encoding=self.encoding) as f:
             # Makefile variables
-            f.write(f"PROG = {super().extract_filename(path)}\n")
+            f.write(f"PROG = {super().extract_projectname(path)}\n")
             f.write(f"DOCS = docs\n")
             f.write("PREFIX = $(HOME)/.local\n")
             f.write("MAN_SRC = $(shell pwd)/$(DOCS)/$(PROG).1\n")
@@ -158,12 +152,12 @@ class ManPageWriter(Writer):
 
     def write(self, path: str) -> None:
         """
-        Writes the man-pages.
+        Writes a man-page file.
 
         Parameters:
-            path....... Path where to write the file.
+            path....... Path where to write.
         """
-        projectname: str = super().extract_filename(path)
+        projectname: str = super().extract_projectname(path)
         with open(f"{path}", "w", encoding=self.encoding) as f:
             f.write(f"% {projectname.upper()}(1) {projectname} 0.1  \n")
             f.write("% Author's name  \n")
@@ -192,9 +186,9 @@ class SetupPyWriter(Writer):
         Writes a setup.py file.
 
         Parameters:
-            path....... Path where to write the file.
+            path....... Path where to write.
         """
-        projectname: str = self.extract_filename(path)
+        projectname: str = self.extract_projectname(path)
         with open(f"{path}", "w", encoding=self.encoding) as f:
             f.write("from setuptools import setup\n")
             f.write("\n")
@@ -309,7 +303,7 @@ class DunderInitWriter(Writer):
         Writes __init__.py file.
 
         Parameters:
-            path....... Path where to write the file.
+            path....... Path where to write.
         """
         with open(f"{path}", "w", encoding=self.encoding) as f:
             f.write("")
@@ -323,7 +317,7 @@ class ChangelogWriter(Writer):
         Writes a CHANGELOG.md file.
 
         Parameters:
-            path....... Path where to write the file.
+            path....... Path where to write.
         """
         with open(f"{path}", "w", encoding=self.encoding) as f:
             f.write("# Changelog\n")
@@ -340,7 +334,7 @@ class ManifestWriter(Writer):
         Writes a MANIFEST.in file.
 
         Parameters:
-            path....... Path where to write the file.
+            path....... Path where to write.
         """
         with open(f"{path}", "w", encoding=self.encoding) as f:
             f.write("include LICENCE.txt\n")
@@ -356,7 +350,7 @@ class ReadmeWriter(Writer):
         Writes a README.md file.
 
         Parameters:
-            path....... Path where to write the file.
+            path....... Path where to write.
         """
         with open(f"{path}", "w", encoding=self.encoding) as f:
             f.write("# About  \n")
@@ -375,7 +369,7 @@ class GitIgnoreWriter(Writer):
         Writes .gitignore file.
 
         Parameters:
-            path... Path where to write the file.
+            path... Path where to write.
         """
         with open(f"{path}", "w", encoding=self.encoding) as f:
             f.write("# Compiled Python modules\n")
@@ -401,9 +395,9 @@ class MainWriter(Writer):
         Writes main.py file.
 
         Parameters:
-            path....... Path where to write the file.
+            path....... Path where to write.
         """
-        projectname: str = self.extract_filename(path)
+        projectname: str = self.extract_projectname(path)
         with open(f"{path}", "w", encoding=self.encoding) as f:
             f.write("\"\"\"Short description of what this program does\"\"\"\n")
             f.write("\n")

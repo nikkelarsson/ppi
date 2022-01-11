@@ -11,7 +11,7 @@ class Error(abc.ABC):
     @abc.abstractmethod
     def throw_error(self, arg: str) -> None:
         """
-        Abstract method for throwing errors.
+        Prototype method for throwing errors.
 
         Parameters:
             arg.... The argument that is invalid.
@@ -24,7 +24,7 @@ class InvalidArgumentError(Error):
 
     def __init__(self, program: str, language: str) -> None:
         """
-        Initial values.
+        Values specific to InvalidArgumentError.
 
         Parameters:
             program... Program's name for displaying it in the error message.

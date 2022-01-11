@@ -12,7 +12,7 @@ class Text(abc.ABC):
     @abc.abstractmethod
     def display(self, program: str, language: str) -> None:
         """
-        Method prototype for displaying text.
+        Prototype method for displaying text.
 
         Parameters:
             program... Program's name which some fields need in the text output.

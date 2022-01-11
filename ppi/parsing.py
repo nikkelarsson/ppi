@@ -112,23 +112,8 @@ class ArgParser:
                     self.invalid_args = []
                 self.invalid_args.append(arg)
 
-    def _check_if_args(self) -> None:
-        if len(self.args) == 1:
-            texts.DescriptionText(
-                self.version,
-                stream=sys.stderr
-            ).display(self.name, self.lang)
-
-            texts.UsageText(
-                self.version,
-                stream=sys.stderr
-            ).display(self.name, self.lang)
-
-            sys.exit(constants.EXIT_ERROR)
-
     def parse_args(self) -> None:
         """Parse args and execute actions according to the given options."""
-        self._check_if_args()
         self._sort_args()
         self._parse_args_pos()
         self._parse_args_short()

@@ -15,6 +15,7 @@ __credits__: list = ["Niklas Larsson"]
 __version__: str = "1.2.1"
 __program__: str = "ppi"
 
+args: bool
 git: bool
 help_: bool
 language: str = os.getenv("LANG")
@@ -23,8 +24,8 @@ quiet: bool
 version: bool
 
 
-def main(args: list=sys.argv) -> None:
-    parser: object = parsing.ArgParser(args, __program__, __version__, language)
+def main(argv: list=sys.argv, argc: int=len(sys.argv)) -> None:
+    parser: object = parsing.ArgParser(argv, __program__, __version__, language)
     parser.parse_args()
 
     # Get what flags were provided
@@ -33,6 +34,19 @@ def main(args: list=sys.argv) -> None:
     project = parser.project
     quiet = parser.quiet_requested
     version = parser.version_requested
+
+    args = argc >= 2
+    if not args:
+        texts.DescriptionText(
+            __version__,
+            stream=sys.stderr
+        ).display(__program__, language)
+
+        texts.UsageText(
+            __version__,
+            stream=sys.stderr
+        ).display(__program__, language)
+        sys.exit(constants.EXIT_ERROR)
 
     if help_:
         texts.DescriptionText(__version__).display(__program__, language)
@@ -63,7 +77,6 @@ def main(args: list=sys.argv) -> None:
         files.DunderInitWriter().write(f"{project}/{project}/__init__.py")
         files.MainWriter().write(f"{project}/{project}/main.py")
 
-        # Possibly initalize as git repo
         if git:
             subprocess.run(["git", "init", "--quiet", f"{project}/"])
             files.GitIgnoreWriter().write(f"{project}/.gitignore")

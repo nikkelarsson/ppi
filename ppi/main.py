@@ -46,6 +46,7 @@ def main(argv: list=sys.argv, argc: int=len(sys.argv)) -> None:
             __version__,
             stream=sys.stderr
         ).display(__program__, language)
+
         sys.exit(constants.EXIT_ERROR)
 
     if help_:

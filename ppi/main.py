@@ -12,8 +12,8 @@ from ppi import parsing
 
 __author__: str = "Niklas Larsson"
 __credits__: list = ["Niklas Larsson"]
-__version__: str = "1.2.1"
 __program__: str = "ppi"
+__version__: str = "1.2.1"
 
 args: bool
 git: bool

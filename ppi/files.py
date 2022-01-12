@@ -414,6 +414,7 @@ class MainWriter(Writer):
             f.write("\n")
             f.write("\n")
             f.write("def main() -> None:\n")
+            f.write("    \"\"\"Main function.\"\"\"\n")
             f.write("    pass\n")
             f.write("\n")
             f.write("\n")

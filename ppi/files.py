@@ -13,7 +13,7 @@ class Writer(abc.ABC):
     """Base class for all the different writer classes."""
 
     def __init__(self) -> None:
-        """Initial values."""
+        """Initializes things that all the subclasses use."""
         self.encoding: str = constants.ENCODING
 
     @abc.abstractmethod
@@ -76,7 +76,7 @@ class MakefileWriter(Writer):
 
     def write(self, path: str) -> None:
         """
-        Writes a Makefile.
+        Writes a Makefile file.
 
         Parameters:
             path....... Path where to write.
@@ -145,7 +145,7 @@ class ManPageWriter(Writer):
     """Writer for writing man-pages."""
 
     def __init__(self) -> None:
-        """Initial values."""
+        """Initializes man-page related things."""
         super().__init__()
         self.month: str = datetime.datetime.now().strftime("%b")
         self.year: str = datetime.datetime.now().strftime("%Y")

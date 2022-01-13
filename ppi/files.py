@@ -28,9 +28,14 @@ class Writer(abc.ABC):
         """
         pass
 
-    def extract_projectname(self, path: str) -> str:
+
+class Extracter(abc.ABC):
+    """Base class for all the different extracter classes."""
+
+    @abc.abstractmethod
+    def extract(self, path: str) -> str:
         """
-        Extracts projectname from the beginning of the path.
+        Extracts string from the beginning of the path.
 
         If, for example, the path is "project/otherfiles", then
         "project" is extracted. If on the other hand the path
@@ -38,7 +43,25 @@ class Writer(abc.ABC):
         then that is returned.
 
         Parameters:
-            path.... Path from which to extract the projectname.
+            path.... Path from which to extract the string.
+        """
+        pass
+
+
+class StringExtracter(Extracter):
+    """Extracter for extracting strings."""
+
+    def extract(self, path: str) -> str:
+        """
+        Extracts string from the beginning of the path.
+
+        If, for example, the path is "project/otherfiles", then
+        "project" is extracted. If on the other hand the path
+        is just a file and not an actual path (e.g. "project"),
+        then that is returned.
+
+        Parameters:
+            path.... Path from which to extract the string.
         """
         return path.split("/")[0]
 
@@ -74,6 +97,11 @@ class EmptyFileWriter(Writer):
 class MakefileWriter(Writer):
     """Writer for writing Makefiles."""
 
+    def __init__(self) -> None:
+        """Initializes Makefile related things."""
+        super().__init__()
+        self.extracter: object = StringExtracter()
+
     def write(self, path: str) -> None:
         """
         Writes a Makefile file.
@@ -83,7 +111,7 @@ class MakefileWriter(Writer):
         """
         with open(f"{path}", "w", encoding=self.encoding) as f:
             # Makefile variables
-            f.write(f"PROG = {super().extract_projectname(path)}\n")
+            f.write(f"PROG = {self.extracter.extract(path)}\n")
             f.write(f"DOCS = docs\n")
             f.write("PREFIX = $(HOME)/.local\n")
             f.write("MAN_SRC = $(shell pwd)/$(DOCS)/$(PROG).1\n")
@@ -147,6 +175,7 @@ class ManPageWriter(Writer):
     def __init__(self) -> None:
         """Initializes man-page related things."""
         super().__init__()
+        self.extracter: object = StringExtracter()
         self.month: str = datetime.datetime.now().strftime("%b")
         self.year: str = datetime.datetime.now().strftime("%Y")
 
@@ -157,7 +186,7 @@ class ManPageWriter(Writer):
         Parameters:
             path....... Path where to write.
         """
-        projectname: str = super().extract_projectname(path)
+        projectname: str = self.extracter.extract(path)
         with open(f"{path}", "w", encoding=self.encoding) as f:
             f.write(f"% {projectname.upper()}(1) {projectname} 0.1  \n")
             f.write("% Author's name  \n")
@@ -181,6 +210,11 @@ class ManPageWriter(Writer):
 class SetupPyWriter(Writer):
     """Writer for writing setup.py."""
 
+    def __init__(self) -> None:
+        """Initializes setup.py related things."""
+        super().__init__()
+        self.extracter: object = StringExtracter()
+
     def write(self, path: str) -> None:
         """
         Writes a setup.py file.
@@ -188,7 +222,7 @@ class SetupPyWriter(Writer):
         Parameters:
             path....... Path where to write.
         """
-        projectname: str = self.extract_projectname(path)
+        projectname: str = self.extracter.extract(path)
         with open(f"{path}", "w", encoding=self.encoding) as f:
             f.write("from setuptools import setup\n")
             f.write("\n")
@@ -390,6 +424,11 @@ class GitIgnoreWriter(Writer):
 class MainWriter(Writer):
     """Writer for writing main.py files."""
 
+    def __init__(self) -> None:
+        """Initializes main.py related things."""
+        super().__init__()
+        self.extracter: object = StringExtracter()
+
     def write(self, path: str) -> None:
         """
         Writes main.py file.
@@ -397,7 +436,7 @@ class MainWriter(Writer):
         Parameters:
             path....... Path where to write.
         """
-        projectname: str = self.extract_projectname(path)
+        projectname: str = self.extracter.extract(path)
         with open(f"{path}", "w", encoding=self.encoding) as f:
             f.write("\"\"\"Short description of what this program does\"\"\"\n")
             f.write("\n")

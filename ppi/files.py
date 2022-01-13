@@ -371,7 +371,7 @@ class ManifestWriter(Writer):
             path....... Path where to write.
         """
         with open(f"{path}", "w", encoding=self.encoding) as f:
-            f.write("include LICENCE.txt\n")
+            f.write("include LICENSE.txt\n")
             f.write("graft docs*/\n")
             f.write("graft tests*/\n")
 

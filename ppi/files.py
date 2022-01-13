@@ -343,7 +343,7 @@ class DunderInitWriter(Writer):
             f.write("")
 
 
-class ChangelogWriter(Writer):
+class ChangeLogWriter(Writer):
     """Class for writing CHANGELOG.md files."""
 
     def write(self, path: str) -> None:
@@ -376,7 +376,7 @@ class ManifestWriter(Writer):
             f.write("graft tests*/\n")
 
 
-class ReadmeWriter(Writer):
+class ReadMeWriter(Writer):
     """Class for writing README.md files."""
 
     def write(self, path: str) -> None:

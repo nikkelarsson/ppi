@@ -239,7 +239,7 @@ class SetupPyWriter(Writer):
             f.write(f"    name=\"{projectname}\",  # Required\n")
             f.write("\n")
             f.write("    # Version?\n")
-            f.write("    version=\"0.0.1\",  # Required\n")
+            f.write("    version=\"\",  # Required\n")
             f.write("\n")
             f.write("    # What does your project do?\n")
             f.write("    #description=\"\",  # Optional\n")

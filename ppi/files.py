@@ -188,7 +188,7 @@ class ManPageWriter(Writer):
         """
         projectname: str = self.extracter.extract(path)
         with open(f"{path}", "w", encoding=self.encoding) as f:
-            f.write(f"% {projectname.upper()}(1) {projectname} 0.1  \n")
+            f.write(f"% {projectname.upper()}(1) {projectname} 0.0.0  \n")
             f.write("% Author's name  \n")
             f.write(f"% {self.month} {self.year}  \n")
             f.write("\n")

@@ -35,38 +35,43 @@ def main(argv: list=sys.argv, argc: int=len(sys.argv)) -> None:
     quiet = parser.quiet_requested
     version = parser.version_requested
 
+    # Text generators
+    generator: dict = {
+        "description": texts.DescriptionText(__version__),
+        "usage": texts.UsageText(),
+        "help": texts.HelpText(),
+        "success": texts.SuccessText(project)
+    }
+
+    # File writers
+    writer: dict = {
+        "directory": files.DirectoryWriter()
+    }
+
     args = argc >= 2
     if not args:
-        texts.DescriptionText(
-            __version__,
-            stream=sys.stderr
-        ).display(__program__, language)
-
-        texts.UsageText(
-            __version__,
-            stream=sys.stderr
-        ).display(__program__, language)
-
+        generator["description"].display(__program__, language, stream=sys.stderr)
+        generator["usage"].display(__program__, language, stream=sys.stderr)
         sys.exit(constants.EXIT_ERROR)
 
     if help_:
-        texts.DescriptionText(__version__).display(__program__, language)
-        texts.UsageText(__version__).display(__program__, language)
-        texts.HelpText().display(__program__, language)
+        generator["description"].display(__program__, language, stream=sys.stdout)
+        generator["usage"].display(__program__, language, stream=sys.stdout)
+        generator["help"].display(__program__, language, stream=sys.stdout)
         sys.exit(constants.EXIT_SUCCESS)
 
     if version:
-        texts.DescriptionText(__version__).display(__program__, language)
+        generator["description"].display(__program__, language, stream=sys.stdout)
         sys.exit(constants.EXIT_SUCCESS)
 
     if project:
         # Write necessary directories
-        files.DirectoryWriter().write(f"{project}/{project}")
-        files.DirectoryWriter().write(f"{project}/docs")
+        writer["directory"].write(f"{project}/{project}")
+        writer["directory"].write(f"{project}/docs")
 
         # Write files that go to the root of the project
-        files.ReadmeWriter().write(f"{project}/README.md")
-        files.ChangelogWriter().write(f"{project}/CHANGELOG.md")
+        files.ReadMeWriter().write(f"{project}/README.md")
+        files.ChangeLogWriter().write(f"{project}/CHANGELOG.md")
         files.ManifestWriter().write(f"{project}/MANIFEST.in")
         files.SetupPyWriter().write(f"{project}/setup.py")
         files.MakefileWriter().write(f"{project}/Makefile")
@@ -83,21 +88,13 @@ def main(argv: list=sys.argv, argc: int=len(sys.argv)) -> None:
             files.GitIgnoreWriter().write(f"{project}/.gitignore")
 
         if not quiet:
-            texts.SuccessText(project).display(__program__, language)
+            generator["success"].display(__program__, language, stream=sys.stdout)
 
         sys.exit(constants.EXIT_SUCCESS)
 
     if any([git, quiet]):
-        texts.DescriptionText(
-            __version__,
-            stream=sys.stderr
-        ).display(__program__, language)
-
-        texts.UsageText(
-            __version__,
-            stream=sys.stderr
-        ).display(__program__, language)
-
+        generator["description"].display(__program__, language, stream=sys.stderr)
+        generator["usage"].display(__program__, language, stream=sys.stderr)
         sys.exit(constants.EXIT_ERROR)
 
 

@@ -9,7 +9,7 @@ def readme() -> None:
 
 setup(
     name="ppi",
-    version="1.2.1",
+    version="1.2.2b1",
     description="Simple utility to create new Python -projects with.",
     long_description=readme(),
     long_description_content_type="text/markdown",

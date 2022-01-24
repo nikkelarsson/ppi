@@ -142,6 +142,7 @@ class MakefileWriter(Writer):
 
             # Install -target
             f.write(".PHONY: install\n")
+            f.write("install:\n")
             f.write("\t@echo \"Installing $(PROG)...\"\n")
             f.write("\t$(PYTHON) -m pip uninstall -qq --yes $(PROG)\n")
             f.write("\t$(PYTHON) -m pip install -qq .\n")
@@ -150,6 +151,7 @@ class MakefileWriter(Writer):
 
             # Install-editable -target
             f.write(".PHONY: install-editable\n")
+            f.write("install-editable:\n")
             f.write("\t@echo \"Installing $(PROG)...\"\n")
             f.write("\t$(PYTHON) -m pip uninstall -qq --yes $(PROG)\n")
             f.write("\t$(PYTHON) -m pip install -qq -e .\n")
@@ -158,6 +160,7 @@ class MakefileWriter(Writer):
 
             # Uninstall -target
             f.write(".PHONY: uninstall\n")
+            f.write("uninstall:\n")
             f.write("\t@echo \"Uninstalling $(PROG)...\"\n")
             f.write("\t$(PYTHON) -m pip uninstall -qq --yes $(PROG)\n")
             f.write("\t@echo \"Uninstall successful.\"\n")
@@ -165,6 +168,7 @@ class MakefileWriter(Writer):
 
             # Tests -target
             f.write(".PHONY: tests\n")
+            f.write("tests:\n")
             f.write("\t@echo \"Running tests...\"\n")
             f.write("\t$(PYTHON) -m unittest -v")
 

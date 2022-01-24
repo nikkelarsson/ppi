@@ -13,27 +13,20 @@ from ppi import parsing
 __author__: str = "Niklas Larsson"
 __credits__: list = ["Niklas Larsson"]
 __program__: str = "ppi"
-__version__: str = "1.2.1"
-
-args: bool
-git: bool
-help_: bool
-language: str = os.getenv("LANG")
-project: str = None
-quiet: bool
-version: bool
+__version__: str = "1.2.2b1"
 
 
-def main(argv: list=sys.argv, argc: int=len(sys.argv)) -> None:
-    parser: object = parsing.ArgParser(argv, __program__, __version__, language)
+def main(argc: int=len(sys.argv), argv: list=sys.argv) -> None:
+    language: str = os.getenv("LANG")
+    parser: object = parsing.ArgParser(argv, __program__, language)
     parser.parse_args()
 
     # Get what flags were provided
-    help_ = parser.help_requested
-    git = parser.git_init_requested
-    project = parser.project
-    quiet = parser.quiet_requested
-    version = parser.version_requested
+    help_: bool = parser.help
+    git: bool = parser.git
+    project: str = parser.project
+    quiet: bool = parser.quiet
+    version: bool = parser.version
 
     # Text generators
     generator: dict = {

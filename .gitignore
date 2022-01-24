@@ -7,6 +7,9 @@ venv/
 # Setuptools distribution folder
 dist/
 
+# Man pages
+docs/*.1
+
 # Python egg metadata
 *.egg-info/
 *.egg

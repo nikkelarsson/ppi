@@ -11,7 +11,7 @@ from ppi import texts
 class ArgParser:
     """Class for parsing command line arguments."""
 
-    def __init__(self, args: list, name: str, version: str, lang: str) -> None:
+    def __init__(self, argv: list, program: str, language: str) -> None:
         """Initial values."""
         self.args: list = args
         self.name: str = name

@@ -307,7 +307,7 @@ class SetupPyWriter(Writer):
             f.write("    #install_requires=[],  # Optional\n")
             f.write("\n")
             f.write("    # Need to install, for example, man-pages that your project has?\n")
-            f.write("    #data_files=[(\"man/man1\", [\"docs/manpage.1\"])],  # Optional\n")
+            f.write(f"    #data_files=[(\"man/man1\", [\"docs/{projectname}.1\"])],  # Optional\n")
             f.write("\n")
             f.write("    # Any executable scripts?\n")
             f.write("    # For example, the following would provide a command\n")

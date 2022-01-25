@@ -1,5 +1,10 @@
 """Simple utility for starting new Python projects quickly."""
 
+__author__: str = "Niklas Larsson"
+__credits__: list = ["Niklas Larsson"]
+__program__: str = "ppi"
+__version__: str = "1.2.2b1"
+
 import subprocess
 import os
 import sys
@@ -8,12 +13,6 @@ from ppi import constants
 from ppi import parsing
 from ppi import texts
 from ppi import writers
-
-
-__author__: str = "Niklas Larsson"
-__credits__: list = ["Niklas Larsson"]
-__program__: str = "ppi"
-__version__: str = "1.2.2b1"
 
 
 def main(argc: int=len(sys.argv), argv: list=sys.argv) -> None:

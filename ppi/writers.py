@@ -115,6 +115,22 @@ class MakefileWriter(Writer):
             print("\t$(PYTHON) -m build", file=f)
             print("", file=f)
 
+            # Check -target
+            print(".PHONY: check", file=f)
+            print("check:", file=f)
+            print("\t@command -v twine &>/dev/null || $(PYTHON) -m pip install -qq twine", file=f)
+            print("\t@echo \"Checking that brief / long descriptions in setup.py are valid...\"", file=f)
+            print("\ttwine check dist/*", file=f)
+            print("", file=f)
+
+            # Upload -target
+            print(".PHONY: upload", file=f)
+            print("upload:", file=f)
+            print("\t@command -v twine &>/dev/null || $(PYTHON) -m pip install -qq twine", file=f)
+            print("\t@echo \"Attempting to upload $(PROG) to PyPI...\"", file=f)
+            print("\ttwine upload dist/*", file=f)
+            print("", file=f)
+
             # Clean -target
             print(".PHONY: clean", file=f)
             print("clean:", file=f)

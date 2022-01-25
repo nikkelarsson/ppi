@@ -9,24 +9,12 @@ from ppi import constants
 from ppi import errors
 
 
-class Writer(abc.ABC):
+class Writer:
     """Base class for all the different writer classes."""
 
     def __init__(self) -> None:
         """Initializes things that all the subclasses use."""
         self.encoding: str = constants.ENCODING
-
-    @abc.abstractmethod
-    def write(self, path: str) -> None:
-        """
-        Prototype function for subclasses.
-
-        Parameters:
-            path....... Path where to write the file.
-            The path should contain the filename at the end,
-            i.e. like "path/to/file.md", for example.
-        """
-        pass
 
 
 class Extracter(abc.ABC):

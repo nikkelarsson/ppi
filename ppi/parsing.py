@@ -4,7 +4,6 @@ import sys
 
 from ppi import constants
 from ppi import errors
-from ppi import files
 from ppi import texts
 
 

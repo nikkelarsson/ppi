@@ -5,9 +5,9 @@ import os
 import sys
 
 from ppi import constants
+from ppi import parsing
 from ppi import texts
 from ppi import writers
-from ppi import parsing
 
 
 __author__: str = "Niklas Larsson"

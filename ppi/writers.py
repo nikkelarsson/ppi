@@ -5,8 +5,8 @@ import datetime
 import os
 import sys
 
-from ppi import errors
 from ppi import constants
+from ppi import errors
 
 
 class Writer(abc.ABC):

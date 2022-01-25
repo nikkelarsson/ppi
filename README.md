@@ -9,6 +9,8 @@ automating lot of the manual labour. By automating project creation like this,
 **ppi** saves us a lot of time and enables us to start writing code right away.
 
 # Installation
+**PIP INSTALLATION METHOD COMING IN THE FUTURE. UNTIL THAT, USE THE METHODS BELOW.**
+
 **ppi** can be installed using **make**. If you want to do some exploration with
 the sourcecode and change it and test your changes easily without having to
 **make install** after each change, you can install the **editable** version of

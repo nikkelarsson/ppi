@@ -1,42 +1,50 @@
-PROGRAM = ppi
-MAN_PAGES = ppi.1
-MAN_PAGES_SRC = $(shell pwd)/docs/$(MAN_PAGES)
-MAN_PAGES_INSTALL = /usr/local/man/man1/
-PYTHON_INTERPRETER = python3.8
-
-.PHONY: ppi
-ppi:
-	@echo "TO INSTALL: sudo make install"
-	@echo "TO INSTALL EDITABLE: sudo make install-editable"
-	@echo "TO UNINSTALL: sudo make uninstall"
+PROG = ppi
+DOCS = docs
+PREFIX = $(HOME)/.local
+MAN_SRC = $(shell pwd)/$(DOCS)/$(PROG).1
+MAN_DST = $(PREFIX)/man/man1
+PYTHON = python3  # Use: make PYTHON=python3.[8|9|10] if your python3 < python3.8
 
 .PHONY: install
 install:
-	@echo "Installing $(PROGRAM) ..."
-	$(PYTHON_INTERPRETER) -m pip install -qq .
-	@echo "Installing man -pages ..."
-	@mkdir -p $(MAN_PAGES_INSTALL)
-	cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
+	@echo "Installing $(PROG)..."
+	mkdir -p $(MAN_DST)
+	$(PYTHON) -m pip uninstall -qq --yes $(PROG)
+	$(PYTHON) -m pip install -qq .
 	@echo "All successfully installed!"
 
 .PHONY: install-editable
 install-editable:
-	@echo "Installing $(PROGRAM) ..."
-	$(PYTHON_INTERPRETER) -m pip install -qq -e .
-	@echo "Installing man -pages ..."
-	@mkdir -p $(MAN_PAGES_INSTALL)
-	cp -f $(MAN_PAGES_SRC) $(MAN_PAGES_INSTALL)
+	@echo "Installing $(PROG)..."
+	mkdir -p $(MAN_DST)
+	$(PYTHON) -m pip uninstall -qq --yes $(PROG)
+	$(PYTHON) -m pip install -qq -e .
 	@echo "All successfully installed!"
 
 .PHONY: uninstall
 uninstall:
-	@echo "Uninstalling $(PROGRAM) ..."
-	$(PYTHON_INTERPRETER) -m pip uninstall -qq --yes $(PROGRAM)
-	@echo "Uninstalling man -pages ..."
-	rm -f $(MAN_PAGES_INSTALL)$(MAN_PAGES)
+	@echo "Uninstalling $(PROG)..."
+	$(PYTHON) -m pip uninstall -qq --yes $(PROG)
 	@echo "All successfully uninstalled!"
 
 .PHONY: tests
 tests:
-	@echo "Running tests ..."
-	$(PYTHON_INTERPRETER) -m unittest -v
+	@echo "Running tests..."
+	$(PYTHON) -m unittest -v
+
+.PHONY: man
+man:
+	pandoc $(DOCS)/$(PROG).1.md -s -t man -o $(DOCS)/$(PROG).1
+
+.PHONY: build
+build:
+	@echo "Building distribution packages..."
+	@# First, clean. Better than running: make clean; make build
+	rm -rf dist/
+	@# Builds both wheel and sdist
+	$(PYTHON) -m build
+
+.PHONY: clean
+clean:
+	@echo "Cleaning distribution packages..."
+	rm -rf dist/

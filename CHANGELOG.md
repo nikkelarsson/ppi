@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.2b1](https://github.com/nikkelarsson/ppi/releases/tag/v1.2.2b1) -- January 25 2022
+### Added
+- Makefile is now being generated with even more useful targets
+- Generate some metadata -fields to main.py
+
+### Changed
+- All Makefile targets should now work; previously some were broken
+
 ## [1.2.1](https://github.com/nikkelarsson/ppi/releases/tag/v1.2.1) -- December 11 2021
 ### Changed
 - Fixed a problem where ppi installations done with 'make install' caused ppi to

@@ -1,9 +1,9 @@
-% PPI(1) ppi 1.2.1  
+% PPI(1) ppi 1.2.2b1  
 % Niklas Larsson  
 % September 2021  
 
 # NAME
-ppi – Python project initializer.
+ppi – Python project initializer
 
 # SYNOPSIS
 **ppi** \[*–i* | *––git–init*\] \[*–q* | *––quiet*\] \<*name*\>\

@@ -67,17 +67,14 @@ class DescriptionText(Text):
             program... Program's name to display in the description text.
             language.. Language in which to display text.
         """
+        msg: str
         if language == constants.LANG_CODES["FINNISH"]:
-            print(
-                f"{program} {self.version}, python projektien alustaja.",
-                file=stream
-            )
+            msg = f"{program} {self.version}, python projektien alustaja."
+            print(msg, file=stream)
 
         else:
-            print(
-                f"{program} {self.version}, python project initializer.",
-                file=stream
-            )
+            msg = f"{program} {self.version}, python project initializer."
+            print(msg, file=stream)
 
 
 class UsageText(Text):

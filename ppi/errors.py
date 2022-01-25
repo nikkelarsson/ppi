@@ -40,14 +40,11 @@ class InvalidArgumentError(Error):
         Parameters:
             arg.... The argument that is invalid.
         """
+        msg: str
         if self.language == constants.LANG_CODES["FINNISH"]:
-            print(
-                f"{self.program}: virhe: virheellinen argumentti '{arg}'",
-                file=sys.stderr
-            )
+            msg = f"{self.program}: virhe: virheellinen argumentti '{arg}'"
+            print(msg, file=sys.stderr)
 
         else:
-            print(
-                f"{self.program}: error: invalid argument '{arg}'",
-                file=sys.stderr
-            )
+            msg = f"{self.program}: error: invalid argument '{arg}'"
+            print(msg, file=sys.stderr)

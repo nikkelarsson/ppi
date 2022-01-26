@@ -238,7 +238,7 @@ class SetupPyWriter(Writer):
             print("def readme() -> str:", file=f)
             print("    \"\"\"Long description.\"\"\"", file=f)
             print("    with open(\"README.md\", \"r\", encoding=\"utf-8\") as f:", file=f)
-            print("    return f.read()", file=f)
+            print("        return f.read()", file=f)
             print("", file=f)
             print("", file=f)
             print("setup(", file=f)

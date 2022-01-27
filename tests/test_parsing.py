@@ -7,24 +7,37 @@ class ParsingTestCase(unittest.TestCase):
 
     def setUp(self) -> None:
         """Set up some values for testing."""
-        self.args_inp: list = ["test", "-h", "--test", "---invalid", "-V"]
-        self.name_inp: str = "name"
-        self.version_inp: str = "version"
-        self.lang_inp: str = "lang"
+        self.input: list = [
+            # Invalid options
+            "----this-is-a-bad-option",
+            "---invalid-option",
+            "--also-invalid",
+
+            # Positional options
+            "postional",
+            "other_one",
+
+            # Valid options
+            "-h", "--help",
+            "-V", "--version",
+            "-q", "--quiet",
+            "-i", "--git-init",
+        ]
+
+        self.program: str = "dummy-name"
+        self.language: str = "en_US.UTF-8"
+        
         self.argparser: object = parsing.ArgParser(
-            self.args_inp,
-            self.name_inp,
-            self.version_inp,
-            self.lang_inp
+            self.input,
+            self.program,
+            self.language
         )
-        self.argparser._sort_args()
 
     def test_input_registration(self) -> None:
         """Test that inputs are registered properly."""
-        self.assertEqual(self.argparser.args, self.args_inp)
-        self.assertEqual(self.argparser.name, self.name_inp)
-        self.assertEqual(self.argparser.version, self.version_inp)
-        self.assertEqual(self.argparser.lang, self.lang_inp)
+        self.assertEqual(self.argparser.argv, self.input)
+        self.assertEqual(self.argparser.program, self.program)
+        self.assertEqual(self.argparser.language, self.language)
 
     @unittest.skip("test incomplete")
     def test_arg_sorting(self) -> None:

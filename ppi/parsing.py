@@ -23,7 +23,8 @@ class ArgParser:
 
         self.arguments: dict = {
             "invalid": None,
-            "positional": None
+            "positional": None,
+            "extra": None
         }
 
         # Option switches
@@ -123,16 +124,37 @@ class ArgParser:
     def _parse_args_inv(self) -> None:
         """Prints error for each invalid argument."""
         if self.arguments["invalid"] is not None:
+            handler: object = errors.InvalidArgumentError(
+                self.program,
+                self.language
+            )
             for arg in self.arguments["invalid"]:
-                errors.InvalidArgumentError(self.program, self.language).throw_error(arg)
+                handler.throw_error(arg)
+            del handler
+            sys.exit(constants.EXIT_ERROR)
+
+    def _parse_args_xtra(self) -> None:
+        """Prints error for each xtra positional arguments."""
+        if self.arguments["extra"] is not None:
+            handler: object = errors.ExtraArgumentError(
+                self.program,
+                self.language
+            )
+            for arg in self.arguments["extra"]:
+                handler.throw_error(arg)
+            del handler
             sys.exit(constants.EXIT_ERROR)
 
     def _parse_args_pos(self) -> None:
         """Stores the first non-prefixed argument from sys.argv."""
-        # Grab the first non-flag -argument and ignore the rest.
-        for arg in self.arguments["positional"]:
-            self.project = arg
-            break
+        if self.arguments["positional"]:
+            for arg in self.arguments["positional"]:
+                if self.project:
+                    if self.arguments["extra"] is None:
+                        self.arguments["extra"] = []
+                    self.arguments["extra"].append(arg)
+                else:
+                    self.project = arg
 
     def _parse_args_short(self) -> None:
         """Evaluates each '-' prefixed option."""
@@ -176,3 +198,4 @@ class ArgParser:
         self._parse_args_short()
         self._parse_args_long()
         self._parse_args_inv()
+        self._parse_args_xtra()

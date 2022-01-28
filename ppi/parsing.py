@@ -33,6 +33,7 @@ class ArgParser:
         self._version: bool = False
         self._quiet: bool = False
         self._git: bool = False
+        self._annotate: bool = False
 
     @property
     def project(self) -> str:
@@ -88,6 +89,17 @@ class ArgParser:
         """Sets self._git."""
         if value in {True, False}:
             self._git = value
+
+    @property
+    def annotate(self) -> bool:
+        """Gets whether -a or --annotate was provided on the command line."""
+        return self._annotate
+
+    @annotate.setter
+    def annotate(self, value: bool) -> None:
+        """Sets self._annotate."""
+        if value in {True, False}:
+            self._annotate = value
 
     def _startswith_hyphens(self, arg: str, count: int) -> bool:
         """Checks if arg starts with count amount of "-"."""
@@ -170,6 +182,8 @@ class ArgParser:
                     self.quiet = True
                 elif letter == "i":
                     self.git = True
+                elif letter == "a":
+                    self.annotate = True
                 else:
                     if self.arguments["invalid"] is None:
                         self.arguments["invalid"] = []
@@ -186,6 +200,8 @@ class ArgParser:
                 self.quiet = True
             elif arg == "--git-init":
                 self.git = True
+            elif arg == "--annotate":
+                self.annotate = True
             else:
                 if self.arguments["invalid"] is None:
                     self.arguments["invalid"] = []

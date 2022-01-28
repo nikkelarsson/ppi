@@ -17,6 +17,32 @@ class Writer:
         self.encoding: str = constants.ENCODING
 
 
+class TypeHint:
+    """
+    Class that should be used by Writer classes only. This class provides
+    Writer classes the functionality to switch between writing and not
+    writing the files with type annotations.
+
+    Note that Writer classes that should use this class are mainly writers
+    that write Python files.
+    """
+
+    def __init__(self) -> None:
+        """Initializes TypeHint class with required things."""
+        self._annotations: bool = False
+
+    @property
+    def annotations(self) -> bool:
+        """Gets if type hints are on or off."""
+        return self._annotations
+
+    @annotations.setter
+    def annotations(self, value: bool) -> None:
+        """Sets type hints on or off."""
+        if value in {True, False}:
+            self._annotations = value
+
+
 class Extracter(abc.ABC):
     """Base class for all the different extracter classes."""
 
@@ -219,8 +245,9 @@ class SetupPyWriter(Writer):
     """Writer for writing setup.py."""
 
     def __init__(self) -> None:
-        """Initializes setup.py related things."""
+        """Initializes SetupPyWriter with necessary things."""
         super().__init__()
+        self.switch: object = TypeHint()
         self.extracter: object = StringExtracter()
 
     def write(self, path: str) -> None:
@@ -235,7 +262,12 @@ class SetupPyWriter(Writer):
             print("from setuptools import setup", file=f)
             print("", file=f)
             print("", file=f)
-            print("def readme() -> str:", file=f)
+
+            if self.switch.annotations:
+                print("def readme() -> str:", file=f)
+            else:
+                print(f"def readme():", file=f)
+
             print("    \"\"\"Long description.\"\"\"", file=f)
             print("    with open(\"README.md\", \"r\", encoding=\"utf-8\") as f:", file=f)
             print("        return f.read()", file=f)
@@ -334,7 +366,6 @@ class SetupPyWriter(Writer):
             print("        #\"Bug Reports\": \"https://github.com...\",", file=f)
             print("        #\"Source\": \"https://github.com...\"", file=f)
             print("    }", file=f)
-            print(")", file=f)
 
 
 class DunderInitWriter(Writer):
@@ -438,6 +469,7 @@ class MainWriter(Writer):
     def __init__(self) -> None:
         """Initializes main.py related things."""
         super().__init__()
+        self.switch: object = TypeHint()
         self.extracter: object = StringExtracter()
 
     def write(self, path: str) -> None:
@@ -451,18 +483,36 @@ class MainWriter(Writer):
         with open(f"{path}", "w", encoding=self.encoding) as f:
             print('"""What does this program do? Document it in this docstring."""', file=f)
             print('', file=f)
-            print(f'__program__: str = "{projectname}"', file=f)
-            print('__author__: str = ""', file=f)
-            print('__copyright__: str = ""', file=f)
-            print('__credits__: list = []', file=f)
-            print('__license__: str = ""', file=f)
-            print('__version__: str = ""', file=f)
-            print('__maintainer__: str = ""', file=f)
-            print('__email__: str = ""', file=f)
-            print('__status__: str = ""', file=f)
+
+            if self.switch.annotations:
+                print(f'__program__: str = "{projectname}"', file=f)
+                print('__author__: str = ""', file=f)
+                print('__copyright__: str = ""', file=f)
+                print('__credits__: list = []', file=f)
+                print('__license__: str = ""', file=f)
+                print('__version__: str = ""', file=f)
+                print('__maintainer__: str = ""', file=f)
+                print('__email__: str = ""', file=f)
+                print('__status__: str = ""', file=f)
+            else:
+                print(f'__program__ = "{projectname}"', file=f)
+                print('__author__ = ""', file=f)
+                print('__copyright__ = ""', file=f)
+                print('__credits__ = []', file=f)
+                print('__license__ = ""', file=f)
+                print('__version__ = ""', file=f)
+                print('__maintainer__ = ""', file=f)
+                print('__email__ = ""', file=f)
+                print('__status__ = ""', file=f)
+
             print('', file=f)
             print('', file=f)
-            print('def main() -> None:', file=f)
+
+            if self.switch.annotations:
+                print('def main() -> None:', file=f)
+            else:
+                print('def main():', file=f)
+
             print('    """Main function."""', file=f)
             print('    pass', file=f)
             print('', file=f)

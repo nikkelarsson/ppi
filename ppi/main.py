@@ -3,7 +3,7 @@
 __author__: str = "Niklas Larsson"
 __credits__: list = ["Niklas Larsson"]
 __program__: str = "ppi"
-__version__: str = "1.2.3b1"
+__version__: str = "1.2.3b2"
 
 import subprocess
 import os
@@ -26,6 +26,7 @@ def main(argc: int=len(sys.argv), argv: list=sys.argv) -> None:
     project: str = parser.project
     quiet: bool = parser.quiet
     version: bool = parser.version
+    annotate: bool = parser.annotate
 
     # Text generators
     generator: dict = {
@@ -37,7 +38,9 @@ def main(argc: int=len(sys.argv), argv: list=sys.argv) -> None:
 
     # File writers
     files: dict = {
-        "directory": writers.DirectoryWriter()
+        "directory": writers.DirectoryWriter(),
+        "setup": writers.SetupPyWriter(),
+        "main": writers.MainWriter()
     }
 
     args = argc >= 2
@@ -57,6 +60,11 @@ def main(argc: int=len(sys.argv), argv: list=sys.argv) -> None:
         sys.exit(constants.EXIT_SUCCESS)
 
     if project:
+        # Setup writers to write files in desired way
+        if annotate:
+            files["setup"].switch.annotations = True
+            files["main"].switch.annotations = True
+
         # Write necessary directories
         files["directory"].write(f"{project}/{project}")
         files["directory"].write(f"{project}/docs")
@@ -65,7 +73,7 @@ def main(argc: int=len(sys.argv), argv: list=sys.argv) -> None:
         writers.ReadMeWriter().write(f"{project}/README.md")
         writers.ChangeLogWriter().write(f"{project}/CHANGELOG.md")
         writers.ManifestWriter().write(f"{project}/MANIFEST.in")
-        writers.SetupPyWriter().write(f"{project}/setup.py")
+        files["setup"].write(f"{project}/setup.py")
         writers.MakefileWriter().write(f"{project}/Makefile")
 
         # Write man pages
@@ -73,18 +81,18 @@ def main(argc: int=len(sys.argv), argv: list=sys.argv) -> None:
 
         # Write rest of the files
         writers.DunderInitWriter().write(f"{project}/{project}/__init__.py")
-        writers.MainWriter().write(f"{project}/{project}/main.py")
+        files["main"].write(f"{project}/{project}/main.py")
+        writers.GitIgnoreWriter().write(f"{project}/.gitignore")
 
         if git:
             subprocess.run(["git", "init", "--quiet", f"{project}/"])
-            writers.GitIgnoreWriter().write(f"{project}/.gitignore")
 
         if not quiet:
             generator["success"].display(__program__, language, stream=sys.stdout)
 
         sys.exit(constants.EXIT_SUCCESS)
 
-    if any([git, quiet]):
+    if any([git, quiet, annotate]):
         generator["description"].display(__program__, language, stream=sys.stderr)
         generator["usage"].display(__program__, language, stream=sys.stderr)
         sys.exit(constants.EXIT_ERROR)

@@ -36,6 +36,7 @@ class HelpText(Text):
         if language == constants.LANG_CODES["FINNISH"]:
             print(file=stream)
             print("Valitsimet:", file=stream)
+            print("-a,  --annotate... Generoi lähdetiedostot tyyppiviittauksilla.", file=stream)
             print("-q,  --quiet...... Älä tulosta mitään stdout:iin.", file=stream)
             print("-i,  --git-init... Alusta projekti git-repona.", file=stream)
             print("-h,  --help....... Tulosta tämä viesti.", file=stream)
@@ -43,6 +44,7 @@ class HelpText(Text):
         else:
             print(file=stream)
             print("Options:", file=stream)
+            print("-a,  --annotate... Generate source files with type hints.", file=stream)
             print("-q,  --quiet...... Don't print anything to stdout.", file=stream)
             print("-i,  --git-init... Initialize project as git-repo.", file=stream)
             print("-h,  --help....... Print this message.", file=stream)

@@ -23,7 +23,8 @@ class ArgParser:
 
         self.arguments: dict = {
             "invalid": None,
-            "positional": None
+            "positional": None,
+            "extra": None
         }
 
         # Option switches
@@ -32,6 +33,7 @@ class ArgParser:
         self._version: bool = False
         self._quiet: bool = False
         self._git: bool = False
+        self._annotate: bool = False
 
     @property
     def project(self) -> str:
@@ -88,6 +90,17 @@ class ArgParser:
         if value in {True, False}:
             self._git = value
 
+    @property
+    def annotate(self) -> bool:
+        """Gets whether -a or --annotate was provided on the command line."""
+        return self._annotate
+
+    @annotate.setter
+    def annotate(self, value: bool) -> None:
+        """Sets self._annotate."""
+        if value in {True, False}:
+            self._annotate = value
+
     def _startswith_hyphens(self, arg: str, count: int) -> bool:
         """Checks if arg starts with count amount of "-"."""
         return arg[0:count] == "-" * count and arg[count] != "-"
@@ -123,16 +136,37 @@ class ArgParser:
     def _parse_args_inv(self) -> None:
         """Prints error for each invalid argument."""
         if self.arguments["invalid"] is not None:
+            handler: object = errors.InvalidArgumentError(
+                self.program,
+                self.language
+            )
             for arg in self.arguments["invalid"]:
-                errors.InvalidArgumentError(self.program, self.language).throw_error(arg)
+                handler.throw_error(arg)
+            del handler
+            sys.exit(constants.EXIT_ERROR)
+
+    def _parse_args_xtra(self) -> None:
+        """Prints error for each xtra positional arguments."""
+        if self.arguments["extra"] is not None:
+            handler: object = errors.ExtraArgumentError(
+                self.program,
+                self.language
+            )
+            for arg in self.arguments["extra"]:
+                handler.throw_error(arg)
+            del handler
             sys.exit(constants.EXIT_ERROR)
 
     def _parse_args_pos(self) -> None:
         """Stores the first non-prefixed argument from sys.argv."""
-        # Grab the first non-flag -argument and ignore the rest.
-        for arg in self.arguments["positional"]:
-            self.project = arg
-            break
+        if self.arguments["positional"]:
+            for arg in self.arguments["positional"]:
+                if self.project:
+                    if self.arguments["extra"] is None:
+                        self.arguments["extra"] = []
+                    self.arguments["extra"].append(arg)
+                else:
+                    self.project = arg
 
     def _parse_args_short(self) -> None:
         """Evaluates each '-' prefixed option."""
@@ -148,6 +182,8 @@ class ArgParser:
                     self.quiet = True
                 elif letter == "i":
                     self.git = True
+                elif letter == "a":
+                    self.annotate = True
                 else:
                     if self.arguments["invalid"] is None:
                         self.arguments["invalid"] = []
@@ -164,6 +200,8 @@ class ArgParser:
                 self.quiet = True
             elif arg == "--git-init":
                 self.git = True
+            elif arg == "--annotate":
+                self.annotate = True
             else:
                 if self.arguments["invalid"] is None:
                     self.arguments["invalid"] = []
@@ -176,3 +214,4 @@ class ArgParser:
         self._parse_args_short()
         self._parse_args_long()
         self._parse_args_inv()
+        self._parse_args_xtra()

@@ -48,3 +48,34 @@ class InvalidArgumentError(Error):
         else:
             msg = f"{self.program}: error: invalid argument '{arg}'"
             print(msg, file=sys.stderr)
+
+
+class ExtraArgumentError(Error):
+    """Class for handling extra argument errors."""
+
+    def __init__(self, program: str, language: str) -> None:
+        """
+        Initializes ExtraArgumentError class.
+
+        Parameters:
+            program... Program's name for displaying it in the error message.
+            language.. Language in which to display error message.
+        """
+        self.program: str = program
+        self.language: str = language
+
+    def throw_error(self, arg: str) -> None:
+        """
+        Throws error when extra argument is encountered on cl.
+
+        Parameters:
+            arg.... The argument that is extra.
+        """
+        msg: str
+        if self.language == constants.LANG_CODES["FINNISH"]:
+            msg = f"{self.program}: virhe: ylimääräinen argumentti '{arg}'"
+            print(msg, file=sys.stderr)
+
+        else:
+            msg = f"{self.program}: error: extra argument '{arg}'"
+            print(msg, file=sys.stderr)

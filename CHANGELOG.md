@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3b2](https://github.com/nikkelarsson/ppi/releases/tag/v1.2.3b2) -- January 28 2022
+### Added
+- New options -a and --annotate for generating .py files with type hints
+
+### Changed
+- .gitignore will now be generated always
+
 ## [1.2.3b1](https://github.com/nikkelarsson/ppi/releases/tag/v1.2.3b1) -- January 25 2022
 ### Changed
 - All files should now be generated correctly with correct indentations

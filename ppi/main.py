@@ -82,10 +82,10 @@ def main(argc: int=len(sys.argv), argv: list=sys.argv) -> None:
         # Write rest of the files
         writers.DunderInitWriter().write(f"{project}/{project}/__init__.py")
         files["main"].write(f"{project}/{project}/main.py")
+        writers.GitIgnoreWriter().write(f"{project}/.gitignore")
 
         if git:
             subprocess.run(["git", "init", "--quiet", f"{project}/"])
-            writers.GitIgnoreWriter().write(f"{project}/.gitignore")
 
         if not quiet:
             generator["success"].display(__program__, language, stream=sys.stdout)

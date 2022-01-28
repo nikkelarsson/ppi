@@ -92,7 +92,7 @@ def main(argc: int=len(sys.argv), argv: list=sys.argv) -> None:
 
         sys.exit(constants.EXIT_SUCCESS)
 
-    if any([git, quiet]):
+    if any([git, quiet, annotate]):
         generator["description"].display(__program__, language, stream=sys.stderr)
         generator["usage"].display(__program__, language, stream=sys.stderr)
         sys.exit(constants.EXIT_ERROR)

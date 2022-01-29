@@ -366,6 +366,7 @@ class SetupPyWriter(Writer):
             print("        #\"Bug Reports\": \"https://github.com...\",", file=f)
             print("        #\"Source\": \"https://github.com...\"", file=f)
             print("    }", file=f)
+            print(")", file=f)
 
 
 class DunderInitWriter(Writer):

@@ -15,9 +15,9 @@ from ppi import texts
 from ppi import writers
 
 
-def main(argc: int=len(sys.argv), argv: list=sys.argv) -> None:
+def main() -> None:
     language: str = os.getenv("LANG")
-    parser: object = parsing.ArgParser(argv, __program__, language)
+    parser: object = parsing.ArgParser(__program__, language)
     parser.parse_args()
 
     # Get what flags were provided
@@ -27,6 +27,7 @@ def main(argc: int=len(sys.argv), argv: list=sys.argv) -> None:
     quiet: bool = parser.quiet
     version: bool = parser.version
     annotate: bool = parser.annotate
+    args: bool = parser.args
 
     # Text generators
     generator: dict = {
@@ -43,7 +44,6 @@ def main(argc: int=len(sys.argv), argv: list=sys.argv) -> None:
         "main": writers.MainWriter()
     }
 
-    args = argc >= 2
     if not args:
         generator["description"].display(__program__, language, stream=sys.stderr)
         generator["usage"].display(__program__, language, stream=sys.stderr)

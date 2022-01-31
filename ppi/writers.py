@@ -104,7 +104,7 @@ class EmptyFileWriter(Writer):
         Parameters:
             path....... Path where to write.
         """
-        with open(f"{path}", "w", encoding=self.encoding) as f:
+        with open(path, "w", encoding=self.encoding) as f:
             print("", file=f)
 
 
@@ -123,7 +123,7 @@ class MakefileWriter(Writer):
         Parameters:
             path....... Path where to write.
         """
-        with open(f"{path}", "w", encoding=self.encoding) as f:
+        with open(path, "w", encoding=self.encoding) as f:
             # Makefile variables
             print(f"PROG = {self.extracter.extract(path)}", file=f)
             print(f"DOCS = docs", file=f)
@@ -221,7 +221,7 @@ class ManPageWriter(Writer):
             path....... Path where to write.
         """
         projectname: str = self.extracter.extract(path)
-        with open(f"{path}", "w", encoding=self.encoding) as f:
+        with open(path, "w", encoding=self.encoding) as f:
             print(f"% {projectname.upper()}(1) {projectname} 0.0.0  ", file=f)
             print("% Author's name  ", file=f)
             print(f"% {self.month} {self.year}  ", file=f)
@@ -258,7 +258,7 @@ class SetupPyWriter(Writer):
             path....... Path where to write.
         """
         projectname: str = self.extracter.extract(path)
-        with open(f"{path}", "w", encoding=self.encoding) as f:
+        with open(path, "w", encoding=self.encoding) as f:
             print("from setuptools import setup", file=f)
             print("", file=f)
             print("", file=f)
@@ -379,7 +379,7 @@ class DunderInitWriter(Writer):
         Parameters:
             path....... Path where to write.
         """
-        with open(f"{path}", "w", encoding=self.encoding) as f:
+        with open(path, "w", encoding=self.encoding) as f:
             print("", file=f)
 
 
@@ -393,7 +393,7 @@ class ChangeLogWriter(Writer):
         Parameters:
             path....... Path where to write.
         """
-        with open(f"{path}", "w", encoding=self.encoding) as f:
+        with open(path, "w", encoding=self.encoding) as f:
             print("# Changelog", file=f)
             print("", file=f)
             print("## [unreleased](link-to-release) -- month day year", file=f)
@@ -410,7 +410,7 @@ class ManifestWriter(Writer):
         Parameters:
             path....... Path where to write.
         """
-        with open(f"{path}", "w", encoding=self.encoding) as f:
+        with open(path, "w", encoding=self.encoding) as f:
             print("include LICENSE.txt", file=f)
             print("graft docs*/", file=f)
             print("graft tests*/", file=f)
@@ -426,7 +426,7 @@ class ReadMeWriter(Writer):
         Parameters:
             path....... Path where to write.
         """
-        with open(f"{path}", "w", encoding=self.encoding) as f:
+        with open(path, "w", encoding=self.encoding) as f:
             print("# About  ", file=f)
             print("", file=f)
             print("# Installation  ", file=f)
@@ -445,7 +445,7 @@ class GitIgnoreWriter(Writer):
         Parameters:
             path... Path where to write.
         """
-        with open(f"{path}", "w", encoding=self.encoding) as f:
+        with open(path, "w", encoding=self.encoding) as f:
             print("# Compiled Python modules", file=f)
             print("*.pyc", file=f)
             print("", file=f)
@@ -481,7 +481,7 @@ class MainWriter(Writer):
             path....... Path where to write.
         """
         projectname: str = self.extracter.extract(path)
-        with open(f"{path}", "w", encoding=self.encoding) as f:
+        with open(path, "w", encoding=self.encoding) as f:
             print('"""What does this program do? Document it in this docstring."""', file=f)
             print('', file=f)
 

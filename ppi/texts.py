@@ -3,6 +3,7 @@
 import abc
 import colorama
 import sys
+
 from ppi import constants
 
 
@@ -72,11 +73,9 @@ class DescriptionText(Text):
         msg: str
         if language == constants.LANG_CODES["FINNISH"]:
             msg = f"{program} {self.version}, python projektien alustaja."
-            print(msg, file=stream)
-
         else:
             msg = f"{program} {self.version}, python project initializer."
-            print(msg, file=stream)
+        print(msg, file=stream)
 
 
 class UsageText(Text):
@@ -114,20 +113,18 @@ class SuccessText(Text):
             program... Program's name to display in the success text.
             language.. Language in which to display text.
         """
-        colorama.init(autoreset=True)
+        style: list = [colorama.Fore.YELLOW, colorama.Style.BRIGHT]
+        msg: str
 
         if language == constants.LANG_CODES["FINNISH"]:
-            print("".join([
-                colorama.Fore.YELLOW,
-                colorama.Style.BRIGHT,
-                f"{program}: \"{self.project}\" luotu! ✨✨"
-            ]), file=stream)
-
+            msg = f"{program}: \"{self.project}\" luotu! ✨✨"
         else:
-            print("".join([
-                colorama.Fore.YELLOW,
-                colorama.Style.BRIGHT,
-                f"{program}: \"{self.project}\" created! ✨✨"
-            ]), file=stream)
+            msg = f"{program}: \"{self.project}\" created! ✨✨"
 
+        colorama.init(autoreset=True)
+        print("".join([
+            colorama.Fore.YELLOW,
+            colorama.Style.BRIGHT,
+            msg
+        ]), file=stream)
         colorama.deinit()

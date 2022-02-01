@@ -83,7 +83,10 @@ class DescriptionText(Text):
     """
 
     def __init__(self, version: str) -> None:
-        """Description text dependent values."""
+        """
+        Initializes the stream to print to, plus the program version to
+        display in the description.
+        """
         self.version: str = version
         self.switch: object = Stream()
 
@@ -133,7 +136,10 @@ class SuccessText(Text):
     """Success text producer for producing success text in various languages."""
 
     def __init__(self, project: str) -> None:
-        """Success text dependent values."""
+        """
+        Initializes the stream to print to, plus the project's name
+        to display in the message.
+        """
         self.project: str = project
         self.switch: object = Stream()
 

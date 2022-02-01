@@ -45,18 +45,27 @@ def main() -> None:
     }
 
     if not args:
-        generator["description"].display(__program__, language, stream=sys.stderr)
-        generator["usage"].display(__program__, language, stream=sys.stderr)
+        # Make sure to print the messages etc to stderr here
+        generator["description"].switch.stream = sys.stderr
+        generator["usage"].switch.stream = sys.stderr
+
+        generator["description"].display(__program__, language)
+        generator["usage"].display(__program__, language)
+
+        # Reset the stream back to stdout
+        generator["description"].switch.stream = sys.stdout
+        generator["usage"].switch.stream = sys.stdout
+
         sys.exit(constants.EXIT_ERROR)
 
     if help_:
-        generator["description"].display(__program__, language, stream=sys.stdout)
-        generator["usage"].display(__program__, language, stream=sys.stdout)
-        generator["help"].display(__program__, language, stream=sys.stdout)
+        generator["description"].display(__program__, language)
+        generator["usage"].display(__program__, language)
+        generator["help"].display(__program__, language)
         sys.exit(constants.EXIT_SUCCESS)
 
     if version:
-        generator["description"].display(__program__, language, stream=sys.stdout)
+        generator["description"].display(__program__, language)
         sys.exit(constants.EXIT_SUCCESS)
 
     if project:
@@ -88,13 +97,22 @@ def main() -> None:
             subprocess.run(["git", "init", "--quiet", f"{project}/"])
 
         if not quiet:
-            generator["success"].display(__program__, language, stream=sys.stdout)
+            generator["success"].display(__program__, language)
 
         sys.exit(constants.EXIT_SUCCESS)
 
     if any([git, quiet, annotate]):
-        generator["description"].display(__program__, language, stream=sys.stderr)
-        generator["usage"].display(__program__, language, stream=sys.stderr)
+        # Make sure to print the messages to stderr here
+        generator["description"].switch.stream = sys.stderr
+        generator["usage"].switch.stream = sys.stderr
+
+        generator["description"].display(__program__, language)
+        generator["usage"].display(__program__, language)
+
+        # Reset the stream back to stdout
+        generator["description"].switch.stream = sys.stdout
+        generator["usage"].switch.stream = sys.stdout
+
         sys.exit(constants.EXIT_ERROR)
 
 

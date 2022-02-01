@@ -23,10 +23,33 @@ class Text(abc.ABC):
         pass
 
 
+class Stream:
+    """Provides a functionality to easily select to which stream to print."""
+
+    def __init__(self) -> None:
+        """Initializes the default stream to use."""
+        self._stream: object = sys.stdout
+
+    @property
+    def stream(self) -> object:
+        """Gets the stream."""
+        return self._stream
+
+    @stream.setter
+    def stream(self, value: object) -> None:
+        """Sets the stream."""
+        if value in {sys.stdout, sys.stderr}:
+            self._stream = value
+
+
 class HelpText(Text):
     """Help producer for producing the help text in various languages."""
 
-    def display(self, program: str, language: str, stream: object) -> None:
+    def __init__(self) -> None:
+        """Initializes the stream to print the help text to."""
+        self.switch: object = Stream()
+
+    def display(self, program: str, language: str) -> None:
         """
         Displays help text.
 
@@ -34,6 +57,7 @@ class HelpText(Text):
             program... Program's name which some fields need in the text output.
             language.. Language in which to display text.
         """
+        stream: object = self.switch.stream
         if language == constants.LANG_CODES["FINNISH"]:
             print(file=stream)
             print("Valitsimet:", file=stream)
@@ -61,8 +85,9 @@ class DescriptionText(Text):
     def __init__(self, version: str) -> None:
         """Description text dependent values."""
         self.version: str = version
+        self.switch: object = Stream()
 
-    def display(self, program: str, language: str, stream: object) -> None:
+    def display(self, program: str, language: str) -> None:
         """
         Displays program description text.
 
@@ -75,6 +100,7 @@ class DescriptionText(Text):
             msg = f"{program} {self.version}, python projektien alustaja."
         else:
             msg = f"{program} {self.version}, python project initializer."
+        stream: object = self.switch.stream
         print(msg, file=stream)
 
 
@@ -84,7 +110,11 @@ class UsageText(Text):
     text in various languages.
     """
 
-    def display(self, program: str, language: str, stream: object) -> None:
+    def __init__(self) -> None:
+        """Initializes the stream to print to."""
+        self.switch: object = Stream()
+
+    def display(self, program: str, language: str) -> None:
         """
         Displays program usage text.
 
@@ -92,6 +122,7 @@ class UsageText(Text):
             program... Program's name to display in the usage text.
             language.. Language in which to display text.
         """
+        stream: object = self.switch.stream
         if language == constants.LANG_CODES["FINNISH"]:
             print(f"Käyttö: {program} [valitsimet] <nimi>", file=stream)
         else:
@@ -104,8 +135,9 @@ class SuccessText(Text):
     def __init__(self, project: str) -> None:
         """Success text dependent values."""
         self.project: str = project
+        self.switch: object = Stream()
 
-    def display(self, program: str, language: str, stream: object) -> None:
+    def display(self, program: str, language: str) -> None:
         """
         Displays program success text.
 
@@ -122,6 +154,7 @@ class SuccessText(Text):
             msg = f"{program}: \"{self.project}\" created! ✨✨"
 
         colorama.init(autoreset=True)
+        stream: object = self.switch.stream
         print("".join([
             colorama.Fore.YELLOW,
             colorama.Style.BRIGHT,

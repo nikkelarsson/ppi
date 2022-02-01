@@ -60,7 +60,7 @@ def main() -> None:
         sys.exit(constants.EXIT_SUCCESS)
 
     if project:
-        # Setup writers to write files in desired way
+        # Set up writers to write files in desired way
         if annotate:
             files["setup"].switch.annotations = True
             files["main"].switch.annotations = True

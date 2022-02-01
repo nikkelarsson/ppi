@@ -151,7 +151,6 @@ class SuccessText(Text):
             program... Program's name to display in the success text.
             language.. Language in which to display text.
         """
-        style: list = [colorama.Fore.YELLOW, colorama.Style.BRIGHT]
         msg: str
 
         if language == constants.LANG_CODES["FINNISH"]:

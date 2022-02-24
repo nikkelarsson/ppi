@@ -4,7 +4,7 @@ import abc
 import colorama
 import sys
 
-from ppi import constants
+from ppi.constants import LANG_CODES
 
 
 class Text(abc.ABC):
@@ -58,7 +58,7 @@ class HelpText(Text):
             language.. Language in which to display text.
         """
         stream: object = self.switch.stream
-        if language == constants.LANG_CODES["FINNISH"]:
+        if language == LANG_CODES["FINNISH"]:
             print(file=stream)
             print("Valitsimet:", file=stream)
             print("-a,  --annotate... Generoi lähdetiedostot tyyppiviittauksilla.", file=stream)
@@ -99,7 +99,7 @@ class DescriptionText(Text):
             language.. Language in which to display text.
         """
         msg: str
-        if language == constants.LANG_CODES["FINNISH"]:
+        if language == LANG_CODES["FINNISH"]:
             msg = f"{program} {self.version}, python projektien alustaja."
         else:
             msg = f"{program} {self.version}, python project initializer."
@@ -126,7 +126,7 @@ class UsageText(Text):
             language.. Language in which to display text.
         """
         stream: object = self.switch.stream
-        if language == constants.LANG_CODES["FINNISH"]:
+        if language == LANG_CODES["FINNISH"]:
             print(f"Käyttö: {program} [valitsimet] <nimi>", file=stream)
         else:
             print(f"Usage: {program} [options] <name>", file=stream)
@@ -153,7 +153,7 @@ class SuccessText(Text):
         """
         msg: str
 
-        if language == constants.LANG_CODES["FINNISH"]:
+        if language == LANG_CODES["FINNISH"]:
             msg = f"{program}: \"{self.project}\" luotu! ✨✨"
         else:
             msg = f"{program}: \"{self.project}\" created! ✨✨"

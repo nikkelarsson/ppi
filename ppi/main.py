@@ -51,10 +51,17 @@ def main() -> None:
     }
 
     # File writers
-    files: dict = {
-        "directory": writers.DirectoryWriter(),
-        "setup": writers.SetupPyWriter(),
-        "main": writers.MainWriter()
+    files: dict[str, object] = {
+        "directory": DirectoryWriter(),
+        "setup_py": SetupPyWriter(),
+        "changelog": ChangeLogWriter(),
+        "manifest": ManifestWriter(),
+        "gitignore": GitIgnoreWriter(),
+        "makefile": MakefileWriter(),
+        "readme": ReadMeWriter(),
+        "main_py": MainPyWriter(),
+        "init_py": InitPyWriter(),
+        "manpage": ManPageWriter(),
     }
 
     if not args:
@@ -92,19 +99,19 @@ def main() -> None:
         files["directory"].write(f"{project}/docs")
 
         # Write files that go to the root of the project
-        writers.ReadMeWriter().write(f"{project}/README.md")
-        writers.ChangeLogWriter().write(f"{project}/CHANGELOG.md")
-        writers.ManifestWriter().write(f"{project}/MANIFEST.in")
-        files["setup"].write(f"{project}/setup.py")
-        writers.MakefileWriter().write(f"{project}/Makefile")
+        files["readme"].write(f"{project}/README.md")
+        files["changelog"].write(f"{project}/CHANGELOG.md")
+        files["manifest"].write(f"{project}/MANIFEST.in")
+        files["setup_py"].write(f"{project}/setup.py")
+        files["makefile"].write(f"{project}/Makefile")
 
         # Write man pages
-        writers.ManPageWriter().write(f"{project}/docs/{project}.1.md")
+        files["manpage"].write(f"{project}/docs/{project}.1.md")
 
         # Write rest of the files
-        writers.DunderInitWriter().write(f"{project}/{project}/__init__.py")
-        files["main"].write(f"{project}/{project}/main.py")
-        writers.GitIgnoreWriter().write(f"{project}/.gitignore")
+        files["init_py"].write(f"{project}/{project}/__init__.py")
+        files["main_py"].write(f"{project}/{project}/main.py")
+        files["gitignore"].write(f"{project}/.gitignore")
 
         if git:
             subprocess.run(["git", "init", "--quiet", f"{project}/"])

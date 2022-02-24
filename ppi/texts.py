@@ -1,26 +1,10 @@
 """Help and info texts etc."""
 
-import abc
-import colorama
+from colorama import Fore
+from colorama import Style
+from colorama import init
+from colorama import deinit
 import sys
-
-from ppi.constants import LANG_CODES
-
-
-class Text(abc.ABC):
-    """Base class for all the subclasses."""
-
-    @abc.abstractmethod
-    def display(self, program: str, language: str, stream: object) -> None:
-        """
-        Prototype method for displaying text.
-
-        Parameters:
-            program... Program's name which some fields need in the text output.
-            language.. Language in which to display text.
-            stream.... Stream where to print output (stdout or stderr).
-        """
-        pass
 
 
 class Stream:
@@ -42,127 +26,136 @@ class Stream:
             self._stream = value
 
 
-class HelpText(Text):
-    """Help producer for producing the help text in various languages."""
+class Text:
+    """Base class for all Text classes."""
 
     def __init__(self) -> None:
-        """Initializes the stream to print the help text to."""
-        self.switch: object = Stream()
-
-    def display(self, program: str, language: str) -> None:
         """
-        Displays help text.
-
-        Parameters:
-            program... Program's name which some fields need in the text output.
-            language.. Language in which to display text.
+        Set up switch that text producers can use to change stream they're
+        printing to.
         """
-        stream: object = self.switch.stream
-        if language == LANG_CODES["FINNISH"]:
-            print(file=stream)
-            print("Valitsimet:", file=stream)
-            print("-a,  --annotate... Generoi lähdetiedostot tyyppiviittauksilla.", file=stream)
-            print("-q,  --quiet...... Älä tulosta mitään stdout:iin.", file=stream)
-            print("-i,  --git-init... Alusta projekti git-repona.", file=stream)
-            print("-h,  --help....... Tulosta tämä viesti.", file=stream)
-            print(f"-V,  --version.... Tulosta {program} versio.", file=stream)
-        else:
-            print(file=stream)
-            print("Options:", file=stream)
-            print("-a,  --annotate... Generate source files with type hints.", file=stream)
-            print("-q,  --quiet...... Don't print anything to stdout.", file=stream)
-            print("-i,  --git-init... Initialize project as git-repo.", file=stream)
-            print("-h,  --help....... Print this message.", file=stream)
-            print(f"-V,  --version.... Print {program} version.", file=stream)
+        self._switch: Stream = Stream()
 
 
-class DescriptionText(Text):
-    """
-    Description text producer for producing the program
-    description text in various languages.
-    """
+class HelpTextFinnish(Text):
+    """Help producer for finnish."""
 
-    def __init__(self, version: str) -> None:
-        """
-        Initializes the stream to print to, plus the program version to
-        display in the description.
-        """
-        self.version: str = version
-        self.switch: object = Stream()
+    def __init__(self, program: str) -> None:
+        super().__init__()
 
-    def display(self, program: str, language: str) -> None:
-        """
-        Displays program description text.
+        self._text: list[str] = [
+            "",
+            "Valitsimet:",
+            "  -a,  --annotate... Generoi lähdetiedostot tyyppiviittauksilla.",
+            "  -q,  --quiet...... Älä tulosta mitään stdout:iin.",
+            "  -i,  --git-init... Alusta projekti git repona.",
+            "  -h,  --help....... Tulosta tämä viesti.",
+            "  -V,  --version.... Tulosta {} versio.".format(program),
+        ]
 
-        Parameters:
-            program... Program's name to display in the description text.
-            language.. Language in which to display text.
-        """
-        msg: str
-        if language == LANG_CODES["FINNISH"]:
-            msg = f"{program} {self.version}, python projektien alustaja."
-        else:
-            msg = f"{program} {self.version}, python project initializer."
-        stream: object = self.switch.stream
-        print(msg, file=stream)
+    def display(self) -> None:
+        """Display help text in finnish."""
+        for line in self._text:
+            print(line, file=self._switch.stream)
 
 
-class UsageText(Text):
-    """
-    Usage text producer for producing the program usage
-    text in various languages.
-    """
+class HelpTextEnglish(Text):
+    """Help producer for english."""
 
-    def __init__(self) -> None:
-        """Initializes the stream to print to."""
-        self.switch: object = Stream()
+    def __init__(self, program: str) -> None:
+        super().__init__()
 
-    def display(self, program: str, language: str) -> None:
-        """
-        Displays program usage text.
+        self._text: list[str] = [
+            "",
+            "Options:",
+            "-a,  --annotate... Generate source files with type hints.",
+            "-q,  --quiet...... Don't print anything to stdout.",
+            "-i,  --git-init... Initialize project as git-repo.",
+            "-h,  --help....... Print this message.",
+            "-V,  --version.... Print {} version.".format(program),
+        ]
 
-        Parameters:
-            program... Program's name to display in the usage text.
-            language.. Language in which to display text.
-        """
-        stream: object = self.switch.stream
-        if language == LANG_CODES["FINNISH"]:
-            print(f"Käyttö: {program} [valitsimet] <nimi>", file=stream)
-        else:
-            print(f"Usage: {program} [options] <name>", file=stream)
+    def display(self) -> None:
+        """Display help text in english."""
+        for line in self._text:
+            print(line, file=self._switch.stream)
 
 
-class SuccessText(Text):
-    """Success text producer for producing success text in various languages."""
+class DescriptionTextFinnish(Text):
+    """Description producer for finnish."""
 
-    def __init__(self, project: str) -> None:
-        """
-        Initializes the stream to print to, plus the project's name
-        to display in the message.
-        """
-        self.project: str = project
-        self.switch: object = Stream()
+    def __init__(self, program: str, version: str) -> None:
+        super().__init__()
+        message: str = "python projekti generaattori."
+        self._desc: str = f"{program} {version}, {message}"
 
-    def display(self, program: str, language: str) -> None:
-        """
-        Displays program success text.
+    def display(self) -> None:
+        """Display description in finnish."""
+        print(self._desc, file=self._switch.stream)
 
-        Parameters:
-            program... Program's name to display in the success text.
-            language.. Language in which to display text.
-        """
-        msg: str
 
-        if language == LANG_CODES["FINNISH"]:
-            msg = f"{program}: \"{self.project}\" luotu! ✨✨"
-        else:
-            msg = f"{program}: \"{self.project}\" created! ✨✨"
+class DescriptionTextEnglish(Text):
+    """Description producer for english."""
 
-        colorama.init(autoreset=True)
-        stream: object = self.switch.stream
-        print("".join([
-            colorama.Fore.YELLOW,
-            colorama.Style.BRIGHT,
-            msg
-        ]), file=stream)
-        colorama.deinit()
+    def __init__(self, program: str, version: str) -> None:
+        super().__init__()
+        message: str = "python project generator."
+        self._desc: str = f"{program} {version}, {message}"
+
+    def display(self) -> None:
+        """Display description in english."""
+        print(self._desc, file=self._switch.stream)
+
+
+class UsageTextFinnish(Text):
+    """Usage producer for finnish."""
+
+    def __init__(self, program: str) -> None:
+        super().__init__()
+        self._message: str = f"Käyttö: {program} [valitsimet] <nimi>"
+
+    def display(self) -> None:
+        """Display usage text in finnish."""
+        print(self._message, file=self._switch.stream)
+
+
+class UsageTextEnglish(Text):
+    """Usage producer for english."""
+
+    def __init__(self, program: str) -> None:
+        super().__init__()
+        self._message: str = f"Usage: {program} [options] <name>"
+
+    def display(self) -> None:
+        """Display usage text in english."""
+        print(self._message, file=self._switch.stream)
+
+
+class SuccessTextFinnish(Text):
+    """Success producer for finnish."""
+
+    def __init__(self, program: str, project: str) -> None:
+        super().__init__()
+        self._msg: str = f'{program}: "{project}" luotu! ✨✨'
+        self._txt: str = "".join([Fore.YELLOW, Style.BRIGHT, self._msg])
+
+    def display(self) -> None:
+        """Display success in finnish."""
+        init(autoreset=True)
+        print(self._txt, file=self._switch.stream)
+        deinit()
+
+
+class SuccessTextEnglish(Text):
+    """Success producer for english."""
+
+    def __init__(self, program: str, project: str) -> None:
+        super().__init__()
+        self._msg: str = f'{program}: "{project}" created! ✨✨'
+        self._txt: str = "".join([Fore.YELLOW, Style.BRIGHT, self._msg])
+
+    def display(self) -> None:
+        """Display success in english."""
+        init(autoreset=True)
+        print(self._txt, file=self._switch.stream)
+        deinit()

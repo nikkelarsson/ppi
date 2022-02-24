@@ -43,11 +43,11 @@ def main() -> None:
     args: bool = parser.args
 
     # Text generators
-    generator: dict = {
-        "description": texts.DescriptionText(__version__),
-        "usage": texts.UsageText(),
-        "help": texts.HelpText(),
-        "success": texts.SuccessText(project)
+    generator: dict[str, object] = {
+        "description": DescriptionText(__version__),
+        "usage": UsageText(),
+        "help": HelpText(),
+        "success": SuccessText(project)
     }
 
     # File writers
@@ -76,23 +76,22 @@ def main() -> None:
         generator["description"].switch.stream = sys.stdout
         generator["usage"].switch.stream = sys.stdout
 
-        sys.exit(constants.EXIT_ERROR)
+        sys.exit(EXIT_ERROR)
 
     if help_:
         generator["description"].display(__program__, language)
         generator["usage"].display(__program__, language)
         generator["help"].display(__program__, language)
-        sys.exit(constants.EXIT_SUCCESS)
+        sys.exit(EXIT_SUCCESS)
 
     if version:
         generator["description"].display(__program__, language)
-        sys.exit(constants.EXIT_SUCCESS)
+        sys.exit(EXIT_SUCCESS)
 
     if project:
-        # Set up writers to write files in desired way
-        if annotate:
-            files["setup"].switch.annotations = True
-            files["main"].switch.annotations = True
+        if annotate: # Set up writers to write files in desired way
+            files["setup_py"].switch.annotations = True
+            files["main_py"].switch.annotations = True
 
         # Write necessary directories
         files["directory"].write(f"{project}/{project}")
@@ -119,7 +118,7 @@ def main() -> None:
         if not quiet:
             generator["success"].display(__program__, language)
 
-        sys.exit(constants.EXIT_SUCCESS)
+        sys.exit(EXIT_SUCCESS)
 
     if any([git, quiet, annotate]):
         # Make sure to print the messages to stderr here
@@ -133,7 +132,7 @@ def main() -> None:
         generator["description"].switch.stream = sys.stdout
         generator["usage"].switch.stream = sys.stdout
 
-        sys.exit(constants.EXIT_ERROR)
+        sys.exit(EXIT_ERROR)
 
 
 if __name__ == "__main__":

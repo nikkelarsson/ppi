@@ -2,6 +2,7 @@
 
 import abc
 import sys
+
 from ppi import constants
 
 
@@ -43,11 +44,9 @@ class InvalidArgumentError(Error):
         msg: str
         if self.language == constants.LANG_CODES["FINNISH"]:
             msg = f"{self.program}: virhe: virheellinen argumentti '{arg}'"
-            print(msg, file=sys.stderr)
-
         else:
             msg = f"{self.program}: error: invalid argument '{arg}'"
-            print(msg, file=sys.stderr)
+        print(msg, file=sys.stderr)
 
 
 class ExtraArgumentError(Error):
@@ -74,8 +73,6 @@ class ExtraArgumentError(Error):
         msg: str
         if self.language == constants.LANG_CODES["FINNISH"]:
             msg = f"{self.program}: virhe: ylimääräinen argumentti '{arg}'"
-            print(msg, file=sys.stderr)
-
         else:
             msg = f"{self.program}: error: extra argument '{arg}'"
-            print(msg, file=sys.stderr)
+        print(msg, file=sys.stderr)

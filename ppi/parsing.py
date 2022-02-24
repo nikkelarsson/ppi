@@ -10,9 +10,10 @@ from ppi import texts
 class ArgParser:
     """Class for parsing command line arguments."""
 
-    def __init__(self, argv: list, program: str, language: str) -> None:
+    def __init__(self, program: str, language: str) -> None:
         """Initial values."""
-        self.argv: list = argv
+        self.argv: list = sys.argv
+        self.argc: int = len(self.argv)
         self.program: str = program
         self.language: str = language
 
@@ -28,12 +29,18 @@ class ArgParser:
         }
 
         # Option switches
+        self._args: bool = self.argc >= 2
         self._project: str = ""
         self._help: bool = False
         self._version: bool = False
         self._quiet: bool = False
         self._git: bool = False
         self._annotate: bool = False
+
+    @property
+    def args(self) -> bool:
+        """Gets whether anough args were provided on the command line."""
+        return self._args
 
     @property
     def project(self) -> str:

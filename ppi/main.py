@@ -29,8 +29,8 @@ from ppi.writers import SetupPyWriter
 
 
 def main() -> None:
-    language: str = os.getenv("LANG")
-    parser: object = parsing.ArgParser(__program__, language)
+    language: str = os.environ["LANG"]
+    parser: ArgParser = ArgParser(__program__, language)
     parser.parse_args()
 
     # Get what flags were provided

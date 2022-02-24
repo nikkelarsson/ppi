@@ -5,8 +5,7 @@ import datetime
 import os
 import sys
 
-from ppi import constants
-from ppi import errors
+from ppi.constants import ENCODING
 
 
 class Writer:
@@ -14,7 +13,7 @@ class Writer:
 
     def __init__(self) -> None:
         """Initializes things that all the subclasses use."""
-        self.encoding: str = constants.ENCODING
+        self.encoding: str = ENCODING
 
 
 class TypeHint:

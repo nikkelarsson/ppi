@@ -33,21 +33,12 @@ def main() -> None:
     parser: ArgParser = ArgParser(__program__, language)
     parser.parse_args()
 
-    # Get what flags were provided
-    help_: bool = parser.help
-    git: bool = parser.git
-    project: str = parser.project
-    quiet: bool = parser.quiet
-    version: bool = parser.version
-    annotate: bool = parser.annotate
-    args: bool = parser.args
-
     # Text generators
     generator: dict[str, object] = {
         "description": DescriptionText(__version__),
         "usage": UsageText(),
         "help": HelpText(),
-        "success": SuccessText(project)
+        "success": SuccessText(parser.project)
     }
 
     # File writers
@@ -64,7 +55,7 @@ def main() -> None:
         "manpage": ManPageWriter(),
     }
 
-    if not args:
+    if not parser.args:
         # Make sure to print the messages etc to stderr here
         generator["description"].switch.stream = sys.stderr
         generator["usage"].switch.stream = sys.stderr
@@ -78,49 +69,49 @@ def main() -> None:
 
         sys.exit(EXIT_ERROR)
 
-    if help_:
+    if parser.help:
         generator["description"].display(__program__, language)
         generator["usage"].display(__program__, language)
         generator["help"].display(__program__, language)
         sys.exit(EXIT_SUCCESS)
 
-    if version:
+    if parser.version:
         generator["description"].display(__program__, language)
         sys.exit(EXIT_SUCCESS)
 
-    if project:
-        if annotate: # Set up writers to write files in desired way
+    if parser.project:
+        if parser.annotate: # Set up writers to write files in desired way
             files["setup_py"].switch.annotations = True
             files["main_py"].switch.annotations = True
 
         # Write necessary directories
-        files["directory"].write(f"{project}/{project}")
-        files["directory"].write(f"{project}/docs")
+        files["directory"].write(f"{parser.project}/{parser.project}")
+        files["directory"].write(f"{parser.project}/docs")
 
         # Write files that go to the root of the project
-        files["readme"].write(f"{project}/README.md")
-        files["changelog"].write(f"{project}/CHANGELOG.md")
-        files["manifest"].write(f"{project}/MANIFEST.in")
-        files["setup_py"].write(f"{project}/setup.py")
-        files["makefile"].write(f"{project}/Makefile")
+        files["readme"].write(f"{parser.project}/README.md")
+        files["changelog"].write(f"{parser.project}/CHANGELOG.md")
+        files["manifest"].write(f"{parser.project}/MANIFEST.in")
+        files["setup_py"].write(f"{parser.project}/setup.py")
+        files["makefile"].write(f"{parser.project}/Makefile")
 
         # Write man pages
-        files["manpage"].write(f"{project}/docs/{project}.1.md")
+        files["manpage"].write(f"{parser.project}/docs/{parser.project}.1.md")
 
         # Write rest of the files
-        files["init_py"].write(f"{project}/{project}/__init__.py")
-        files["main_py"].write(f"{project}/{project}/main.py")
-        files["gitignore"].write(f"{project}/.gitignore")
+        files["init_py"].write(f"{parser.project}/{parser.project}/__init__.py")
+        files["main_py"].write(f"{parser.project}/{parser.project}/main.py")
+        files["gitignore"].write(f"{parser.project}/.gitignore")
 
-        if git:
-            subprocess.run(["git", "init", "--quiet", f"{project}/"])
+        if parser.git:
+            subprocess.run(["git", "init", "--quiet", f"{parser.project}/"])
 
-        if not quiet:
+        if not parser.quiet:
             generator["success"].display(__program__, language)
 
         sys.exit(EXIT_SUCCESS)
 
-    if any([git, quiet, annotate]):
+    if any([parser.git, parser.quiet, parser.annotate]):
         # Make sure to print the messages to stderr here
         generator["description"].switch.stream = sys.stderr
         generator["usage"].switch.stream = sys.stderr

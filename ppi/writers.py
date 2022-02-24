@@ -369,7 +369,7 @@ class SetupPyWriter(Writer):
             print(")", file=f)
 
 
-class DunderInitWriter(Writer):
+class InitPyWriter(Writer):
     """Class for writing __init__.py files."""
 
     def write(self, path: str) -> None:
@@ -464,7 +464,7 @@ class GitIgnoreWriter(Writer):
             print("*__pycache__/", file=f)
 
 
-class MainWriter(Writer):
+class MainPyWriter(Writer):
     """Writer for writing main.py files."""
 
     def __init__(self) -> None:

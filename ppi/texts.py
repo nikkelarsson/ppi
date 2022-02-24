@@ -36,6 +36,11 @@ class Text:
         """
         self._switch: Stream = Stream()
 
+    @property
+    def switch(self) -> Stream:
+        """Get stream switch."""
+        return self._switch
+
 
 class HelpTextFinnish(Text):
     """Help producer for finnish."""

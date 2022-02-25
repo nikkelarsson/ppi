@@ -141,8 +141,8 @@ class SuccessTextFinnish(Text):
 
     def __init__(self, program: str, project: str) -> None:
         super().__init__()
-        self._msg: str = f'{program}: "{project}" luotu! ✨✨'
-        self._txt: str = "".join([Fore.YELLOW, Style.BRIGHT, self._msg])
+        msg: str = f'{program}: "{project}" luotu! ✨✨'
+        self._txt: str = "".join([Fore.YELLOW, Style.BRIGHT, msg])
 
     def display(self) -> None:
         """Display success in finnish."""
@@ -156,8 +156,8 @@ class SuccessTextEnglish(Text):
 
     def __init__(self, program: str, project: str) -> None:
         super().__init__()
-        self._msg: str = f'{program}: "{project}" created! ✨✨'
-        self._txt: str = "".join([Fore.YELLOW, Style.BRIGHT, self._msg])
+        msg: str = f'{program}: "{project}" created! ✨✨'
+        self._txt: str = "".join([Fore.YELLOW, Style.BRIGHT, msg])
 
     def display(self) -> None:
         """Display success in english."""

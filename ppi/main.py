@@ -12,7 +12,13 @@ import sys
 from ppi.constants import EXIT_ERROR
 from ppi.constants import EXIT_SUCCESS
 from ppi.parsing import ArgParser
-from ppi.texts import DescriptionTextFinnish  # Text producers
+from ppi.errors import BadArgumentErrorFinnish  # Error handlers
+from ppi.errors import BadArgumentErrorEnglish
+from ppi.errors import ExtraArgumentErrorFinnish
+from ppi.errors import ExtraArgumentErrorEnglish
+from ppi.texts import AdditionalHelpTextFinnish  # Text producers
+from ppi.texts import AdditionalHelpTextEnglish
+from ppi.texts import DescriptionTextFinnish
 from ppi.texts import DescriptionTextEnglish
 from ppi.texts import HelpTextFinnish
 from ppi.texts import HelpTextEnglish
@@ -43,6 +49,12 @@ def main() -> None:
         "en_US.UTF-8": HelpTextEnglish(__program__),
     }
 
+    # Additional help text producers
+    add_helptxt: dict[str, object] = {
+        "fi_FI.UTF-8": AdditionalHelpTextFinnish(__program__),
+        "en_US.UTF-8": AdditionalHelpTextEnglish(__program__),
+    }
+
     # Description text producers
     desctxt: dict[str, object] = {
         "fi_FI.UTF-8": DescriptionTextFinnish(__program__, __version__),
@@ -66,6 +78,7 @@ def main() -> None:
         "description": desctxt.get(language, desctxt.get("en_US.UTF-8")),
         "usage": usgtxt.get(language, usgtxt.get("en_US.UTF-8")),
         "help": helptxt.get(language, helptxt.get("en_US.UTF-8")),
+        "add_help": add_helptxt.get(language, add_helptxt.get("en_US.UTF-8")),
         "success": succtxt.get(language, succtxt.get("en_US.UTF-8")),
     }
 
@@ -83,17 +96,70 @@ def main() -> None:
         "manpage": ManPageWriter(),
     }
 
+    # Invalid argument error -handlers
+    invarg_error: dict[str, object] = {
+        "fi_FI.UTF-8": BadArgumentErrorFinnish(parser.invargs),
+        "en_US.UTF-8": BadArgumentErrorEnglish(parser.invargs),
+    }
+
+    # Extra argument error -handlers
+    xarg_error: dict[str, object] = {
+        "fi_FI.UTF-8": ExtraArgumentErrorFinnish(parser.xargs),
+        "en_US.UTF-8": ExtraArgumentErrorEnglish(parser.xargs),
+    }
+
+    # Error message generators
+    error: dict[str, object] = {
+        "invarg": invarg_error.get(language, invarg_error.get("en_US.UTF-8")),
+        "xarg": xarg_error.get(language, xarg_error.get("en_US.UTF-8")),
+    }
+
+    if parser.invargs:
+        generator["description"].switch.stream = sys.stderr
+        generator["usage"].switch.stream = sys.stderr
+        generator["add_help"].switch.stream = sys.stderr
+
+        generator["description"].display()
+        generator["usage"].display()
+        error["invarg"].throw()
+        generator["add_help"].display()
+
+        generator["description"].switch.stream = sys.stdout
+        generator["usage"].switch.stream = sys.stdout
+        generator["add_help"].switch.stream = sys.stdout
+
+        sys.exit(EXIT_ERROR)
+
+    if parser.xargs:
+        generator["description"].switch.stream = sys.stderr
+        generator["usage"].switch.stream = sys.stderr
+        generator["add_help"].switch.stream = sys.stderr
+
+        generator["description"].display()
+        generator["usage"].display()
+        error["xarg"].throw()
+        generator["add_help"].display()
+
+        generator["description"].switch.stream = sys.stdout
+        generator["usage"].switch.stream = sys.stdout
+        generator["add_help"].switch.stream = sys.stdout
+
+        sys.exit(EXIT_ERROR)
+
     if not parser.args:
         # Make sure to print the messages etc to stderr here
         generator["description"].switch.stream = sys.stderr
         generator["usage"].switch.stream = sys.stderr
+        generator["add_help"].switch.stream = sys.stderr
 
         generator["description"].display()
         generator["usage"].display()
+        generator["add_help"].display()
 
         # Reset the stream back to stdout
         generator["description"].switch.stream = sys.stdout
         generator["usage"].switch.stream = sys.stdout
+        generator["add_help"].switch.stream = sys.stdout
 
         sys.exit(EXIT_ERROR)
 
@@ -143,13 +209,16 @@ def main() -> None:
         # Make sure to print the messages to stderr here
         generator["description"].switch.stream = sys.stderr
         generator["usage"].switch.stream = sys.stderr
+        generator["add_help"].switch.stream = sys.stderr
 
         generator["description"].display()
         generator["usage"].display()
+        generator["add_help"].display()
 
         # Reset the stream back to stdout
         generator["description"].switch.stream = sys.stdout
         generator["usage"].switch.stream = sys.stdout
+        generator["add_help"].switch.stream = sys.stdout
 
         sys.exit(EXIT_ERROR)
 

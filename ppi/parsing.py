@@ -108,6 +108,22 @@ class ArgParser:
         if value in {True, False}:
             self._annotate = value
 
+    @property
+    def invargs(self) -> list:
+        """Get invalid arguments."""
+        if self.arguments["invalid"] is not None:
+            return self.arguments["invalid"]
+
+        return []
+
+    @property
+    def xargs(self) -> list:
+        """Get extra arguments."""
+        if self.arguments["extra"] is not None:
+            return self.arguments["extra"]
+
+        return []
+
     def _startswith_hyphens(self, arg: str, count: int) -> bool:
         """Checks if arg starts with count amount of "-"."""
         return arg[0:count] == "-" * count and arg[count] != "-"
@@ -220,5 +236,7 @@ class ArgParser:
         self._parse_args_pos()
         self._parse_args_short()
         self._parse_args_long()
-        self._parse_args_inv()
-        self._parse_args_xtra()
+
+        # NOTE: This functionality has been migrated to main.py (or __main__.py)
+        # self._parse_args_inv()
+        # self._parse_args_xtra()

@@ -73,11 +73,11 @@ class HelpTextEnglish(Text):
         self._text: list[str] = [
             "",
             "Options:",
-            "-a,  --annotate... Generate source files with type hints.",
-            "-q,  --quiet...... Don't print anything to stdout.",
-            "-i,  --git-init... Initialize project as git-repo.",
-            "-h,  --help....... Print this message.",
-            "-V,  --version.... Print {} version.".format(program),
+            "  -a,  --annotate... Generate source files with type hints.",
+            "  -q,  --quiet...... Don't print anything to stdout.",
+            "  -i,  --git-init... Initialize project as git-repo.",
+            "  -h,  --help....... Print this message.",
+            "  -V,  --version.... Print {} version.".format(program),
         ]
 
     def display(self) -> None:
@@ -164,3 +164,29 @@ class SuccessTextEnglish(Text):
         init(autoreset=True)
         print(self._txt, file=self._switch.stream)
         deinit()
+
+
+class AdditionalHelpTextFinnish(Text):
+    """Additional help text producer for finnish."""
+
+    def __init__(self, program: str) -> None:
+        super().__init__()
+        self._txt: str = f"Saat lisää valitsimia syöttämällä '{program} -h'."
+
+    def display(self) -> None:
+        """Display additional help in finnish."""
+        print(file=self._switch.stream)
+        print(self._txt, file=self._switch.stream)
+
+
+class AdditionalHelpTextEnglish(Text):
+    """Additional help text producer for english."""
+
+    def __init__(self, program: str) -> None:
+        super().__init__()
+        self._txt: str = f"Show more options by typing '{program} -h'."
+
+    def display(self) -> None:
+        """Display additional help in english."""
+        print(file=self._switch.stream)
+        print(self._txt, file=self._switch.stream)

@@ -3,7 +3,7 @@
 __author__: str = "Niklas Larsson"
 __credits__: list = ["Niklas Larsson"]
 __program__: str = "ppi"
-__version__: str = "1.2.3b2 testi"
+__version__: str = "1.2.3b2"
 
 import subprocess
 import os

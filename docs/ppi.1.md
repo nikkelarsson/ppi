@@ -3,10 +3,10 @@
 % September 2021  
 
 # NAME
-ppi – Python project initializer
+ppi – python project generator
 
 # SYNOPSIS
-**ppi** \[*–i* | *––git–init*\] \[*–q* | *––quiet*\] \<*name*\>\
+**ppi** \[*-a* | *--annotate*\] \[*–i* | *––git–init*\] \[*–q* | *––quiet*\] \<*name*\>\
 **ppi** \[*–h* | *––help*\] \
 **ppi** \[*–V* | *––version*\]
 
@@ -24,6 +24,9 @@ via **pip**. If a developer wants, it is possible to initialize the project as
 a git-repo during the initialization, as well.
 
 # OPTIONS
+**–a**, **––annotate**
+: Generate source files with type hints.
+
 **–q**, **––quiet**
 : Don't print anything to stdout.
 

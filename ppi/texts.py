@@ -73,11 +73,11 @@ class HelpTextEnglish(Text):
         self._text: list[str] = [
             "",
             "Options:",
-            "-a,  --annotate... Generate source files with type hints.",
-            "-q,  --quiet...... Don't print anything to stdout.",
-            "-i,  --git-init... Initialize project as git-repo.",
-            "-h,  --help....... Print this message.",
-            "-V,  --version.... Print {} version.".format(program),
+            "  -a,  --annotate... Generate source files with type hints.",
+            "  -q,  --quiet...... Don't print anything to stdout.",
+            "  -i,  --git-init... Initialize project as git-repo.",
+            "  -h,  --help....... Print this message.",
+            "  -V,  --version.... Print {} version.".format(program),
         ]
 
     def display(self) -> None:

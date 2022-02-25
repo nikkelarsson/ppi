@@ -3,7 +3,7 @@
 __author__: str = "Niklas Larsson"
 __credits__: list = ["Niklas Larsson"]
 __program__: str = "ppi"
-__version__: str = "1.2.3b2"
+__version__: str = "1.2.3b2 testi"
 
 import subprocess
 import os
@@ -12,11 +12,15 @@ import sys
 from ppi.constants import EXIT_ERROR
 from ppi.constants import EXIT_SUCCESS
 from ppi.parsing import ArgParser
-from ppi.texts import DescriptionText
-from ppi.texts import HelpText
-from ppi.texts import SuccessText
-from ppi.texts import UsageText
-from ppi.writers import ChangeLogWriter
+from ppi.texts import DescriptionTextFinnish  # Text producers
+from ppi.texts import DescriptionTextEnglish
+from ppi.texts import HelpTextFinnish
+from ppi.texts import HelpTextEnglish
+from ppi.texts import SuccessTextFinnish
+from ppi.texts import SuccessTextEnglish
+from ppi.texts import UsageTextFinnish
+from ppi.texts import UsageTextEnglish
+from ppi.writers import ChangeLogWriter  # File writers
 from ppi.writers import DirectoryWriter
 from ppi.writers import InitPyWriter
 from ppi.writers import GitIgnoreWriter
@@ -33,12 +37,36 @@ def main() -> None:
     parser: ArgParser = ArgParser(__program__, language)
     parser.parse_args()
 
+    # Help text producers
+    helptxt: dict[str, object] = {
+        "fi_FI.UTF-8": HelpTextFinnish(__program__),
+        "en_US.UTF-8": HelpTextEnglish(__program__),
+    }
+
+    # Description text producers
+    desctxt: dict[str, object] = {
+        "fi_FI.UTF-8": DescriptionTextFinnish(__program__, __version__),
+        "en_US.UTF-8": DescriptionTextEnglish(__program__, __version__),
+    }
+
+    # Usage text producers
+    usgtxt: dict[str, object] = {
+        "fi_FI.UTF-8": UsageTextFinnish(__program__),
+        "en_US.UTF-8": UsageTextEnglish(__program__),
+    }
+
+    # Success text producers
+    succtxt: dict[str, object] = {
+        "fi_FI.UTF-8": SuccessTextFinnish(__program__, parser.project),
+        "en_US.UTF-8": SuccessTextEnglish(__program__, parser.project),
+    }
+
     # Text generators
     generator: dict[str, object] = {
-        "description": DescriptionText(__version__),
-        "usage": UsageText(),
-        "help": HelpText(),
-        "success": SuccessText(parser.project)
+        "description": desctxt.get(language, desctxt.get("en_US.UTF-8")),
+        "usage": usgtxt.get(language, usgtxt.get("en_US.UTF-8")),
+        "help": helptxt.get(language, helptxt.get("en_US.UTF-8")),
+        "success": succtxt.get(language, succtxt.get("en_US.UTF-8")),
     }
 
     # File writers
@@ -60,8 +88,8 @@ def main() -> None:
         generator["description"].switch.stream = sys.stderr
         generator["usage"].switch.stream = sys.stderr
 
-        generator["description"].display(__program__, language)
-        generator["usage"].display(__program__, language)
+        generator["description"].display()
+        generator["usage"].display()
 
         # Reset the stream back to stdout
         generator["description"].switch.stream = sys.stdout
@@ -70,13 +98,13 @@ def main() -> None:
         sys.exit(EXIT_ERROR)
 
     if parser.help:
-        generator["description"].display(__program__, language)
-        generator["usage"].display(__program__, language)
-        generator["help"].display(__program__, language)
+        generator["description"].display()
+        generator["usage"].display()
+        generator["help"].display()
         sys.exit(EXIT_SUCCESS)
 
     if parser.version:
-        generator["description"].display(__program__, language)
+        generator["description"].display()
         sys.exit(EXIT_SUCCESS)
 
     if parser.project:
@@ -107,7 +135,7 @@ def main() -> None:
             subprocess.run(["git", "init", "--quiet", f"{parser.project}/"])
 
         if not parser.quiet:
-            generator["success"].display(__program__, language)
+            generator["success"].display()
 
         sys.exit(EXIT_SUCCESS)
 
@@ -116,8 +144,8 @@ def main() -> None:
         generator["description"].switch.stream = sys.stderr
         generator["usage"].switch.stream = sys.stderr
 
-        generator["description"].display(__program__, language)
-        generator["usage"].display(__program__, language)
+        generator["description"].display()
+        generator["usage"].display()
 
         # Reset the stream back to stdout
         generator["description"].switch.stream = sys.stdout

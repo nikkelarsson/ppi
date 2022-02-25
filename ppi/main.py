@@ -12,7 +12,7 @@ import sys
 from ppi.constants import EXIT_ERROR
 from ppi.constants import EXIT_SUCCESS
 from ppi.parsing import ArgParser
-from ppi.texts import DescriptionTextFinnish  # Texts producers
+from ppi.texts import DescriptionTextFinnish  # Text producers
 from ppi.texts import DescriptionTextEnglish
 from ppi.texts import HelpTextFinnish
 from ppi.texts import HelpTextEnglish

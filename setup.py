@@ -32,7 +32,7 @@ setup(
     data_files=[("man/man1", ["docs/ppi.1"])],
     python_requires=">=3.8",  # This parameter requires setuptools >=24.2.0
     install_requires=["colorama"],
-    entry_points={"console_scripts": ["ppi=ppi.main:main"]},
+    entry_points={"console_scripts": ["ppi=ppi.__main__:main"]},
     include_package_data=True,
     zip_safe=False,
 )

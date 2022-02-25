@@ -20,6 +20,98 @@ class Error(abc.ABC):
         pass
 
 
+class BadArgumentErrorFinnish:
+    """For handling invalid arguments in finnish."""
+
+    def __init__(self, args: list) -> None:
+        # Truncate arguments if there was many invalid ones
+        fmtd: str = ""
+        if len(args) > 8:
+            fmtd = ", ".join(args[0:8])
+            fmtd += "..."
+        else:
+            fmtd = ", ".join(args)
+
+        self._msg: str = ""
+        if len(args) > 1:
+            self._msg = f"Virhe: tuntemattomia argumentteja '{fmtd}'"
+        if len(args) == 1:
+            self._msg = f"Virhe: tuntematon argumentti '{fmtd}'"
+
+    def throw(self) -> None:
+        """Display error message in finnish."""
+        print(self._msg, file=sys.stderr)
+
+
+class BadArgumentErrorEnglish:
+    """For handling invalid arguments in english."""
+
+    def __init__(self, args: list) -> None:
+        # Truncate arguments if there was many invalid ones
+        fmtd: str = ""
+        if len(args) > 8:
+            fmtd = ", ".join(args[0:8])
+            fmtd += "..."
+        else:
+            fmtd = ", ".join(args)
+
+        self._msg: str = ""
+        if len(args) > 1:
+            self._msg = f"Error: unknown arguments '{fmtd}'"
+        if len(args) == 1:
+            self._msg = f"Error: unknown argument '{fmtd}'"
+
+    def throw(self) -> None:
+        """Display error message in english."""
+        print(self._msg, file=sys.stderr)
+
+
+class ExtraArgumentErrorFinnish:
+    """For handling extra arguments in finnish."""
+
+    def __init__(self, args: list) -> None:
+        # Truncate arguments if there was many extra ones
+        fmtd: str = ""
+        if len(args) > 8:
+            fmtd = ", ".join(args[0:8])
+            fmtd += "..."
+        else:
+            fmtd = ", ".join(args)
+
+        self._msg: str = ""
+        if len(args) > 1:
+            self._msg = f"Virhe: ylimääräisiä argumentteja '{fmtd}'"
+        if len(args) == 1:
+            self._msg = f"Virhe: ylimääräinen argumentti '{fmtd}'"
+
+    def throw(self) -> None:
+        """Display error message in finnish."""
+        print(self._msg, file=sys.stderr)
+
+
+class ExtraArgumentErrorEnglish:
+    """For handling extra arguments in english."""
+
+    def __init__(self, args: list) -> None:
+        # Truncate arguments if there was many extra ones
+        fmtd: str = ""
+        if len(args) > 8:
+            fmtd = ", ".join(args[0:8])
+            fmtd += "..."
+        else:
+            fmtd = ", ".join(args)
+
+        self._msg: str = ""
+        if len(args) > 1:
+            self._msg = f"Error: extra arguments '{fmtd}'"
+        if len(args) == 1:
+            self._msg = f"Error: extra argument '{fmtd}'"
+
+    def throw(self) -> None:
+        """Display error message in english."""
+        print(self._msg, file=sys.stderr)
+
+
 class InvalidArgumentError(Error):
     """Class for handling invalid argument errors."""
 

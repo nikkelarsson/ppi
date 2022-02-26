@@ -6,7 +6,8 @@
 ppi – python project generator
 
 # SYNOPSIS
-**ppi** \[*-a* | *--annotate*\] \[*–i* | *––git–init*\] \[*–q* | *––quiet*\] \<*name*\>\
+**ppi** \[*-a* | *--annotate*\] \[*–i* | *––git–init*\]\
+\ \ \ \ \[*–q* | *––quiet*\] \<*name*\>\
 **ppi** \[*–h* | *––help*\] \
 **ppi** \[*–V* | *––version*\]
 

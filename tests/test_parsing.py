@@ -11,17 +11,14 @@ class CommandLineArgumentsParsingTestCase(unittest.TestCase):
     def setUp(self) -> None:
         """Prepare all the tests inside this class for testing."""
         self.input: list = [
-            # Invalid options
-            "----this-is-a-bad-option",
+            "----this-is-a-bad-option",  # Invalid options
             "---invalid-option",
             "--also-invalid",
 
-            # Positional options
-            "postional",
+            "postional",  # Positional options
             "other_one",
 
-            # Valid options
-            "-h", "--help",
+            "-h", "--help",  # Valid options
             "-V", "--version",
             "-q", "--quiet",
             "-i", "--git-init",

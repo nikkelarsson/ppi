@@ -1,4 +1,17 @@
-"""Simple utility for starting new Python projects quickly."""
+"""
+Generate Python projects easily.
+
+Examples:
+
+$ ppi HelloWorld
+-> Generates a project called "HelloWorld" to current working directory
+
+$ ppi --annotate HelloWorld
+-> Same as the previous, but generates *.py files with type hints
+
+$ ppi --git-init HelloWorld
+-> Generates the "HelloWorld" normally + initializes it as git repo
+"""
 
 __author__: str = "Niklas Larsson"
 __credits__: list = ["Niklas Larsson"]

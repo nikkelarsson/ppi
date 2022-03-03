@@ -93,6 +93,7 @@ class DirectoryWriter(Writer):
 
 
 # NOTE: This class is not ready to use!
+# Ömm, what is this class for, again?
 class EmptyFileWriter(Writer):
     """Generic writer for writing empty files."""
 

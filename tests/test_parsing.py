@@ -41,7 +41,6 @@ class CommandLineArgumentsParsingTestCase(unittest.TestCase):
         for idx, _ in enumerate(sys.argv):
             if idx == 0:
                 continue
-            del _
 
     def test_input_registration(self) -> None:
         """Test that inputs are registered properly."""

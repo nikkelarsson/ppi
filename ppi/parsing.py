@@ -156,30 +156,6 @@ class ArgumentParser:
         self._sort_args_short()
         self._sort_args_pos()
 
-    def _parse_args_inv(self) -> None:
-        """Prints error for each invalid argument."""
-        if self.arguments["invalid"] is not None:
-            handler: object = errors.InvalidArgumentError(
-                self.program,
-                self.language
-            )
-            for arg in self.arguments["invalid"]:
-                handler.throw_error(arg)
-            del handler
-            sys.exit(constants.EXIT_ERROR)
-
-    def _parse_args_xtra(self) -> None:
-        """Prints error for each xtra positional arguments."""
-        if self.arguments["extra"] is not None:
-            handler: object = errors.ExtraArgumentError(
-                self.program,
-                self.language
-            )
-            for arg in self.arguments["extra"]:
-                handler.throw_error(arg)
-            del handler
-            sys.exit(constants.EXIT_ERROR)
-
     def _parse_args_pos(self) -> None:
         """Stores the first non-prefixed argument from sys.argv."""
         if self.arguments["positional"]:
@@ -236,7 +212,3 @@ class ArgumentParser:
         self._parse_args_pos()
         self._parse_args_short()
         self._parse_args_long()
-
-        # NOTE: This functionality has been migrated to main.py (or __main__.py)
-        # self._parse_args_inv()
-        # self._parse_args_xtra()

@@ -1,6 +1,7 @@
 import unittest
 import sys
-from ppi import main
+
+from ppi.__main__ import __program__
 
 
 class OSTestCase(unittest.TestCase):
@@ -10,7 +11,7 @@ class OSTestCase(unittest.TestCase):
         """Test system compatibility."""
         self.assertTrue(
             sys.platform == "darwin" or sys.platform == "linux",
-            f"{main.__program__} is only compatible with macOS and Linux."
+            f"{__program__} is only compatible with macOS and Linux."
         )
 
 

@@ -11,7 +11,7 @@ import sys
 
 from ppi.constants import EXIT_ERROR
 from ppi.constants import EXIT_SUCCESS
-from ppi.parsing import ArgParser
+from ppi.parsing import ArgumentParser
 from ppi.errors import BadArgumentErrorFinnish  # Error handlers
 from ppi.errors import BadArgumentErrorEnglish
 from ppi.errors import ExtraArgumentErrorFinnish
@@ -40,7 +40,7 @@ from ppi.writers import SetupPyWriter
 
 def main() -> None:
     language: str = os.environ["LANG"]
-    parser: ArgParser = ArgParser(__program__, language)
+    parser: ArgumentParser = ArgumentParser(__program__, language)
     parser.parse_args()
 
     # Help text producers

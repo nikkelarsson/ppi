@@ -7,7 +7,7 @@ from ppi import errors
 from ppi import texts
 
 
-class ArgParser:
+class ArgumentParser:
     """Class for parsing command line arguments."""
 
     def __init__(self, program: str, language: str) -> None:

@@ -1,7 +1,7 @@
 import sys
 import unittest
 
-from ppi import parsing
+from ppi.parsing import ArgumentParser
 
 
 @unittest.skip("Skip for now")
@@ -34,7 +34,7 @@ class CommandLineArgumentsParsingTestCase(unittest.TestCase):
         self.program: str = "dummy-name"
         self.language: str = "en_US.UTF-8"
         
-        self.argparser: object = parsing.ArgParser(
+        self.argparser: ArgumentParser = parsing.ArgumentParser(
             self.program,
             self.language
         )

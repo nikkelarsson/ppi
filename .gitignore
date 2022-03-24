@@ -8,7 +8,7 @@ venv/
 dist/
 
 # Man pages
-docs/*.1
+# docs/*.1
 
 # Python egg metadata
 *.egg-info/

@@ -48,3 +48,4 @@ build:
 clean:
 	@echo "Cleaning distribution packages..."
 	rm -rf dist/
+	rm -rf *.egg-info/
